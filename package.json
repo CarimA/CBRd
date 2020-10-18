@@ -15,7 +15,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cron": "^1.7.2",
+    "@types/express": "^4.17.8",
     "@types/node": "^14.11.10",
+    "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "dotenv": "^8.2.0",
@@ -33,5 +36,12 @@
     "hooks": {
       "pre-commit": "npm run prettier-format && npm run lint"
     }
+  },
+  "dependencies": {
+    "@pkmn/sets": "^1.0.0",
+    "cron": "^1.8.2",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "ts-psim-client": "^1.1.5"
   }
 }
