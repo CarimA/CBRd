@@ -1,0 +1,224 @@
+{
+	"lc": {
+		"name": "Standard Little Cup",
+		"format": "gen8lc",
+		"type": "2 elimination",
+		"rules": {
+			"bannedPokemon": [
+				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola"
+			],
+			"bannedAbilities": [
+				"chlorophyll", "moody"
+			],
+			"bannedMoves": [
+				"baton pass"
+			],
+			"useAsRule": false
+		},
+		"sampleTeams": [
+			"https://pokepast.es/77b3923c73c320b6/json",
+			"https://pokepast.es/7addbd2d6561735e/json",
+			"https://pokepast.es/929aa99ae70a25b9/json",
+			"https://pokepast.es/6a00cc4daf269138/json",
+			"https://pokepast.es/ed3e8de62a9a095e/json",
+			"https://pokepast.es/295a88badd10d41f/json",
+			"https://pokepast.es/dc70014135bbe423/json"
+		],
+		"resources": []
+	},
+	"lcuu": {
+		"name": "Standard Little Cup UnderUsed",
+		"about": "LC UU is the tier below LC; any Pokemon that sees under 4.52% usage on the LC ladder (using the weighted 1630 stats) are banned.",
+		"format": "gen8lc",
+		"type": "1 elimination",
+		"rules": {
+			"inheritBans": [
+				"lc"
+			],
+			"bannedPokemon": [
+				"scraggy", "shellder", "grookey", "scorbunny", "carvanha", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "drilbur", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "munchlax", "onix", "pawniard", "ponyta-base", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "dwebble", "vulpix"
+			],
+			"useAsRule": true
+		},
+		"sampleTeams": [
+			"https://pokepast.es/50e70f68ce7db506/json",
+			"https://pokepast.es/cd231148bdc63291/json",
+			"https://pokepast.es/4ef82345a55516bd/json",
+			"https://pokepast.es/c063b6bea3007b0a/json"
+		],
+		"resources": [
+			{
+				"name": "Main Thread",
+				"url": "https://www.smogon.com/forums/threads/swsh-lcuu-metagame-discussion-thread.3660866"
+			},
+			{
+				"name": "Role Compendium",
+				"url": "https://www.smogon.com/forums/threads/swsh-lcuu-metagame-discussion-thread.3660866/#post-8385118"
+			},
+			{
+				"name": "Viability Rankings",
+				"url": "https://www.smogon.com/forums/threads/swsh-lcuu-metagame-discussion-thread.3660866/#post-8384271"
+			}
+		]
+	},
+	"lcru": {
+		"name": "Little Cup RarelyUsed (Unofficial)",
+		"about": "LC RU is a community-ran LC OM which aims to create a tier below LC UU, seeing a range of Pokemon you won't see elsewhere.",
+		"format": "gen8lc",
+		"type": "2 elimination",
+		"rules": {
+			"inheritBans": [
+				"lc", "lcuu"
+			],
+			"bannedPokemon": [
+				"axew", "baltoy", "budew", "bulbasaur", "bunnelby", "cottonee", "croagunk", "cufant", "darumaka", "frillish", "goldeen", "growlithe", "grubbin", "helioptile", "hippopotas", "joltik", "krabby", "larvesta", "lickitung", "mantyke", "meowth-base", "minccino", "natu", "oddish", "pancham", "ponyta-galar", "pumpkaboo-small", "pumpkaboo-super", "riolu", "salandit", "sandshrew", "sandshrew-alola", "shellos", "skrelp", "slowpoke", "snover", "stunky", "tentacool", "trubbish", "woobat", "wynaut", "zigzagoon"
+			],
+			"useAsRule": true
+		},
+		"sampleTeams": [
+			"https://pokepast.es/32391612206eda14/json",
+			"https://pokepast.es/9536346a09d07e45/json",
+			"https://pokepast.es/cf3f4a395de88374/json",
+			"https://pokepast.es/38e9a7be9c4969bb/json",
+			"https://pokepast.es/1218c5b79e11c8aa/json"
+		],
+		"resources": [
+			{
+				"name": "Viability Rankings",
+				"url": "https://drive.google.com/file/d/17g3r9XT-xMimB9TxRKLS09ZNQ6L-oy7z/view?usp=sharing"
+			}
+		]
+	},
+	"lcubers": {
+		"name": "Standard Little Cup Ubers",
+		"about": "LC Ubers removes the banlist, so everything and anything is fair game! Warning: do not expect this format to be balanced!",
+		"format": "gen8lc",
+		"type": "2 elimination",
+		"rules": {
+			"inheritBansAsUnbans": [
+				"lc"
+			]
+		},
+		"sampleTeams": [],
+		"resources": []
+	},
+	"lcmixup": {
+		"name": "Little Cup Mixup",
+		"about": "Put your quick thinking and teambuilding skills to the test: LC Mixup (un)bans random things, so it's up to you to identify threats to (ab)use and prepare for.",
+		"format": "gen8lc",
+		"type": "2 elimination",
+		"rules": {
+			"mixup": {
+				"minPick": 4,
+				"maxPick": 12,
+				"bannedPokemon": [
+					"mienfoo", "porygon", "abra", "diglett", "ferroseed", "vullaby", "mareanie", "pawniard", "mudbray", "onix", "spritzee", "timburr", "wingull", "foongus", "dewpider", "ponyta", "staryu", "trapinch", "vulpix"
+				],
+				"unbannedPokemon": [
+					"cutiefly", "drifloon", "gastly"
+				],
+				"bannedItems": [
+					"berry juice", "choice scarf", "life orb"
+				],
+				"bannedMoves": [
+					"knock off", "u-turn", "high jump kick", "brave bird", "earthquake", "final gambit", "stealth rock", "recycle", "sticky web", "scald", "recover", "wish", "sucker punch", "fake out", "dragon dance", "bulk up", "swords dance", "spore", "morning sun"
+				],
+				"unbannedMoves": [
+					"baton pass"
+				],
+				"bannedAbilities": [
+					"regenerator", "arena trap", "weak armor", "defiant", "sturdy"
+				],
+				"unbannedAbilities": [
+					"chlorophyll"
+				]
+			}
+		}
+	},
+	"usumlc": {
+		"name": "Standard Little Cup (Gen 7)",
+		"format": "gen7lc",
+		"type": "2 elimination",
+		"rules": {
+			"bannedPokemon": [
+				"aipom", "cutiefly", "drifloon", "gligar", "gothita", "meditite", "misdreavus", "murkrow", "porygon", "scyther", "sneasel", "swirlix", "tangela", "trapinch", "vulpix-base", "wingull", "yanma"
+			],
+			"bannedItems": [
+				"eevium z"
+			],
+			"bannedMoves": [
+				"baton pass", "dragon rage", "sonic boom"
+			],
+			"useAsRule": false
+		},
+		"sampleTeams": [
+			"https://pokepast.es/8f224d14bf08ea25/json",
+			"https://pokepast.es/2f52c88110195146/json"
+		],
+		"resources": []
+	},
+	"oraslc": {
+		"name": "Standard Little Cup (Gen 6)",
+		"format": "gen6lc",
+		"type": "2 elimination",
+		"rules": {
+			"bannedPokemon": [
+				"drifloon", "gligar", "meditite", "misdreavus", "murkrow", "scyther", "sneasel", "swirlix", "tangela", "yanma"
+			],
+			"bannedMoves": [
+				"baton pass", "dragon rage", "sonic boom", "swagger"
+			],
+			"useAsRule": false
+		},
+		"sampleTeams": [
+			"https://pokepast.es/ab3d0d6b70fa13e1/json",
+			"https://pokepast.es/54395c0d2b8c8202/json",
+			"https://pokepast.es/a54325e42d3a938c/json"
+		],
+		"resources": []
+	},
+	"bw2lc": {
+		"name": "Standard Little Cup (Gen 5)",
+		"format": "gen5lc",
+		"type": "2 elimination",
+		"rules": {
+			"bannedPokemon": [
+				"gligar", "meditite", "misdreavus", "murkrow", "scraggy", "scyther", "sneasel", "tangela", "vulpix", "yanma"
+			],
+			"bannedAbilities": [
+				"sand rush"
+			],
+			"bannedItems": [
+				"berry juice", "soul dew"
+			],
+			"bannedMoves": [
+				"baton pass", "dragon rage", "sonic boom", "swagger"
+			],
+			"useAsRule": false
+		},
+		"sampleTeams": [],
+		"resources": []
+	},
+	"dpplc": {
+		"name": "Standard Little Cup (Gen 4)",
+		"format": "gen4lc",
+		"type": "2 elimination",
+		"rules": {
+			"bannedPokemon": [
+				"meditite", "misdreavus", "murkrow", "scyther", "sneasel", "tangela", "yanma"
+			],
+			"bannedItems": [
+				"berry juice", "deep sea tooth"
+			],
+			"bannedMoves": [
+				"dragon rage", "sonic boom"
+			],
+			"useAsRule": false
+		},
+		"sampleTeams": [
+			"https://pokepast.es/587bb5ee150c11c0/json",
+			"https://pokepast.es/235d193b1488dc94/json"
+		],
+		"resources": []
+	}
+}
