@@ -7,6 +7,7 @@ import { Teams } from '@pkmn/sets';
 import { titleCase, mod, shuffleArray } from '../utils';
 
 import * as formats from '../config/formats.json';
+import { Format } from '../config/formats';
 
 export default class TournamentsModule implements Module {
 	private _psimClient: Client;
@@ -55,7 +56,7 @@ export default class TournamentsModule implements Module {
 			const room = this._psimClient.getRoom('botdevelopment');
 			const nextFormat = format || this._nextFormat;
 
-			const game = (<any>formats)[nextFormat];
+			const game = <Format>(<any>formats)[nextFormat];
 			const name = game['name'];
 			const ruleset = game['format'] || 'gen8lc';
 			const type = game['type'] || '2 elimination';
@@ -71,7 +72,7 @@ export default class TournamentsModule implements Module {
 
 			if (game.rules.inheritBans) {
 				game.rules.inheritBans.forEach((inheritedFormat: any) => {
-					const inheritedGame = (<any>formats)[inheritedFormat];
+					const inheritedGame = <Format>(<any>formats)[inheritedFormat];
 					bannedPokemon = bannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
 					unbannedPokemon = unbannedPokemon.concat(inheritedGame.rules.unbannedPokemon || []);
 					bannedAbilities = bannedAbilities.concat(inheritedGame.rules.bannedAbilities || []);
@@ -85,7 +86,7 @@ export default class TournamentsModule implements Module {
 
 			if (game.rules.inheritBansAsUnbans) {
 				game.rules.inheritBansAsUnbans.forEach((inheritedFormat: any) => {
-					const inheritedGame = (<any>formats)[inheritedFormat];
+					const inheritedGame = <Format>(<any>formats)[inheritedFormat];
 					unbannedPokemon = unbannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
 					unbannedAbilities = unbannedAbilities.concat(inheritedGame.rules.bannedAbilities || []);
 					unbannedMoves = unbannedMoves.concat(inheritedGame.rules.bannedMoves || []);
@@ -94,8 +95,7 @@ export default class TournamentsModule implements Module {
 			}
 
 			const html = await this.generateEmbed(
-				game.name,
-				game.about,
+				game,
 				bannedPokemon,
 				unbannedPokemon,
 				bannedAbilities,
@@ -103,9 +103,7 @@ export default class TournamentsModule implements Module {
 				bannedMoves,
 				unbannedMoves,
 				bannedItems,
-				unbannedItems,
-				game.sampleTeams,
-				game.resources
+				unbannedItems
 			);
 
 			room?.send(`/addhtmlbox ${html}`);
@@ -113,8 +111,7 @@ export default class TournamentsModule implements Module {
 	}
 
 	private async generateEmbed(
-		name: string,
-		about?: string | undefined,
+		format: Format,
 		bannedPokemon?: string[] | undefined,
 		unbannedPokemon?: string[] | undefined,
 		bannedAbilities?: string[] | undefined,
@@ -122,9 +119,7 @@ export default class TournamentsModule implements Module {
 		bannedMoves?: string[] | undefined,
 		unbannedMoves?: string[] | undefined,
 		bannedItems?: string[] | undefined,
-		unbannedItems?: string[] | undefined,
-		sampleTeams?: string[] | undefined,
-		otherResources?: any[] | undefined
+		unbannedItems?: string[] | undefined
 	): Promise<string> {
 		const bannedPokemonIcons = bannedPokemon
 			?.sort((a, b) => a.localeCompare(b))
@@ -151,12 +146,12 @@ export default class TournamentsModule implements Module {
 			.join(', ');
 
 		let samples: string[] = [];
-		if (sampleTeams) {
-			sampleTeams = shuffleArray(sampleTeams);
-			samples = await Promise.all(sampleTeams.map(async (team) => await this.generateSampleTeamEmbed(team)));
+		if (format.sampleTeams) {
+			samples = shuffleArray(format.sampleTeams);
+			samples = await Promise.all(format.sampleTeams.map(async (team) => await this.generateSampleTeamEmbed(team)));
 		}
 
-		const html = `<h1>${name}</h1>${about ? `<p>${about}</p>` : ''}${
+		const html = `<h1>${format.name}</h1>${format.about ? `<p>${format.about}</p>` : ''}${
 			bannedPokemonIcons
 				? `<details><summary><strong>Banned Pokemon:</strong></summary><p>${bannedPokemonIcons}</p></details>`
 				: ''
@@ -177,8 +172,8 @@ export default class TournamentsModule implements Module {
 				? `<details><summary><strong>Sample Teams:</strong></summary><p>${samples.join('')}</p></details>`
 				: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p>'
 		}${
-			otherResources && otherResources.length > 0
-				? `<details><summary><strong>Other Resources:</strong></summary><p>${otherResources
+			format.resources && format.resources.length > 0
+				? `<details><summary><strong>Other Resources:</strong></summary><p>${format.resources
 						.map((item) => `<a target='_blank' href='${item.url}'>${item.name}</a>`)
 						.join(' ')}</p></details>`
 				: ''
