@@ -71,7 +71,7 @@
 				"lc", "lcuu"
 			],
 			"bannedPokemon": [
-				"axew", "baltoy", "budew", "bulbasaur", "bunnelby", "cottonee", "croagunk", "cufant", "darumaka", "frillish", "goldeen", "growlithe", "grubbin", "helioptile", "hippopotas", "joltik", "krabby", "larvesta", "lickitung", "mantyke", "meowth-base", "minccino", "natu", "oddish", "pancham", "ponyta-galar", "pumpkaboo-small", "pumpkaboo-super", "riolu", "salandit", "sandshrew", "sandshrew-alola", "shellos", "skrelp", "slowpoke", "snover", "stunky", "tentacool", "trubbish", "woobat", "wynaut", "zigzagoon"
+				"axew", "baltoy", "budew", "bulbasaur", "bunnelby", "cottonee", "croagunk", "cufant", "darumaka-base", "frillish", "goldeen", "growlithe", "grubbin", "helioptile", "hippopotas", "joltik", "krabby", "larvesta", "lickitung", "mantyke", "meowth-base", "minccino", "natu", "oddish", "pancham", "ponyta-galar", "pumpkaboo-small", "pumpkaboo-super", "riolu", "salandit", "sandshrew", "sandshrew-alola", "shellos", "skrelp", "slowpoke-base", "snover", "stunky", "tentacool", "trubbish", "woobat", "wynaut", "yamask-base", "zigzagoon-base"
 			],
 			"useAsRule": true
 		},
