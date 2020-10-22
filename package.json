@@ -1,5 +1,5 @@
 {
-  "name": "CBRd",
+  "name": "cbrd",
   "version": "1.0.0",
   "description": "Public repository for the Little Cup Showdown Room/Discord interop bot",
   "main": "index.js",
@@ -28,7 +28,6 @@
     "husky": "^4.3.0",
     "nodemon": "^2.0.5",
     "prettier": "^2.1.2",
-    "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   },
@@ -43,6 +42,7 @@
     "express": "^4.17.1",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
-    "ts-psim-client": "^1.1.5"
+    "ts-psim-client": "^1.1.5",
+    "rimraf": "^3.0.2"
   }
 }
