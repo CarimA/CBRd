@@ -88,7 +88,7 @@ export default class TournamentsModule implements Module {
 		}
 	}
 
-	public startVote(hour: number) {
+	public startVote(hour: number): () => Promise<void> {
 		return async () => {
 			this._votingStopsAt = new Date();
 			this._votingStopsAt.setHours(mod(hour - 1, 24), 40);
@@ -118,7 +118,7 @@ export default class TournamentsModule implements Module {
 		};
 	}
 
-	public async stopVote(): Promise<void> {
+	public stopVote(): void {
 		console.log('stop');
 
 		// get the format with the most items
@@ -148,7 +148,7 @@ export default class TournamentsModule implements Module {
 		this.updateInformation();
 	}
 
-	public runTournament(format?: string | undefined) {
+	public runTournament(format?: string | undefined): () => Promise<void> {
 		return async () => {
 			this._votingPhase = false;
 			const room = this._psimClient.getRoom(this._room);
