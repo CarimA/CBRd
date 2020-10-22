@@ -24,7 +24,7 @@ export default class TournamentsModule implements Module {
 		this._nextFormat = 'lc';
 		this._activeVote = {};
 		this._votingPhase = false;
-		this._room = 'botdevelopment';
+		this._room = 'littlecup';
 
 		this.scheduleTournament(0);
 		this.scheduleTournament(4, 'lc');
