@@ -10,6 +10,7 @@ declare let process: {
 		PSIM_PASSWORD: string;
 		PSIM_AVATAR: string;
 		PSIM_AUTO_JOIN_ROOMS: string;
+		PSIM_TOUR_ROOM: string;
 	};
 };
 dotenv.config();

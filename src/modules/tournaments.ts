@@ -35,7 +35,7 @@ export default class TournamentsModule implements Module {
 		this._nextFormat = 'lc';
 		this._activeVote = {};
 		this._votingPhase = false;
-		this._room = 'botdevelopment';
+		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
 		this.scheduleTournament(0);
 		this.scheduleTournament(4, 'lc');
