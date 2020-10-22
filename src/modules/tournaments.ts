@@ -10,6 +10,17 @@ import { titleCase, mod, shuffleArray, random } from '../utils';
 import * as formats from '../config/formats.json';
 import { Format } from '../config/formats';
 
+interface Rules {
+	bannedPokemon?: string[] | undefined;
+	unbannedPokemon?: string[] | undefined;
+	bannedAbilities?: string[] | undefined;
+	unbannedAbilities?: string[] | undefined;
+	bannedMoves?: string[] | undefined;
+	unbannedMoves?: string[] | undefined;
+	bannedItems?: string[] | undefined;
+	unbannedItems?: string[] | undefined;
+}
+
 export default class TournamentsModule implements Module {
 	private _psimClient: Client;
 	private _nextFormat: string;
@@ -24,7 +35,7 @@ export default class TournamentsModule implements Module {
 		this._nextFormat = 'lc';
 		this._activeVote = {};
 		this._votingPhase = false;
-		this._room = 'littlecup';
+		this._room = 'botdevelopment';
 
 		this.scheduleTournament(0);
 		this.scheduleTournament(4, 'lc');
@@ -42,7 +53,7 @@ export default class TournamentsModule implements Module {
 			new CronJob(`0 0 ${mod(hour - 1, 24)} * * *`, this.startVote(hour), null, true, 'Europe/London').start();
 
 			// 20 minutes before it, stop the vote and make that the next format
-			new CronJob(`0 40 ${mod(hour - 1, 24)} * * *`, this.stopVote, null, true, 'Europe/London').start();
+			new CronJob(`0 40 ${mod(hour - 1, 24)} * * *`, this.stopVote(), null, true, 'Europe/London').start();
 		}
 
 		new CronJob(`0 0 ${hour} * * *`, this.runTournament(format), null, true, 'Europe/London').start();
@@ -114,38 +125,47 @@ export default class TournamentsModule implements Module {
 			});
 
 			this._votingPhase = true;
+
+			const room = this._psimClient.getRoom(this._room);
+			await room?.send('/announce Voting for the next tournament is now open.');
 			this.updateInformation();
 		};
 	}
 
-	public stopVote(): void {
-		console.log('stop');
+	public stopVote(): () => Promise<void> {
+		return async () => {
+			console.log('stop');
 
-		// get the format with the most items
-		this._nextFormat = Object.keys(this._activeVote).reduce((a: string, b: string) => {
-			if (this._activeVote[a].length == this._activeVote[b].length) {
-				// in the event of a tiebreak, coinflip
-				if (random(0, 1) === 0) {
-					return a;
+			// get the format with the most items
+			this._nextFormat = Object.keys(this._activeVote).reduce((a: string, b: string) => {
+				if (this._activeVote[a].length == this._activeVote[b].length) {
+					// in the event of a tiebreak, coinflip
+					if (random(0, 1) === 0) {
+						return a;
+					} else {
+						return b;
+					}
 				} else {
-					return b;
+					if (this._activeVote[a].length > this._activeVote[b].length) {
+						return a;
+					} else {
+						return b;
+					}
 				}
-			} else {
-				if (this._activeVote[a].length > this._activeVote[b].length) {
-					return a;
-				} else {
-					return b;
-				}
-			}
-		});
+			});
 
-		const room = this._psimClient.getRoom(this._room);
-		Object.keys(this._activeVote).forEach(async (key) => {
-			await room?.send(`[DEBUG] ${this._activeVote[key].length} votes for ${key}`);
-		});
+			const room = this._psimClient.getRoom(this._room);
+			const game = <Format>(<any>formats)[this._nextFormat];
+			const allBans = this.getBans(game);
 
-		this._activeVote = {};
-		this.updateInformation();
+			await room?.send(
+				`/announce Voting for the next tournament is now closed. The next tournament will be ${game.name}.`
+			);
+			await this.postResources(room, game, allBans);
+
+			this._activeVote = {};
+			this.updateInformation();
+		};
 	}
 
 	public runTournament(format?: string | undefined): () => Promise<void> {
@@ -159,103 +179,102 @@ export default class TournamentsModule implements Module {
 			const ruleset = game['format'] || 'gen8lc';
 			const type = game['type'] || '2 elimination';
 
-			let bannedPokemon = game.rules.bannedPokemon || [];
-			let unbannedPokemon = game.rules.unbannedPokemon || [];
-			let bannedAbilities = game.rules.bannedAbilities || [];
-			let unbannedAbilities = game.rules.unbannedAbilities || [];
-			let bannedMoves = game.rules.bannedMoves || [];
-			let unbannedMoves = game.rules.unbannedMoves || [];
-			let bannedItems = game.rules.bannedItems || [];
-			let unbannedItems = game.rules.unbannedItems || [];
+			const allBans = this.getBans(game);
 
-			if (game.rules.inheritBans) {
-				game.rules.inheritBans.forEach((inheritedFormat: any) => {
-					const inheritedGame = <Format>(<any>formats)[inheritedFormat];
-					bannedPokemon = bannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
-					unbannedPokemon = unbannedPokemon.concat(inheritedGame.rules.unbannedPokemon || []);
-					bannedAbilities = bannedAbilities.concat(inheritedGame.rules.bannedAbilities || []);
-					unbannedAbilities = unbannedAbilities.concat(inheritedGame.rules.unbannedAbilities || []);
-					bannedMoves = bannedMoves.concat(inheritedGame.rules.bannedMoves || []);
-					unbannedMoves = unbannedMoves.concat(inheritedGame.rules.unbannedMoves || []);
-					bannedItems = bannedItems.concat(inheritedGame.rules.bannedItems || []);
-					unbannedItems = unbannedItems.concat(inheritedGame.rules.unbannedItems || []);
-				});
-			}
-
-			if (game.rules.inheritBansAsUnbans) {
-				game.rules.inheritBansAsUnbans.forEach((inheritedFormat: any) => {
-					const inheritedGame = <Format>(<any>formats)[inheritedFormat];
-					unbannedPokemon = unbannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
-					unbannedAbilities = unbannedAbilities.concat(inheritedGame.rules.bannedAbilities || []);
-					unbannedMoves = unbannedMoves.concat(inheritedGame.rules.bannedMoves || []);
-					unbannedItems = unbannedItems.concat(inheritedGame.rules.bannedItems || []);
-				});
-			}
-
-			const html = await this.generateEmbed(
-				game,
-				bannedPokemon,
-				unbannedPokemon,
-				bannedAbilities,
-				unbannedAbilities,
-				bannedMoves,
-				unbannedMoves,
-				bannedItems,
-				unbannedItems
-			);
-
-			const bans = (bannedPokemon || [])
-				.concat(bannedAbilities || [])
-				.concat(bannedMoves || [])
-				.concat(bannedItems || [])
+			const bans = (allBans.bannedPokemon || [])
+				.concat(allBans.bannedAbilities || [])
+				.concat(allBans.bannedMoves || [])
+				.concat(allBans.bannedItems || [])
 				.map((ban) => `-${ban}`);
 
-			const unbans = (unbannedPokemon || [])
-				.concat(unbannedAbilities || [])
-				.concat(unbannedMoves || [])
-				.concat(unbannedItems || [])
+			const unbans = (allBans.unbannedPokemon || [])
+				.concat(allBans.unbannedAbilities || [])
+				.concat(allBans.unbannedMoves || [])
+				.concat(allBans.unbannedItems || [])
 				.map((unban) => `+${unban}`);
 
 			const rules = (bans || []).concat(unbans || []);
 
-			await room?.send(`/addhtmlbox ${html}`);
+			await this.postResources(room, game, allBans);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
 		};
 	}
 
-	private async generateEmbed(
-		format: Format,
-		bannedPokemon?: string[] | undefined,
-		unbannedPokemon?: string[] | undefined,
-		bannedAbilities?: string[] | undefined,
-		unbannedAbilities?: string[] | undefined,
-		bannedMoves?: string[] | undefined,
-		unbannedMoves?: string[] | undefined,
-		bannedItems?: string[] | undefined,
-		unbannedItems?: string[] | undefined
-	): Promise<string> {
-		const bannedPokemonIcons = bannedPokemon
+	private getBans(game: Format): Rules {
+		let bannedPokemon = game.rules.bannedPokemon || [];
+		let unbannedPokemon = game.rules.unbannedPokemon || [];
+		let bannedAbilities = game.rules.bannedAbilities || [];
+		let unbannedAbilities = game.rules.unbannedAbilities || [];
+		let bannedMoves = game.rules.bannedMoves || [];
+		let unbannedMoves = game.rules.unbannedMoves || [];
+		let bannedItems = game.rules.bannedItems || [];
+		let unbannedItems = game.rules.unbannedItems || [];
+
+		if (game.rules.inheritBans) {
+			game.rules.inheritBans.forEach((inheritedFormat: any) => {
+				const inheritedGame = <Format>(<any>formats)[inheritedFormat];
+				bannedPokemon = bannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
+				unbannedPokemon = unbannedPokemon.concat(inheritedGame.rules.unbannedPokemon || []);
+				bannedAbilities = bannedAbilities.concat(inheritedGame.rules.bannedAbilities || []);
+				unbannedAbilities = unbannedAbilities.concat(inheritedGame.rules.unbannedAbilities || []);
+				bannedMoves = bannedMoves.concat(inheritedGame.rules.bannedMoves || []);
+				unbannedMoves = unbannedMoves.concat(inheritedGame.rules.unbannedMoves || []);
+				bannedItems = bannedItems.concat(inheritedGame.rules.bannedItems || []);
+				unbannedItems = unbannedItems.concat(inheritedGame.rules.unbannedItems || []);
+			});
+		}
+
+		if (game.rules.inheritBansAsUnbans) {
+			game.rules.inheritBansAsUnbans.forEach((inheritedFormat: any) => {
+				const inheritedGame = <Format>(<any>formats)[inheritedFormat];
+				unbannedPokemon = unbannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
+				unbannedAbilities = unbannedAbilities.concat(inheritedGame.rules.bannedAbilities || []);
+				unbannedMoves = unbannedMoves.concat(inheritedGame.rules.bannedMoves || []);
+				unbannedItems = unbannedItems.concat(inheritedGame.rules.bannedItems || []);
+			});
+		}
+
+		return {
+			bannedPokemon,
+			unbannedPokemon,
+			bannedAbilities,
+			unbannedAbilities,
+			bannedMoves,
+			unbannedMoves,
+			bannedItems,
+			unbannedItems
+		};
+	}
+
+	public async postResources(room: Room | undefined, format: Format, rules: Rules): Promise<void> {
+		const html = await this.generateEmbed(format, rules);
+
+		await room?.send(`/addhtmlbox ${html}`);
+	}
+
+	private async generateEmbed(format: Format, rules: Rules): Promise<string> {
+		const bannedPokemonIcons = rules.bannedPokemon
 			?.sort((a, b) => a.localeCompare(b))
 			.map((pokemon) => `<psicon pokemon='${pokemon.replace('-base', '')}'>`)
 			.join('');
 
-		const unbannedPokemonIcons = unbannedPokemon
+		const unbannedPokemonIcons = rules.unbannedPokemon
 			?.sort((a, b) => a.localeCompare(b))
 			.map((pokemon) => `<psicon pokemon='${pokemon}'>`)
 			.join('');
 
-		const bannedOtherText = (bannedAbilities || [])
-			.concat(bannedMoves || [])
-			.concat(bannedItems || [])
+		const bannedOtherText = (rules.bannedAbilities || [])
+			.concat(rules.bannedMoves || [])
+			.concat(rules.bannedItems || [])
 			.map((text) => titleCase(text))
 			.sort((a, b) => a.localeCompare(b))
 			.join(', ');
 
-		const unbannedOtherText = (unbannedAbilities || [])
-			.concat(unbannedMoves || [])
-			.concat(unbannedItems || [])
+		const unbannedOtherText = (rules.unbannedAbilities || [])
+			.concat(rules.unbannedMoves || [])
+			.concat(rules.unbannedItems || [])
 			.map((text) => titleCase(text))
 			.sort((a, b) => a.localeCompare(b))
 			.join(', ');
@@ -266,31 +285,25 @@ export default class TournamentsModule implements Module {
 			samples = await Promise.all(format.sampleTeams.map(async (team) => await this.generateSampleTeamEmbed(team)));
 		}
 
-		const html = `<h1>${format.name}</h1>${format.about ? `<p>${format.about}</p>` : ''}${
-			bannedPokemonIcons
-				? `<details><summary><strong>Banned Pokemon:</strong></summary><p>${bannedPokemonIcons}</p></details>`
-				: ''
+		const html = `<h1>Tournament Resources - ${format.name}</h1>${format.about ? `<p>${format.about}</p>` : ''}${
+			bannedPokemonIcons || bannedOtherText ? '<strong>Banlist</strong><div class="infobox">' : ''
+		}${bannedPokemonIcons ? `<p>${bannedPokemonIcons}</p>` : ''}${bannedOtherText ? `<p>${bannedOtherText}</p>` : ''}${
+			bannedPokemonIcons || bannedOtherText ? '</div><br>' : ''
+		}${unbannedPokemonIcons || unbannedOtherText ? '<strong>Unbanlist</strong><div class="infobox">' : ''}${
+			unbannedPokemonIcons ? `<p>${unbannedPokemonIcons}</p>` : ''
+		}${unbannedOtherText ? `<p>${unbannedOtherText}</p>` : ''}${
+			unbannedPokemonIcons || unbannedOtherText ? '</div><br>' : ''
 		}${
-			unbannedPokemonIcons
-				? `<details><summary><strong>Unbanned Pokemon:</strong></summary><p>${unbannedPokemonIcons}</p></details>`
-				: ''
-		}${
-			bannedOtherText
-				? `<details><summary><strong>Banned Abilities/Moves/Items:</strong></summary><p>${bannedOtherText}</p></details>`
-				: ''
-		}${
-			unbannedOtherText
-				? `<details><summary><strong>Unbanned Abilities/Moves/Items:</strong></summary><p>${unbannedOtherText}</p></details>`
-				: ''
-		}<br>${
 			samples && samples.length > 0
-				? `<strong>Sample Teams:</strong><p>${samples.join('')}</p>`
-				: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p>'
+				? `<strong>Sample Teams <em>(Click to expand for an importable team)</em>:</strong><div class="infobox"><p>${samples.join(
+						''
+				  )}</p></div><br>`
+				: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>'
 		}${
 			format.resources && format.resources.length > 0
-				? `<details><summary><strong>Other Resources:</strong></summary><p>${format.resources
+				? `<strong>Other Resources:</strong><div class="infobox"><p>${format.resources
 						.map((item) => `<a target='_blank' href='${item.url}'>${item.name}</a>`)
-						.join(' ')}</p></details>`
+						.join(' ')}</p></div>`
 				: ''
 		}`;
 
@@ -345,13 +358,13 @@ export default class TournamentsModule implements Module {
 
 		if (Object.keys(this._activeVote).length === 0) {
 			await room?.send(
-				`/adduhtml vote, <p>Voting closed - ${
+				`/adduhtml vote, <div class="infobox"><p>Voting closed - ${
 					(<any>formats)[this._nextFormat].name
-				} Tournament starts ${tourStarts}</p>`
+				} Tournament starts ${tourStarts}</p></div>`
 			);
 		} else {
 			await room?.send(
-				`/adduhtml vote, <p>Vote for the next tournament - Tournament starts ${tourStarts} - Voting closes ${voteEnds}<br><br>${Object.keys(
+				`/adduhtml vote, <div class="infobox"><p>Vote for the next tournament - Tournament starts ${tourStarts} - Voting closes ${voteEnds}<br><br>${Object.keys(
 					this._activeVote
 				)
 					.map(
@@ -360,7 +373,7 @@ export default class TournamentsModule implements Module {
 								(<any>formats)[metagame].name
 							)}</button>`
 					)
-					.join('')}</p>`
+					.join('')}</p></div>`
 			);
 		}
 	}

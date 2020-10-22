@@ -67,7 +67,7 @@ psimClient.onRoomJoin.subscribe(async (client: Client, room: Room) => {
 			tours.startVote(15)();
 		}
 		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate stop vote')) {
-			tours.stopVote();
+			tours.stopVote()();
 		}
 		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate tour start')) {
 			tours.runTournament()();
