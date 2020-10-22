@@ -105,39 +105,6 @@
 		"sampleTeams": [],
 		"resources": []
 	},
-	"lcmixup": {
-		"name": "Little Cup Mixup",
-		"about": "Put your quick thinking and teambuilding skills to the test: LC Mixup (un)bans random things, so it's up to you to identify threats to (ab)use and prepare for.",
-		"format": "gen8lc",
-		"type": "2 elimination",
-		"rules": {
-			"mixup": {
-				"minPick": 4,
-				"maxPick": 12,
-				"bannedPokemon": [
-					"mienfoo", "porygon", "abra", "diglett", "ferroseed", "vullaby", "mareanie", "pawniard", "mudbray", "onix", "spritzee", "timburr", "wingull", "foongus", "dewpider", "ponyta", "staryu", "trapinch", "vulpix"
-				],
-				"unbannedPokemon": [
-					"cutiefly", "drifloon", "gastly"
-				],
-				"bannedItems": [
-					"berry juice", "choice scarf", "life orb"
-				],
-				"bannedMoves": [
-					"knock off", "u-turn", "high jump kick", "brave bird", "earthquake", "final gambit", "stealth rock", "recycle", "sticky web", "scald", "recover", "wish", "sucker punch", "fake out", "dragon dance", "bulk up", "swords dance", "spore", "morning sun"
-				],
-				"unbannedMoves": [
-					"baton pass"
-				],
-				"bannedAbilities": [
-					"regenerator", "arena trap", "weak armor", "defiant", "sturdy"
-				],
-				"unbannedAbilities": [
-					"chlorophyll"
-				]
-			}
-		}
-	},
 	"usumlc": {
 		"name": "Standard Little Cup (Gen 7)",
 		"format": "gen7lc",

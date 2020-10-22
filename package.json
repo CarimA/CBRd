@@ -41,6 +41,7 @@
     "@pkmn/sets": "^1.0.0",
     "cron": "^1.8.2",
     "express": "^4.17.1",
+    "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "ts-psim-client": "^1.1.5"
   }

@@ -59,12 +59,18 @@ psimClient.onRoomJoin.subscribe(async (client: Client, room: Room) => {
 			}
 		});
 
-		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().startsWith('-mock')) {
-			await tours.testTournament(message.text.trim().split(' ')[1].trim());
-		}
-
 		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().startsWith('-join')) {
 			psimClient.join(message.text.trim().split(' ')[1].trim());
+		}
+
+		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate start vote')) {
+			tours.startVote(15)();
+		}
+		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate stop vote')) {
+			tours.stopVote();
+		}
+		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate tour start')) {
+			tours.runTournament()();
 		}
 	});
 });
