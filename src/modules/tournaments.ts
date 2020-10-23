@@ -37,7 +37,6 @@ export default class TournamentsModule implements Module {
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
-		this.scheduleTournament(0);
 		this.scheduleTournament(4, 'lc');
 		this.scheduleTournament(12);
 		this.scheduleTournament(14, 'lc');
@@ -45,6 +44,7 @@ export default class TournamentsModule implements Module {
 		this.scheduleTournament(18, 'lc');
 		this.scheduleTournament(20, 'lcuu');
 		this.scheduleTournament(22);
+		this.scheduleTournament(24);
 	}
 
 	private scheduleTournament(hour: number, format?: string | undefined) {
