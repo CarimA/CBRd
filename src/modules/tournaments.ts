@@ -110,7 +110,7 @@ export default class TournamentsModule implements Module {
 	public startVote(hour: number): () => Promise<void> {
 		return async () => {
 			this._votingStopsAt = new Date();
-			this._votingStopsAt.setHours(mod(hour - 1, 24), 40);
+			this._votingStopsAt.setHours(mod(hour - 1, 24), 45);
 
 			this._tournamentStartsAt = new Date();
 			this._tournamentStartsAt.setHours(hour);
@@ -227,6 +227,12 @@ export default class TournamentsModule implements Module {
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
+
+			if (type === '2 elimination') {
+				await room?.send(
+					'/announce Good luck! A reminder, this is a **double elimination** tournament: if you lose once, stick around, you are still in!'
+				);
+			}
 		};
 	}
 
