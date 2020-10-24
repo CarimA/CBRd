@@ -54,6 +54,14 @@ export default class TournamentsModule implements Module {
 
 			// 20 minutes before it, stop the vote and make that the next format
 			new CronJob(`0 45 ${mod(hour - 1, 24)} * * *`, this.stopVote(), null, true, 'Europe/London').start();
+		} else {
+			new CronJob(
+				`0 45 ${mod(hour - 1, 24)} * * *`,
+				this.announceTournament(format),
+				null,
+				true,
+				'Europe/London'
+			).start();
 		}
 
 		new CronJob(`0 0 ${hour} * * *`, this.runTournament(format), null, true, 'Europe/London').start();
@@ -107,21 +115,20 @@ export default class TournamentsModule implements Module {
 			this._tournamentStartsAt = new Date();
 			this._tournamentStartsAt.setHours(hour);
 
-			console.log('start');
-
-			// pick 2-6 formats from the list
-			const amount = random(1, 4);
+			// pick 3-5 formats from the list
+			const amount = random(2, 3);
 			let metagames = Object.keys(formats);
 			metagames.splice(metagames.indexOf('lc'), 1);
 			metagames.splice(metagames.indexOf('default'), 1);
 			metagames = shuffleArray(metagames);
 			metagames = metagames.slice(0, amount);
+
+			// make sure that LC is always an option
 			metagames.unshift('lc');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
 				this._activeVote[metagame] = [];
-				console.log(metagame);
 			});
 
 			this._votingPhase = true;
@@ -134,12 +141,12 @@ export default class TournamentsModule implements Module {
 
 	public stopVote(): () => Promise<void> {
 		return async () => {
-			console.log('stop');
-
 			// get the format with the most items
+			let tiebreak = false;
 			this._nextFormat = Object.keys(this._activeVote).reduce((a: string, b: string) => {
 				if (this._activeVote[a].length == this._activeVote[b].length) {
 					// in the event of a tiebreak, coinflip
+					tiebreak = true;
 					if (random(0, 1) === 0) {
 						return a;
 					} else {
@@ -158,13 +165,34 @@ export default class TournamentsModule implements Module {
 			const game = <Format>(<any>formats)[this._nextFormat];
 			const allBans = this.getBans(game);
 
-			await room?.send(
-				`/announce Voting for the next tournament is now closed. The next tournament will be ${game.name}.`
-			);
+			const resultsMessage = Object.keys(this._activeVote)
+				.map((format) => {
+					const results = this._activeVote[format].length;
+					const name = <Format>(<any>formats)[format].name;
+					return `${results} vote${results === 1 ? '' : 's'} for ${name}`;
+				})
+				.join(', ');
+
+			await room?.send('/announce Voting for the next tournament is now closed.');
+			await room?.send(`/announce Results: ${resultsMessage}`);
+			await room?.send(`/announce The next tournament will be ${game.name}.`);
+
 			await this.postResources(room, game, allBans);
 
 			this._activeVote = {};
 			this.updateInformation();
+		};
+	}
+
+	public announceTournament(format?: string | undefined): () => Promise<void> {
+		return async () => {
+			const room = this._psimClient.getRoom(this._room);
+			const nextFormat = format || this._nextFormat;
+			const game = <Format>(<any>formats)[nextFormat];
+			const allBans = this.getBans(game);
+
+			await room?.send(`/announce A scheduled tournament (${game.name}) will be starting in 15 minutes.`);
+			await this.postResources(room, game, allBans);
 		};
 	}
 
