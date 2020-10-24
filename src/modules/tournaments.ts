@@ -310,6 +310,7 @@ export default class TournamentsModule implements Module {
 		let samples: string[] = [];
 		if (format.sampleTeams) {
 			samples = shuffleArray(format.sampleTeams);
+			samples = samples.slice(0, 6);
 			samples = await Promise.all(format.sampleTeams.map(async (team) => await this.generateSampleTeamEmbed(team)));
 		}
 
