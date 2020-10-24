@@ -28,6 +28,11 @@ export default class RemindDiscordModule implements Module {
 	}
 
 	public async onRoomMessage(client: Client, room: Room, message: RoomMessage): Promise<void> {
+		// don't count own messages
+		if (message.user.username === process.env['PSIM_USERNAME']?.toLowerCase()) {
+			return;
+		}
+
 		if (isLittleCup(room) && !message.isIntro) {
 			this.incrementCounter();
 

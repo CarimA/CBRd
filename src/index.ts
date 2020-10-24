@@ -31,7 +31,7 @@ import TournamentsModule from './modules/tournaments';
 const tours = new TournamentsModule(psimClient);
 
 const modules: Module[] = [
-	new RemindDiscordModule(70, 'Check out the LC Discord server: https://discord.gg/pjN29Dh'),
+	new RemindDiscordModule(55, 'Check out the LC Discord server: https://discord.gg/pjN29Dh'),
 	new DebugModule(),
 	tours
 ];
