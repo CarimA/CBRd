@@ -61,37 +61,6 @@
 			}
 		]
 	},
-	"lcru": {
-		"name": "Little Cup RarelyUsed (Unofficial)",
-		"about": "LC RU is a community-ran LC OM which aims to create a tier below LC UU, seeing a range of Pokemon you won't see elsewhere.",
-		"format": "gen8lc",
-		"type": "2 elimination",
-		"rules": {
-			"inheritBans": [
-				"lc", "lcuu"
-			],
-			"bannedPokemon": [
-				"axew", "baltoy", "budew", "bulbasaur", "bunnelby", "cottonee", "croagunk", "cufant", "darumaka-base", "frillish", "goldeen", "growlithe", "grubbin", "helioptile", "hippopotas", "joltik", "krabby", "larvesta", "lickitung", "mantyke", "meowth-base", "minccino", "natu", "oddish", "pancham", "ponyta-galar", "pumpkaboo-small", "pumpkaboo-super", "riolu", "salandit", "sandshrew", "sandshrew-alola", "shellos", "skrelp", "slowpoke-base", "snover", "stunky", "tentacool", "trubbish", "woobat", "wynaut", "zigzagoon-base"
-			],
-			"useAsRule": true
-		},
-		"sampleTeams": [
-			"https://pokepast.es/32391612206eda14/json",
-			"https://pokepast.es/9536346a09d07e45/json",
-			"https://pokepast.es/cf3f4a395de88374/json",
-			"https://pokepast.es/38e9a7be9c4969bb/json",
-			"https://pokepast.es/1218c5b79e11c8aa/json",
-			"https://pokepast.es/6651cd1ddc4c4316/json",
-			"https://pokepast.es/b829131ceb911b51/json",
-			"https://pokepast.es/731feb7fb2499ebb/json"
-		],
-		"resources": [
-			{
-				"name": "Viability Rankings",
-				"url": "https://drive.google.com/file/d/17g3r9XT-xMimB9TxRKLS09ZNQ6L-oy7z/view?usp=sharing"
-			}
-		]
-	},
 	"lcubers": {
 		"name": "Standard Little Cup Ubers",
 		"about": "LC Ubers removes the banlist, so everything and anything is fair game! Warning: do not expect this format to be balanced!",
