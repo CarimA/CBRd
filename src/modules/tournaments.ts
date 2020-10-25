@@ -317,7 +317,7 @@ export default class TournamentsModule implements Module {
 		if (format.sampleTeams) {
 			samples = shuffleArray(format.sampleTeams);
 			samples = samples.slice(0, 6);
-			samples = await Promise.all(format.sampleTeams.map(async (team) => await this.generateSampleTeamEmbed(team)));
+			samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team)));
 		}
 
 		const html = `<h1>Tournament Resources - ${format.name}</h1>${format.about ? `<p>${format.about}</p>` : ''}${
