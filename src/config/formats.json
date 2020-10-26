@@ -92,7 +92,12 @@
 		},
 		"sampleTeams": [
 			"https://pokepast.es/8f224d14bf08ea25/json",
-			"https://pokepast.es/2f52c88110195146/json"
+			"https://pokepast.es/2f52c88110195146/json",
+			"https://pokepast.es/2e808baa0dbcbef3/json",
+			"https://pokepast.es/78092b10a29de52a/json",
+			"https://pokepast.es/b6883976f26744d8/json",
+			"https://pokepast.es/2479a37c805f3aba/json",
+			"https://pokepast.es/22b4d75a069eee26/json"
 		],
 		"resources": []
 	},
