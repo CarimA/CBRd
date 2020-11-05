@@ -84,7 +84,10 @@
 				"lc"
 			]
 		},
-		"sampleTeams": [],
+		"sampleTeams": [
+			"https://pokepast.es/a5b3f8804fe892ba/json",
+			"https://pokepast.es/8ca7084f7881b590/json"
+		],
 		"resources": []
 	},
 	"usumlc": {
