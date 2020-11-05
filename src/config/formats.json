@@ -1,6 +1,6 @@
 {
 	"lc": {
-		"name": "Standard Little Cup",
+		"name": "Little Cup",
 		"format": "gen8lc",
 		"type": "2 elimination",
 		"rules": {
@@ -38,7 +38,7 @@
 		"resources": []
 	},
 	"lcuu": {
-		"name": "Standard Little Cup UnderUsed",
+		"name": "Little Cup UnderUsed",
 		"about": "LC UU is the tier below LC; any Pokemon that sees under 4.52% usage on the LC ladder (using the weighted 1630 stats) are banned.",
 		"format": "gen8lc",
 		"type": "1 elimination",
@@ -75,7 +75,7 @@
 		]
 	},
 	"lcubers": {
-		"name": "Standard Little Cup Ubers",
+		"name": "Little Cup Ubers",
 		"about": "LC Ubers removes the banlist, so everything and anything is fair game! Warning: do not expect this format to be balanced!",
 		"format": "gen8lc",
 		"type": "2 elimination",
@@ -91,7 +91,7 @@
 		"resources": []
 	},
 	"usumlc": {
-		"name": "Standard Little Cup (Gen 7)",
+		"name": "USUM Little Cup",
 		"format": "gen7lc",
 		"type": "2 elimination",
 		"rules": {
@@ -122,7 +122,7 @@
 		"resources": []
 	},
 	"oraslc": {
-		"name": "Standard Little Cup (Gen 6)",
+		"name": "ORAS Little Cup",
 		"format": "gen6lc",
 		"type": "2 elimination",
 		"rules": {
@@ -142,7 +142,7 @@
 		"resources": []
 	},
 	"bw2lc": {
-		"name": "Standard Little Cup (Gen 5)",
+		"name": "BW2 Little Cup",
 		"format": "gen5lc",
 		"type": "2 elimination",
 		"rules": {
@@ -164,7 +164,7 @@
 		"resources": []
 	},
 	"dpplc": {
-		"name": "Standard Little Cup (Gen 4)",
+		"name": "DPP Little Cup",
 		"format": "gen4lc",
 		"type": "2 elimination",
 		"rules": {
