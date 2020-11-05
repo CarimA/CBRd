@@ -37,11 +37,11 @@ export default class TournamentsModule implements Module {
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
-		this.scheduleTournament(0);
+		this.scheduleTournament(2);
 		this.scheduleTournament(4, 'lc');
-		this.scheduleTournament(12);
-		this.scheduleTournament(14, 'lc');
-		this.scheduleTournament(16);
+		this.scheduleTournament(11);
+		this.scheduleTournament(13, 'lc');
+		this.scheduleTournament(15);
 		this.scheduleTournament(18, 'lc');
 		this.scheduleTournament(20, 'lcuu');
 		this.scheduleTournament(22);
@@ -285,7 +285,7 @@ export default class TournamentsModule implements Module {
 	public async postResources(room: Room | undefined, format: Format, rules: Rules): Promise<void> {
 		const html = await this.generateEmbed(format, rules);
 
-		await room?.send(`/addhtmlbox ${html}`);
+		await room?.send(`/adduhtml samples, ${html}`);
 	}
 
 	private async generateEmbed(format: Format, rules: Rules): Promise<string> {
