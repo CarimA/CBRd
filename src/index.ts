@@ -13,6 +13,9 @@ declare let process: {
 		PSIM_AUTO_JOIN_ROOMS: string;
 		PSIM_TOUR_ROOM: string;
 		DISCORD_TOKEN: string;
+		DISCORD_SERVER_ID: string;
+		DISCORD_ANNOUNCE_CHANNEL: string;
+		DISCORD_TOURS_CHANNEL: string;
 	};
 };
 dotenv.config();
