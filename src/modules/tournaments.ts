@@ -53,7 +53,7 @@ export default class TournamentsModule implements Module {
 	private async postInDiscord(message: string): Promise<void> {
 		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
 		const channel = <Discord.TextChannel>guild.channels.cache.get(<string>process.env['DISCORD_TOURS_CHANNEL']);
-		await channel.send(message);
+		await channel.send(`https://play.pokemonshowdown.com/littlecup\n${message}`);
 	}
 
 	private scheduleTournament(hour: number, format?: string | undefined) {
