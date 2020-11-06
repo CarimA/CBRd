@@ -142,11 +142,9 @@ export default class TournamentsModule implements Module {
 	public stopVote(): () => Promise<void> {
 		return async () => {
 			// get the format with the most items
-			let tiebreak = false;
 			this._nextFormat = Object.keys(this._activeVote).reduce((a: string, b: string) => {
 				if (this._activeVote[a].length == this._activeVote[b].length) {
 					// in the event of a tiebreak, coinflip
-					tiebreak = true;
 					if (random(0, 1) === 0) {
 						return a;
 					} else {

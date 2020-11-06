@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { Client, Room, User, RoomMessage, PrivateMessage } from 'ts-psim-client';
 import Express from 'express';
+import * as Discord from 'discord.js';
 
 // assign types to expected env vars
 declare let process: {
@@ -11,6 +12,7 @@ declare let process: {
 		PSIM_AVATAR: string;
 		PSIM_AUTO_JOIN_ROOMS: string;
 		PSIM_TOUR_ROOM: string;
+		DISCORD_TOKEN: string;
 	};
 };
 dotenv.config();
@@ -21,18 +23,21 @@ express.use('/', (req, res) => res.send('go away'));
 express.listen(process.env['PORT'] || 3000);
 
 const psimClient = new Client({ debug: true });
+const discordClient = new Discord.Client();
 
 // load modules
 import Module from './module';
 import RemindDiscordModule from './modules/remindDiscord';
 import DebugModule from './modules/debug';
 import TournamentsModule from './modules/tournaments';
+import AnnouncementInteropModule from './modules/announcementInterop';
 
 const tours = new TournamentsModule(psimClient);
 
 const modules: Module[] = [
 	new RemindDiscordModule(55, 'Check out the LC Discord server: https://discord.gg/pjN29Dh'),
 	new DebugModule(),
+	new AnnouncementInteropModule(psimClient, discordClient),
 	tours
 ];
 
@@ -84,41 +89,17 @@ psimClient.onPrivateMessage.subscribe(async (user: User, message: PrivateMessage
 	});
 });
 
+discordClient.on('ready', () => {
+	console.log(`Logged into Discord as ${discordClient.user?.tag}`);
+});
+
+discordClient.on('message', (message) => {
+	modules.forEach(async (module) => {
+		if (module.onDiscordMessage) {
+			await module.onDiscordMessage(message);
+		}
+	});
+});
+
 psimClient.connect();
-
-/*
-
-// schedule the LC UU tournament at 8pm
-
-// schedule the random tournaments
-new CronJob('0 0 22 * * *', runTour(), null, true, 'Europe/London').start();
-new CronJob('0 0 0 * * *', runTour('lc'), null, true, 'Europe/London').start();
-new CronJob('0 0 4 * * *', runTour('lc'), null, true, 'Europe/London').start();
-
-// tournament scheduler
-setInterval(() => {
-	// do nothing if we're not connected to psim
-	if (!(psimClient.isConnected() && psimClient.isLoggedIn())) {
-		console.log('Not connected or logged in to psim');
-		return;
-	}
-}, 1000 * 30);
-
-/*
-
-import fs from 'fs'
-var t = fs.readFileSync('config/sample_teams/test.txt')
-console.log(t)
-
-function config(key: string) {
-	return process.env[key];
-}
-
-
-
-console.log(config('USERNAME'));
-
-console.log('Hello world!');
-
-
-*/
+discordClient.login(process.env['DISCORD_TOKEN']);
