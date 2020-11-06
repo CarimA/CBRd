@@ -1,4 +1,5 @@
-import { Client, PrivateMessage, Room, RoomMessage, User, Utils } from 'ts-psim-client';
+import * as Psim from 'ts-psim-client';
+import * as Discord from 'discord.js';
 import Module from '../module';
 import { CronJob } from 'cron';
 import fetch from 'node-fetch';
@@ -22,16 +23,18 @@ interface Rules {
 }
 
 export default class TournamentsModule implements Module {
-	private _psimClient: Client;
+	private _psimClient: Psim.Client;
+	private _discordClient: Discord.Client;
 	private _nextFormat: string;
 	private _votingStopsAt: Date | undefined;
 	private _tournamentStartsAt: Date | undefined;
 	private _votingPhase: boolean;
-	private _activeVote: { [key: string]: User[] };
+	private _activeVote: { [key: string]: Psim.User[] };
 	private _room: string;
 
-	constructor(psimClient: Client) {
+	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
+		this._discordClient = discordClient;
 		this._nextFormat = 'lc';
 		this._activeVote = {};
 		this._votingPhase = false;
@@ -45,6 +48,12 @@ export default class TournamentsModule implements Module {
 		this.scheduleTournament(18, 'lc');
 		this.scheduleTournament(20, 'lcuu');
 		this.scheduleTournament(22);
+	}
+
+	private async postInDiscord(message: string): Promise<void> {
+		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
+		const channel = <Discord.TextChannel>guild.channels.cache.get(<string>process.env['DISCORD_TOURS_CHANNEL']);
+		await channel.send(message);
 	}
 
 	private scheduleTournament(hour: number, format?: string | undefined) {
@@ -67,7 +76,7 @@ export default class TournamentsModule implements Module {
 		new CronJob(`0 0 ${hour} * * *`, this.runTournament(format), null, true, 'Europe/London').start();
 	}
 
-	public async onPrivateMessage(user: User, message: PrivateMessage): Promise<void> {
+	public async onPrivateMessage(user: Psim.User, message: Psim.PrivateMessage): Promise<void> {
 		const vote = message.text;
 
 		if (!vote.startsWith('-vote')) {
@@ -135,6 +144,11 @@ export default class TournamentsModule implements Module {
 
 			const room = this._psimClient.getRoom(this._room);
 			await room?.send('/announce Voting for the next tournament is now open.');
+			await this.postInDiscord(
+				`**Voting for the next tournament is now open in the Little Cup room.** Voting will close in 15 minutes.\nAvailable options: ${metagames
+					.map((metagame) => `**${(<any>formats)[metagame].name}**`)
+					.join(', ')}`
+			);
 			this.updateInformation();
 		};
 	}
@@ -176,6 +190,9 @@ export default class TournamentsModule implements Module {
 			await room?.send(`/announce The next tournament will be ${game.name}.`);
 
 			await this.postResources(room, game, allBans);
+			await this.postInDiscord(
+				`**Voting for the next tournament is now closed.** A **${game.name}** tournament will be starting in 15 minutes.`
+			);
 
 			this._activeVote = {};
 			this.updateInformation();
@@ -190,6 +207,7 @@ export default class TournamentsModule implements Module {
 			const allBans = this.getBans(game);
 
 			await room?.send(`/announce A scheduled tournament (${game.name}) will be starting in 15 minutes.`);
+			await this.postInDiscord(`A **${game.name}** tournament will be starting in 15 minutes.`);
 			await this.postResources(room, game, allBans);
 		};
 	}
@@ -222,8 +240,9 @@ export default class TournamentsModule implements Module {
 			const rules = (bans || []).concat(unbans || []);
 
 			await this.postResources(room, game, allBans);
+			await this.postInDiscord(`A **${game.name}** tournament is now starting.`);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
-			await Utils.delay(60 * 5 * 1000);
+			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
 
 			if (type === '2 elimination') {
@@ -280,7 +299,7 @@ export default class TournamentsModule implements Module {
 		};
 	}
 
-	public async postResources(room: Room | undefined, format: Format, rules: Rules): Promise<void> {
+	public async postResources(room: Psim.Room | undefined, format: Format, rules: Rules): Promise<void> {
 		const html = await this.generateEmbed(format, rules);
 
 		await room?.send(`/adduhtml samples, ${html}`);
@@ -363,7 +382,7 @@ export default class TournamentsModule implements Module {
 		return html;
 	}
 
-	public async onRoomMessage(client: Client, room: Room, message: RoomMessage): Promise<void> {
+	public async onRoomMessage(client: Psim.Client, room: Psim.Room, message: Psim.RoomMessage): Promise<void> {
 		if (room.name !== this._room) {
 			return;
 		}
