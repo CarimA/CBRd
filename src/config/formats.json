@@ -48,7 +48,7 @@
 				"lc"
 			],
 			"bannedPokemon": [
-				"scraggy", "shellder", "grookey", "scorbunny", "carvanha", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "drilbur", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "munchlax", "onix", "pawniard", "ponyta-base", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "dwebble", "vulpix", "omanyte", "elekid", "magby", "treecko", "swablu", "tirtouga", "archen", "tyrunt", "amaura"
+				"scraggy", "shellder", "grookey", "scorbunny", "carvanha", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "drilbur", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "munchlax", "onix", "pawniard", "ponyta-base", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "dwebble", "vulpix", "omanyte", "elekid", "magby", "treecko", "tirtouga", "archen", "tyrunt", "amaura"
 			],
 			"useAsRule": true
 		},
