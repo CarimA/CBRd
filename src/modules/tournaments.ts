@@ -31,12 +31,14 @@ export default class TournamentsModule implements Module {
 	private _votingPhase: boolean;
 	private _activeVote: { [key: string]: Psim.User[] };
 	private _room: string;
+	private _lastAnnouncement: Discord.Message | undefined;
 
 	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
 		this._discordClient = discordClient;
 		this._nextFormat = 'lc';
 		this._activeVote = {};
+		this._lastAnnouncement = undefined;
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
@@ -53,7 +55,11 @@ export default class TournamentsModule implements Module {
 	private async postInDiscord(message: string): Promise<void> {
 		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
 		const channel = <Discord.TextChannel>guild.channels.cache.get(<string>process.env['DISCORD_TOURS_CHANNEL']);
-		await channel.send(`https://play.pokemonshowdown.com/littlecup\n${message}`);
+		this._lastAnnouncement = await channel.send(`https://play.pokemonshowdown.com/littlecup\n${message}`);
+	}
+
+	private async editDiscordAnnouncement(message: string): Promise<void> {
+		await this._lastAnnouncement?.edit(`https://play.pokemonshowdown.com/littlecup\n${message}`);
 	}
 
 	private scheduleTournament(hour: number, format?: string | undefined) {
@@ -190,7 +196,7 @@ export default class TournamentsModule implements Module {
 			await room?.send(`/announce The next tournament will be ${game.name}.`);
 
 			await this.postResources(room, game, allBans);
-			await this.postInDiscord(
+			await this.editDiscordAnnouncement(
 				`**Voting for the next tournament is now closed.** A **${game.name}** tournament will be starting in 15 minutes.`
 			);
 
@@ -240,7 +246,7 @@ export default class TournamentsModule implements Module {
 			const rules = (bans || []).concat(unbans || []);
 
 			await this.postResources(room, game, allBans);
-			await this.postInDiscord(`A **${game.name}** tournament is now starting.`);
+			await this.editDiscordAnnouncement(`A **${game.name}** tournament is now starting.`);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');

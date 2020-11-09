@@ -27,7 +27,7 @@ export default class AnnouncementInteropModule implements Module {
 			const color = member ? member.displayHexColor : '#ffffff';
 			const avatar = message.author.displayAvatarURL();
 
-			const md = message.content;
+			const md = message.content.replace(/\n/g, '<br>');
 			const html = Marked.parse(md);
 			const sanitised = sanitizeHtml(html);
 			const minified = HTMLMinifier.minify(sanitised);
