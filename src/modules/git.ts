@@ -13,13 +13,16 @@ import Module from '../module';
  */
 const SYSADMINS = ['cheir'];
 const REPO_LINK = 'https://github.com/CarimA/CBRd';
+const TOID_REGEX = new RegExp('[^a-z0-9]', 'g');
 
 async function sendRepoLink(message: RoomMessage | PrivateMessage) {
 	return message.reply(`This bot's source code is available at ${REPO_LINK}.`);
 }
 
 async function updateRepository(message: RoomMessage | PrivateMessage) {
-	if (!SYSADMINS.includes(message.user.Id)) {
+	// We can't get a userid from the object....
+	const userid = message.user.username.toLowerCase().replace(TOID_REGEX, '');
+	if (!SYSADMINS.includes(userid)) {
 		return message.reply('Only bot sysadmins can update the Git repository.');
 	}
 	await message.reply('Updating code from the Git repository.');
