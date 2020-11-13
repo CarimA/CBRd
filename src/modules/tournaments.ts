@@ -62,10 +62,6 @@ export default class TournamentsModule implements Module {
 		await this._lastAnnouncement?.edit(`https://play.pokemonshowdown.com/littlecup\n${message}`);
 	}
 
-	private async deleteDiscordAnnouncement(): Promise<void> {
-		await this._lastAnnouncement?.delete();
-	}
-
 	private scheduleTournament(hour: number, format?: string | undefined) {
 		if (!format) {
 			// if there is no set format, one hour before it, start a vote
@@ -250,11 +246,13 @@ export default class TournamentsModule implements Module {
 			const rules = (bans || []).concat(unbans || []);
 
 			await this.postResources(room, game, allBans);
-			await this.editDiscordAnnouncement(`A **${game.name}** tournament is now starting.`);
+			await this.editDiscordAnnouncement(
+				`A **${game.name}** tournament is now starting. Signups will close in 5 minutes.`
+			);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
-			await this.deleteDiscordAnnouncement();
+			await this.editDiscordAnnouncement(`A **${game.name}** tournament has started. Signups are closed.`);
 
 			if (type === '2 elimination') {
 				await room?.send(
