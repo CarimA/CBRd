@@ -53,12 +53,15 @@
 			"useAsRule": true
 		},
 		"sampleTeams": [
-			"https://pokepast.es/50e70f68ce7db506/json",
-			"https://pokepast.es/cd231148bdc63291/json",
-			"https://pokepast.es/4ef82345a55516bd/json",
-			"https://pokepast.es/c063b6bea3007b0a/json",
-			"https://pokepast.es/a656e75552e5b2d0/json",
-			"https://pokepast.es/220456a522c733ff/json"
+			"https://pokepast.es/d047500565f05671/json",
+			"https://pokepast.es/e123dbf41cb58110/json",
+			"https://pokepast.es/71866d7212867600/json",
+			"https://pokepast.es/8c19f106a68f6a9b/json",
+			"https://pokepast.es/8271c3f8a91d50ed/json",
+			"https://pokepast.es/75fe181fcfd67aa3/json",
+			"https://pokepast.es/3427f3744162d4fe/json",
+			"https://pokepast.es/aa83b1f0a2def501/json",
+			"https://pokepast.es/5f0f401f14f3a3d9/json"
 		],
 		"resources": [
 			{
