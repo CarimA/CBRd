@@ -162,7 +162,16 @@
 			],
 			"useAsRule": false
 		},
-		"sampleTeams": [],
+		"sampleTeams": [
+			"https://pokepast.es/7ed6879c22d60f9c/json",
+			"https://pokepast.es/3dd1eeb3c7bf854e/json",
+			"https://pokepast.es/dc96caa1a8e5a3d6/json",
+			"https://pokepast.es/e9e40dcab21ccbd4/json",
+			"https://pokepast.es/fb776a9475c98ef1/json",
+			"https://pokepast.es/7c6780cfc11fac59/json",
+			"https://pokepast.es/224e36d81b403ce1/json",
+			"https://pokepast.es/370ac546a5805014/json"
+		],
 		"resources": []
 	},
 	"dpplc": {
