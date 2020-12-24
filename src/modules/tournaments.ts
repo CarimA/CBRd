@@ -128,7 +128,7 @@ export default class TournamentsModule implements Module {
 			this._votingStopsAt.setHours(mod(hour - 1, 24), 45);
 
 			this._tournamentStartsAt = new Date();
-			this._tournamentStartsAt.setHours(hour);
+			this._tournamentStartsAt.setHours(hour, 0);
 
 			// pick 3-5 formats from the list
 			const amount = random(2, 3);
