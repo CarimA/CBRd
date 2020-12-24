@@ -20,6 +20,7 @@ interface Rules {
 	unbannedMoves?: string[] | undefined;
 	bannedItems?: string[] | undefined;
 	unbannedItems?: string[] | undefined;
+	customRules: string[] | undefined;
 }
 
 export default class TournamentsModule implements Module {
@@ -139,7 +140,7 @@ export default class TournamentsModule implements Module {
 			metagames = metagames.slice(0, amount);
 
 			// make sure that LC is always an option
-			metagames.unshift('lc');
+			//metagames.unshift('lc');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
@@ -243,7 +244,7 @@ export default class TournamentsModule implements Module {
 				.concat(allBans.unbannedItems || [])
 				.map((unban) => `+${unban}`);
 
-			const rules = (bans || []).concat(unbans || []);
+			const rules = (bans || []).concat(unbans || []).concat(allBans.customRules || []);
 
 			await this.postResources(room, game, allBans);
 			await this.editDiscordAnnouncement(
@@ -271,6 +272,7 @@ export default class TournamentsModule implements Module {
 		let unbannedMoves = game.rules.unbannedMoves || [];
 		let bannedItems = game.rules.bannedItems || [];
 		let unbannedItems = game.rules.unbannedItems || [];
+		const customRules = game.rules.customRules || [];
 
 		if (game.rules.inheritBans) {
 			game.rules.inheritBans.forEach((inheritedFormat: any) => {
@@ -304,7 +306,8 @@ export default class TournamentsModule implements Module {
 			bannedMoves,
 			unbannedMoves,
 			bannedItems,
-			unbannedItems
+			unbannedItems,
+			customRules
 		};
 	}
 

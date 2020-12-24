@@ -76,123 +76,110 @@
 			}
 		]
 	},
-	"lcubers": {
-		"name": "Little Cup Ubers",
-		"about": "LC Ubers removes the banlist, so everything and anything is fair game! Warning: do not expect this format to be balanced!",
-		"format": "gen8lc",
+	"gen8monotypelc": {
+		"name": "LC Monotype (Beta)",
+		"format": "gen8monotype",
 		"type": "2 elimination",
 		"rules": {
-			"inheritBansAsUnbans": [
+			"bannedPokemon": [
+				"grookey"
+			],
+			"unbannedPokemon": [
+				"vulpix-alola"
+			],
+			"inheritBans": [
 				"lc"
-			]
+			],
+			"customRules": [
+				"littlecup"
+			],
+			"useAsRule": true
 		},
 		"sampleTeams": [
-			"https://pokepast.es/a5b3f8804fe892ba/json",
-			"https://pokepast.es/8ca7084f7881b590/json"
+			"https://pokepast.es/cae9e7196a18fcac/json", 
+			"https://pokepast.es/6ac94213de9f37be/json", 
+			"https://pokepast.es/ca6a857ffe024f6d/json", 
+			"https://pokepast.es/17cdb1c56096b378/json", 
+			"https://pokepast.es/a7cbe0d977b1b3db/json", 
+			"https://pokepast.es/c2f887413d4af792/json",
+			"https://pokepast.es/5015704c56167612/json", 
+			"https://pokepast.es/9023f1882e1c81fc/json", 
+			"https://pokepast.es/3433ac253eca69e2/json", 
+			"https://pokepast.es/30af0001ba8cee06/json", 
+			"https://pokepast.es/af13a830c1bae637/json", 
+			"https://pokepast.es/c7310f9f56de670b/json", 
+			"https://pokepast.es/8179838dc8f08a2a/json", 
+			"https://pokepast.es/04768010236fcd23/json", 
+			"https://pokepast.es/221a11b3758498d2/json", 
+			"https://pokepast.es/1df84a88aaaab17d/json", 
+			"https://pokepast.es/e5a1e8d32f6b67ac/json", 
+			"https://pokepast.es/1ae3d7b7b1860ccc/json", 
+			"https://pokepast.es/57ceab782234018f/json", 
+			"https://pokepast.es/1c2ffc236ddde07b/json", 
+			"https://pokepast.es/cec3d04e5aa4f102/json"
 		],
 		"resources": []
 	},
-	"usumlc": {
-		"name": "USUM Little Cup",
-		"format": "gen7lc",
+	"gen8doubleslc": {
+		"name": "LC Doubles (Beta)",
+		"format": "gen8doublesou",
 		"type": "2 elimination",
 		"rules": {
-			"bannedPokemon": [
-				"aipom", "cutiefly", "drifloon", "gligar", "gothita", "meditite", "misdreavus", "murkrow", "porygon", "scyther", "sneasel", "swirlix", "tangela", "trapinch", "vulpix-base", "wingull", "yanma"
+			"unbannedPokemon": [
+				"vulpix-alola",
+				"corsola-galar",
+				"cutiefly"
 			],
-			"bannedItems": [
-				"eevium z"
+			"inheritBans": [
+				"lc"
 			],
-			"bannedMoves": [
-				"baton pass", "dragon rage", "sonic boom"
+			"customRules": [
+				"littlecup"
 			],
-			"useAsRule": false
+			"useAsRule": true
 		},
 		"sampleTeams": [
-			"https://pokepast.es/8f224d14bf08ea25/json",
-			"https://pokepast.es/2f52c88110195146/json",
-			"https://pokepast.es/2e808baa0dbcbef3/json",
-			"https://pokepast.es/78092b10a29de52a/json",
-			"https://pokepast.es/b6883976f26744d8/json",
-			"https://pokepast.es/2479a37c805f3aba/json",
-			"https://pokepast.es/22b4d75a069eee26/json",
-			"https://pokepast.es/af3ec7701f108083/json",
-			"https://pokepast.es/795885a71bc5d2d6/json",
-			"https://pokepast.es/33fa604ddf8fbd14/json",
-			"https://pokepast.es/e82ba16745807fc1/json"
+			"https://pokepast.es/1fcb13dfa5974427/json", 
+			"https://pokepast.es/55713677021a9a77/json", 
+			"https://pokepast.es/e29cee2ed279e5b3/json", 
+			"https://pokepast.es/e779afdb92ea8854/json"
 		],
 		"resources": []
 	},
-	"oraslc": {
-		"name": "ORAS Little Cup",
-		"format": "gen6lc",
+	"gem81v1lc": {
+		"name": "LC 1v1 (Beta)",
+		"format": "gen81v1",
 		"type": "2 elimination",
 		"rules": {
-			"bannedPokemon": [
-				"drifloon", "gligar", "meditite", "misdreavus", "murkrow", "scyther", "sneasel", "swirlix", "tangela", "yanma"
+			"unbannedPokemon": [
+				"vulpix-alola",
+				"drifloon",
+				"cutiefly",
+				"gothita"
+			],
+			"unbannedAbilities": [
+				"chlorophyll"
+			],
+			"unbannedMoves": [
+				"baton pass"
 			],
 			"bannedMoves": [
-				"baton pass", "dragon rage", "sonic boom", "swagger"
+				"swagger"
 			],
-			"useAsRule": false
+			"inheritBans": [
+				"lc"
+			],
+			"customRules": [
+				"littlecup"
+			],
+			"useAsRule": true
 		},
 		"sampleTeams": [
-			"https://pokepast.es/ab3d0d6b70fa13e1/json",
-			"https://pokepast.es/54395c0d2b8c8202/json",
-			"https://pokepast.es/a54325e42d3a938c/json"
-		],
-		"resources": []
-	},
-	"bw2lc": {
-		"name": "BW2 Little Cup",
-		"format": "gen5lc",
-		"type": "2 elimination",
-		"rules": {
-			"bannedPokemon": [
-				"gligar", "meditite", "misdreavus", "murkrow", "scraggy", "scyther", "sneasel", "tangela", "vulpix", "yanma"
-			],
-			"bannedAbilities": [
-				"sand rush"
-			],
-			"bannedItems": [
-				"berry juice", "soul dew"
-			],
-			"bannedMoves": [
-				"baton pass", "dragon rage", "sonic boom", "swagger"
-			],
-			"useAsRule": false
-		},
-		"sampleTeams": [
-			"https://pokepast.es/7ed6879c22d60f9c/json",
-			"https://pokepast.es/3dd1eeb3c7bf854e/json",
-			"https://pokepast.es/dc96caa1a8e5a3d6/json",
-			"https://pokepast.es/e9e40dcab21ccbd4/json",
-			"https://pokepast.es/fb776a9475c98ef1/json",
-			"https://pokepast.es/7c6780cfc11fac59/json",
-			"https://pokepast.es/224e36d81b403ce1/json",
-			"https://pokepast.es/370ac546a5805014/json"
-		],
-		"resources": []
-	},
-	"dpplc": {
-		"name": "DPP Little Cup",
-		"format": "gen4lc",
-		"type": "2 elimination",
-		"rules": {
-			"bannedPokemon": [
-				"meditite", "misdreavus", "murkrow", "scyther", "sneasel", "tangela", "yanma"
-			],
-			"bannedItems": [
-				"berry juice", "deep sea tooth"
-			],
-			"bannedMoves": [
-				"dragon rage", "sonic boom"
-			],
-			"useAsRule": false
-		},
-		"sampleTeams": [
-			"https://pokepast.es/587bb5ee150c11c0/json",
-			"https://pokepast.es/235d193b1488dc94/json"
+			"https://pokepast.es/7e989806fe332943/json", 
+			"https://pokepast.es/124e2f04955d6263/json", 
+			"https://pokepast.es/fed6b577027b5a44/json", 
+			"https://pokepast.es/2f731a7073aeab90/json", 
+			"https://pokepast.es/86cd3f437784d28a/json"
 		],
 		"resources": []
 	}

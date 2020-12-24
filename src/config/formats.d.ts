@@ -10,6 +10,7 @@ export interface Rules {
 	unbannedAbilities: string[] | undefined;
 	unbannedItems: string[] | undefined;
 	unbannedMoves: string[] | undefined;
+	customRules: string[] | undefined;
 
 	useAsRule: boolean | undefined;
 
