@@ -127,10 +127,17 @@
 		"rules": {
 			"unbannedPokemon": [
 				"corsola-galar",
-				"drifloon"
+				"drifloon",
+				"gothita",
+				"gastly"
 			],
 			"unbannedAbilities": [
-				"shadow tag"	
+				"shadow tag",
+				"moody",
+				"chlorophyll"
+			],
+			"unbannedMoves": [
+				"baton pass"
 			],
 			"bannedAbilities": [
 				"drought"	
