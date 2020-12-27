@@ -126,15 +126,21 @@
 		"type": "2 elimination",
 		"rules": {
 			"unbannedPokemon": [
-				"vulpix-alola",
 				"corsola-galar",
-				"cutiefly"
+				"drifloon"
+			],
+			"unbannedAbilities": [
+				"shadow tag"	
+			],
+			"bannedAbilities": [
+				"drought"	
 			],
 			"inheritBans": [
 				"lc"
 			],
 			"customRules": [
-				"littlecup"
+				"littlecup",
+				"sleepclausemod"
 			],
 			"useAsRule": true
 		},
