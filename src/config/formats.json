@@ -87,6 +87,9 @@
 			"unbannedPokemon": [
 				"vulpix-alola"
 			],
+			"unbannedAbilities": [
+				"shadow tag"
+			],
 			"inheritBans": [
 				"lc"
 			],
