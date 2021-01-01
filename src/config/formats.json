@@ -46,18 +46,14 @@
 				"lc"
 			],
 			"bannedPokemon": [
-				"staryu", "scraggy", "shellder", "grookey", "scorbunny", "carvanha", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "drilbur", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "dwebble", "vulpix", "archen", "tyrunt"
+				"staryu", "scraggy", "shellder", "grookey", "scorbunny", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "drilbur", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "dwebble", "vulpix", "archen", "tyrunt"
 			],
 			"useAsRule": true
 		},
 		"sampleTeams": [
 			"https://pokepast.es/d047500565f05671/json",
-			"https://pokepast.es/ccda2c0f8a9b68d2/json",
 			"https://pokepast.es/71866d7212867600/json",
 			"https://pokepast.es/8c19f106a68f6a9b/json",
-			"https://pokepast.es/8271c3f8a91d50ed/json",
-			"https://pokepast.es/75fe181fcfd67aa3/json",
-			"https://pokepast.es/3427f3744162d4fe/json",
 			"https://pokepast.es/aa83b1f0a2def501/json",
 			"https://pokepast.es/5f0f401f14f3a3d9/json"
 		],
