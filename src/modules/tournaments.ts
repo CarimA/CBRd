@@ -42,14 +42,13 @@ export default class TournamentsModule implements Module {
 		this._lastAnnouncement = undefined;
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
-
-		this.scheduleTournament(0);
+		
 		this.scheduleTournament(2);
-		this.scheduleTournament(10);
-		this.scheduleTournament(12);
-		this.scheduleTournament(14);
-		this.scheduleTournament(16);
-		this.scheduleTournament(18);
+		this.scheduleTournament(4, 'lc');
+		this.scheduleTournament(11);
+		this.scheduleTournament(13, 'lc');
+		this.scheduleTournament(15);
+		this.scheduleTournament(18, 'lc');
 		this.scheduleTournament(20, 'lcuu');
 		this.scheduleTournament(22);
 	}
@@ -141,7 +140,7 @@ export default class TournamentsModule implements Module {
 			metagames = metagames.slice(0, amount);
 
 			// make sure that LC is always an option
-			//metagames.unshift('lc');
+			metagames.unshift('lc');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
