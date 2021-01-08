@@ -26,7 +26,7 @@ express.use('/', (req, res) => res.send('go away'));
 express.listen(process.env['PORT'] || 3000);
 
 const psimClient = new Client({ debug: true });
-const discordClient = new Discord.Client();
+const discordClient = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] });
 
 // load modules
 import Module from './module';
@@ -35,6 +35,7 @@ import DebugModule from './modules/debug';
 import TournamentsModule from './modules/tournaments';
 import AnnouncementInteropModule from './modules/announcementInterop';
 import GitModule from './modules/git';
+import RoleAssignmentModule from './modules/RoleAssignmentModule';
 
 const tours = new TournamentsModule(psimClient, discordClient);
 
@@ -43,7 +44,8 @@ const modules: Module[] = [
 	new DebugModule(),
 	new AnnouncementInteropModule(psimClient, discordClient),
 	new GitModule(),
-	tours
+	tours,
+	new RoleAssignmentModule(discordClient)
 ];
 
 psimClient.onReady.subscribe((client: Client) => {
