@@ -38,8 +38,8 @@
 	},
 	"lcuu": {
 		"name": "Little Cup UnderUsed",
-		"about": "LC UU is the tier below LC; any Pokemon that sees under 4.52% usage on the LC ladder (using the weighted 1630 stats) are banned.",
-		"format": "gen8lc",
+		"about": "LC UU is the tier below LC; any Pokemon that sees above 4.52% usage on the LC ladder (using the weighted 1630 stats) are banned.",
+		"format": "gen8lcuu",
 		"type": "1 elimination",
 		"rules": {
 			"inheritBans": [
@@ -48,7 +48,7 @@
 			"bannedPokemon": [
 				"staryu", "scraggy", "shellder", "grookey", "scorbunny", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "drilbur", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "dwebble", "vulpix", "archen", "tyrunt"
 			],
-			"useAsRule": true
+			"useAsRule": false
 		},
 		"sampleTeams": [
 			"https://pokepast.es/d047500565f05671/json",
