@@ -42,7 +42,7 @@ export default class TournamentsModule implements Module {
 		this._lastAnnouncement = undefined;
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
-		
+
 		this.scheduleTournament(2);
 		this.scheduleTournament(4, 'lc');
 		this.scheduleTournament(11);
@@ -81,46 +81,6 @@ export default class TournamentsModule implements Module {
 		}
 
 		new CronJob(`0 0 ${hour} * * *`, this.runTournament(format), null, true, 'Europe/London').start();
-	}
-
-	public async onPrivateMessage(user: Psim.User, message: Psim.PrivateMessage): Promise<void> {
-		const vote = message.text;
-
-		if (!vote.startsWith('-vote')) {
-			return;
-		}
-
-		if (Object.keys(this._activeVote).length === 0) {
-			return await message.reply('There is currently no active room tournament vote. Try again another time.');
-		}
-
-		const format = vote.split(' ')[1];
-
-		if (this._activeVote[format]) {
-			// Check if the user is in any of the votes
-			let changed = undefined;
-			Object.entries(this._activeVote).forEach(([key, value]) => {
-				const index = value.indexOf(user, 0);
-				if (index > -1) {
-					value.splice(index, 1);
-					changed = key;
-				}
-			});
-
-			this._activeVote[format].push(user);
-
-			if (changed) {
-				if (changed === format) {
-					return await message.reply('I heard you.');
-				} else {
-					return await message.reply(`Vote changed from ${changed} to ${format}.`);
-				}
-			} else {
-				return await message.reply(`Vote added for ${format}.`);
-			}
-		} else {
-			return await message.reply('This is not an option you can vote for.');
-		}
 	}
 
 	public startVote(hour: number): () => Promise<void> {
@@ -387,6 +347,7 @@ export default class TournamentsModule implements Module {
 
 		const icons = parsed?.team
 			.map((pokemon) => pokemon.species)
+			.sort()
 			.map((pokemon) => `<psicon pokemon='${pokemon}'>`)
 			.join('');
 
@@ -394,16 +355,110 @@ export default class TournamentsModule implements Module {
 		return html;
 	}
 
-	public async onRoomMessage(client: Psim.Client, room: Psim.Room, message: Psim.RoomMessage): Promise<void> {
-		if (room.name !== this._room) {
+	public async onPrivateMessage(user: Psim.User, message: Psim.PrivateMessage): Promise<void> {
+		const vote = message.text;
+
+		if (message.text.toLowerCase().startsWith('-samples')) {
+			const format = message.text.split(' ')[1].toLowerCase();
+
+			if (!(<any>formats)[format]) {
+				return;
+			}
+
+			const game = <Format>(<any>formats)[format];
+
+			let samples: string[] = [];
+			if (game.sampleTeams) {
+				samples = game.sampleTeams;
+				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team)));
+			}
+
+			const output =
+				samples && samples.length > 0
+					? `<strong>Sample Teams <em>(Click to expand for an importable team)</em>:</strong><div class="infobox"><p>${samples.join(
+							''
+					  )}</p></div><br>`
+					: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>';
+
+			await message.reply(`/sendhtmlpage ${message.user}, expanded-samples, ${output}`);
+		}
+
+		if (!vote.startsWith('-vote')) {
 			return;
 		}
 
+		if (Object.keys(this._activeVote).length === 0) {
+			return await message.reply('There is currently no active room tournament vote. Try again another time.');
+		}
+
+		const format = vote.split(' ')[1];
+
+		if (this._activeVote[format]) {
+			// Check if the user is in any of the votes
+			let changed = undefined;
+			Object.entries(this._activeVote).forEach(([key, value]) => {
+				const index = value.indexOf(user, 0);
+				if (index > -1) {
+					value.splice(index, 1);
+					changed = key;
+				}
+			});
+
+			this._activeVote[format].push(user);
+
+			if (changed) {
+				if (changed === format) {
+					return await message.reply('I heard you.');
+				} else {
+					return await message.reply(`Vote changed from ${changed} to ${format}.`);
+				}
+			} else {
+				return await message.reply(`Vote added for ${format}.`);
+			}
+		} else {
+			return await message.reply('This is not an option you can vote for.');
+		}
+	}
+
+	public async onRoomMessage(client: Psim.Client, room: Psim.Room, message: Psim.RoomMessage): Promise<void> {
 		if (message.isIntro) {
 			return;
 		}
 
 		if (message.user.username === process.env['PSIM_USERNAME']?.toLowerCase()) {
+			return;
+		}
+
+		if (message.text.toLowerCase().startsWith('-samples')) {
+			const format = message.text.split(' ')[1].toLowerCase();
+
+			if (!(<any>formats)[format]) {
+				return;
+			}
+
+			const game = <Format>(<any>formats)[format];
+
+			let samples: string[] = [];
+			if (game.sampleTeams) {
+				samples = game.sampleTeams;
+				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team)));
+			}
+
+			const output =
+				samples && samples.length > 0
+					? `<strong>Sample Teams <em>(Click to expand for an importable team)</em>:</strong><div class="infobox"><p>${samples.join(
+							''
+					  )}</p></div><br>`
+					: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>';
+
+			if (Psim.Utils.isVoice(message.rank)) {
+				await room?.send(`/adduhtml expanded-samples, ${output}`);
+			} else {
+				await room?.send(`/sendhtmlpage ${message.user}, expanded-samples, ${output}`);
+			}
+		}
+
+		if (room.name !== this._room) {
 			return;
 		}
 
