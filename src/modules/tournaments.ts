@@ -23,6 +23,7 @@ interface Rules {
 	customRules: string[] | undefined;
 }
 
+// this class has become a disgusting monolith: REFACTOR IT.
 export default class TournamentsModule implements Module {
 	private _psimClient: Psim.Client;
 	private _discordClient: Discord.Client;
@@ -380,7 +381,7 @@ export default class TournamentsModule implements Module {
 					  )}</p></div><br>`
 					: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>';
 
-			await message.reply(`/sendhtmlpage ${message.user}, expanded-samples, ${output}`);
+			await message.reply(`/sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
 		}
 
 		if (!vote.startsWith('-vote')) {
@@ -452,9 +453,14 @@ export default class TournamentsModule implements Module {
 					: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>';
 
 			if (Psim.Utils.isVoice(message.rank)) {
-				await room?.send(`/adduhtml expanded-samples, ${output}`);
+				const args = message.text.split(' ');
+				if (args[2] && args[2].toLowerCase() === 'to' && args[3]) {
+					await room?.send(`/sendhtmlpage ${args.slice(3).join(' ')}, expanded-samples, ${output}`);
+				} else {
+					await room?.send(`/adduhtml expanded-samples, ${output}`);
+				}
 			} else {
-				await room?.send(`/sendhtmlpage ${message.user}, expanded-samples, ${output}`);
+				await room?.send(`/sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
 			}
 		}
 
