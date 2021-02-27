@@ -103,6 +103,13 @@ export default class TournamentsModule implements Module {
 			// make sure that LC is always an option
 			//metagames.unshift('lc');
 
+// temporary: do not have LC UU on weekends
+let today = new Date();
+if (today.getDay() == 6 || today.getDay() == 0) {
+	metagames.unshift('lc');
+	metagames.shift('lcuu');
+}
+
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
 				this._activeVote[metagame] = [];
