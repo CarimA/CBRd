@@ -381,7 +381,7 @@ export default class TournamentsModule implements Module {
 					  )}</p></div><br>`
 					: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>';
 
-			await message.reply(`/sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
+			await message.reply(`/msgroom lc, /sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
 		}
 
 		if (!vote.startsWith('-vote')) {
@@ -455,12 +455,12 @@ export default class TournamentsModule implements Module {
 			if (Psim.Utils.isVoice(message.rank)) {
 				const args = message.text.split(' ');
 				if (args[2] && args[2].toLowerCase() === 'to' && args[3]) {
-					await room?.send(`/sendhtmlpage ${args.slice(3).join(' ')}, expanded-samples, ${output}`);
+					await room?.send(`/msgroom lc, /sendhtmlpage ${args.slice(3).join(' ')}, expanded-samples, ${output}`);
 				} else {
 					await room?.send(`/adduhtml expanded-samples, ${output}`);
 				}
 			} else {
-				await room?.send(`/sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
+				await room?.send(`/msgroom lc, /sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
 			}
 		}
 
