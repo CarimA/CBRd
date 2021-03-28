@@ -105,6 +105,43 @@
 			}
 		]
 	},
+	"doubleslc": {
+		"name": "Little Cup Doubles",
+		"about": "Join the true format of Pokemon battling: doubles! Now in Little Cu form!",
+		"format": "gen8doublesou",
+		"rules": {
+			"customRules": [ "littlecup", "sleepclausemod" ],
+			"unbannedAbilities": [ "shadow tag", "moody" ],
+			"bannedAbilities": [ "drought" ],
+			"unbannedPokemon": [ "drifloon", "gastly", "gothita", "rufflet" ],
+			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "corsola-galar" ],
+			"unbannedMoves": [ "baton pass" ]
+		},
+		"sampleTeams": [
+			"https://pokepast.es/942f07a5d3382e12/json",
+			"https://pokepast.es/61cc86f36f6599ac/json",
+			"https://pokepast.es/a76e479d4c937826/json",
+			"https://pokepast.es/3d2f5c09e8be3489/json"
+		],
+		"resources": [
+			{
+				"name": "Speed Tiers",
+				"url": "https://www.smogon.com/forums/threads/doubles-little-cup.3658672/#post-8733469"
+			},
+			{
+				"name": "Role Compendium",
+				"url": "https://www.smogon.com/forums/threads/doubles-little-cup.3658672/#post-8732814"
+			},
+			{
+				"name": "Viability Rankings",
+				"url": "https://www.smogon.com/forums/threads/doubles-little-cup.3658672/#post-8332570"
+			},
+			{
+				"name": "Sample Teams",
+				"url": "https://www.smogon.com/forums/threads/doubles-little-cup.3658672/#post-8332571"
+			}
+		]
+	},
 	"lcubers": {
 		"name": "Little Cup Ubers",
 		"about": "LC Ubers removes the banlist, so everything and anything is fair game! Warning: do not expect this format to be balanced!",
