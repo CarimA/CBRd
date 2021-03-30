@@ -77,7 +77,7 @@ export default class TournamentsModule implements Module {
 				this.announceTournament(format),
 				null,
 				true,
-				'Europe/London'
+				'Etc/UTC'
 			).start();
 		}
 
