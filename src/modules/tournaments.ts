@@ -67,10 +67,10 @@ export default class TournamentsModule implements Module {
 	private scheduleTournament(hour: number, format?: string | undefined) {
 		if (!format) {
 			// if there is no set format, one hour before it, start a vote
-			new CronJob(`0 30 ${mod(hour - 1, 24)} * * *`, this.startVote(hour), null, true, 'Europe/London').start();
+			new CronJob(`0 30 ${mod(hour - 1, 24)} * * *`, this.startVote(hour), null, true, 'Etc/UTC').start();
 
 			// 20 minutes before it, stop the vote and make that the next format
-			new CronJob(`0 45 ${mod(hour - 1, 24)} * * *`, this.stopVote(), null, true, 'Europe/London').start();
+			new CronJob(`0 45 ${mod(hour - 1, 24)} * * *`, this.stopVote(), null, true, 'Etc/UTC').start();
 		} else {
 			new CronJob(
 				`0 45 ${mod(hour - 1, 24)} * * *`,
@@ -81,7 +81,7 @@ export default class TournamentsModule implements Module {
 			).start();
 		}
 
-		new CronJob(`0 0 ${hour} * * *`, this.runTournament(format), null, true, 'Europe/London').start();
+		new CronJob(`0 0 ${hour} * * *`, this.runTournament(format), null, true, 'Etc/UTC').start();
 	}
 
 	public startVote(hour: number): () => Promise<void> {
