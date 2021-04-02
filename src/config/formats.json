@@ -1,8 +1,8 @@
 {
 	"maxberrieslc": { 
-		"name": "Little Cup Flavored OM of the Month: Max Berries",
-		"about": "This month's OM of the month: Max Berries -- now with Little Cup rules!",
-		"format": "maxberries",
+		"name": "Little Cup Flavored OM of the Month: Pokebilities",
+		"about": "This month's OM of the month: Pokebilities -- now with Little Cup rules!",
+		"format": "pokebilities",
 		"rules": {
 			"customRules": [ "littlecup" ],
 			"useAsRule": true
@@ -10,15 +10,15 @@
 		"sampleTeams": [],
 		"resources": [
 			{
-				"name": "About Max Berries",
-				"url": "https://www.smogon.com/forums/threads/max-berries-a-genetically-modified-metagame-om-of-the-month.3677136/"
+				"name": "About Pokebilities",
+				"url": "https://www.smogon.com/forums/threads/pok%C3%A9bilities.3679692/"
 			}
 		]
 	},
 	"thelosersgamelc": { 
-		"name": "Little Cup Flavored OM of the Month: The Loser's Game",
-		"about": "This month's OM of the month: The Loser's Game -- now with Little Cup rules!",
-		"format": "thelosersgame",
+		"name": "Little Cup Flavored OM of the Month: Godly Gift",
+		"about": "This month's OM of the month: Godly Gift -- now with Little Cup rules!",
+		"format": "godlygift",
 		"rules": {
 			"inheritBansAsUnbans": [ "lc" ],
 			"customRules": [ "littlecup" ],
@@ -27,8 +27,8 @@
 		"sampleTeams": [],
 		"resources": [
 			{
-				"name": "About The Loser's Game",
-				"url": "https://www.smogon.com/forums/threads/the-losers-game-leaders-choice.3657270/"
+				"name": "About Godly Gift",
+				"url": "https://www.smogon.com/forums/threads/godly-gift.3660461/"
 			}
 		]
 	},
@@ -107,7 +107,7 @@
 	},
 	"doubleslc": {
 		"name": "Little Cup Doubles",
-		"about": "Join the true format of Pokemon battling: doubles! Now in Little Cu form!",
+		"about": "Join the true format of Pokemon battling: doubles! Now in Little Cup form!",
 		"format": "gen8doublesou",
 		"rules": {
 			"customRules": [ "littlecup", "sleepclausemod" ],
