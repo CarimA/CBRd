@@ -38,7 +38,7 @@
 		"type": "2 elimination",
 		"rules": {
 			"bannedPokemon": [
-				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola"
+				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat"
 			],
 			"bannedAbilities": [
 				"chlorophyll", "moody"
