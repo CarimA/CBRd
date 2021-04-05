@@ -1,5 +1,5 @@
 {
-	"maxberrieslc": { 
+	"pokebilitieslc": { 
 		"name": "Little Cup Flavored OM of the Month: Pokebilities",
 		"about": "This month's OM of the month: Pokebilities -- now with Little Cup rules!",
 		"format": "pokebilities",
@@ -15,7 +15,7 @@
 			}
 		]
 	},
-	"thelosersgamelc": { 
+	"godlygiftlc": { 
 		"name": "Little Cup Flavored OM of the Month: Godly Gift",
 		"about": "This month's OM of the month: Godly Gift -- now with Little Cup rules!",
 		"format": "godlygift",
@@ -111,8 +111,7 @@
 		"format": "gen8doublesou",
 		"rules": {
 			"customRules": [ "littlecup", "sleepclausemod" ],
-			"unbannedAbilities": [ "shadow tag", "moody" ],
-			"bannedAbilities": [ "drought" ],
+			"unbannedAbilities": [ "shadow tag", "moody", "drought" ],
 			"unbannedPokemon": [ "drifloon", "gastly", "gothita", "rufflet" ],
 			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "corsola-galar" ],
 			"unbannedMoves": [ "baton pass" ]
