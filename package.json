@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prettier-format": "prettier --config .prettierrc \"src/**/*.ts\" --write",
     "build": "rimraf ./build && tsc",
     "start:dev": "nodemon",
     "start:ts": "ts-node ./src/index.ts",
@@ -36,12 +36,11 @@
     "cron": "^1.8.2",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-plugin-prettier": "^3.1.4",
     "express": "^4.17.1",
     "html-minifier": "^4.0.0",
-    "husky": "^4.3.0",
+    "husky": "^4.3.8",
     "marked": "^2.0.1",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
@@ -50,7 +49,10 @@
     "rimraf": "^3.0.2",
     "sanitize-html": "^2.1.2",
     "ts-node": "^9.0.0",
-    "ts-psim-client": "^1.1.5",
-    "typescript": "^4.0.3"
+    "ts-psim-client": "^1.1.5"
+  },
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "typescript": "^4.2.3"
   }
 }
