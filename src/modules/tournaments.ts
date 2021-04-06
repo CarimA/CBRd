@@ -1,6 +1,5 @@
 import * as Psim from 'ts-psim-client';
 import * as Discord from 'discord.js';
-import Module from '../module';
 import { CronJob } from 'cron';
 import fetch from 'node-fetch';
 import { Teams } from '@pkmn/sets';
@@ -24,7 +23,7 @@ interface Rules {
 }
 
 // this class has become a disgusting monolith: REFACTOR IT.
-export default class TournamentsModule implements Module {
+export default class TournamentsModule {
 	private _psimClient: Psim.Client;
 	private _discordClient: Discord.Client;
 	private _nextFormat: string;
@@ -103,12 +102,12 @@ export default class TournamentsModule implements Module {
 			// make sure that LC is always an option
 			//metagames.unshift('lc');
 
-// temporary: do not have LC UU on weekends
-let today = new Date();
-if (today.getDay() == 6 || today.getDay() == 0) {
-	metagames.unshift('lc');
-	metagames.shift('lcuu');
-}
+			// temporary: do not have LC UU on weekends
+			const today = new Date();
+			if (today.getDay() == 6 || today.getDay() == 0) {
+				metagames.unshift('lc');
+				metagames.push('lcuu');
+			}
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {

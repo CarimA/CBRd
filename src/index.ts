@@ -1,43 +1,52 @@
-import dotenv from 'dotenv';
-import { Client, Room, User, RoomMessage, PrivateMessage } from 'ts-psim-client';
-import Express from 'express';
-import * as Discord from 'discord.js';
+import * as path from 'path';
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
 
-// assign types to expected env vars
-declare let process: {
-	env: {
-		PORT: number;
-		PSIM_USERNAME: string;
-		PSIM_PASSWORD: string;
-		PSIM_AVATAR: string;
-		PSIM_AUTO_JOIN_ROOMS: string;
-		PSIM_TOUR_ROOM: string;
-		DISCORD_TOKEN: string;
-		DISCORD_SERVER_ID: string;
-		DISCORD_ANNOUNCE_CHANNEL: string;
-		DISCORD_TOURS_CHANNEL: string;
-	};
+const isFile = (filepath: string) => statSync(filepath).isFile();
+
+const isDirectory = (filepath: string) => statSync(filepath).isDirectory();
+
+const getFiles = (filepath: string) =>
+	readdirSync(filepath)
+		.map((filename) => join(filepath, filename))
+		.filter(isFile);
+
+const getDirectories = (filepath: string) =>
+	readdirSync(filepath)
+		.map((directory) => join(filepath, directory))
+		.filter(isDirectory);
+
+const getFilesRecursively = (filepath: string) => {
+	const dirs = getDirectories(filepath);
+	const files: string[] = dirs.map((directory) => getFilesRecursively(directory)).reduce((a, b) => a.concat(b), []);
+
+	return files.concat(getFiles(filepath));
 };
-dotenv.config();
 
-// heroku requires that apps serve a web page to stay up
-const express = Express();
-express.use('/', (req, res) => res.send('go away'));
-express.listen(process.env['PORT'] || 3000);
+getFilesRecursively(path.join(__dirname, 'plugins')).forEach((file) => {
+	console.log(`[Loading "${file}" plugin]`);
+	try {
+		require(file);
+	} catch (e) {
+		console.log(`[Error loading "${file}" plugin: ${e}]`);
+	}
+});
 
-const psimClient = new Client({ debug: true });
-const discordClient = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] });
+// todo: move psim and discord to their own plugins which other things can consume
+// todo: reimplement different aspects as ATOMIC plugins
+// todo: figure out how to get package.json to copy to build (just run with tsc-node for now)
+
+// todo: only keep secretws in envvars, move other stuff to part of their specific plugin
+// todo: move utils to plugins
 
 // load modules
-import Module from './module';
-import RemindDiscordModule from './modules/remindDiscord';
-import DebugModule from './modules/debug';
+/*import RemindDiscordModule from './modules/remindDiscord';
 import TournamentsModule from './modules/tournaments';
 import AnnouncementInteropModule from './modules/announcementInterop';
 import GitModule from './modules/git';
 import RoleAssignmentModule from './modules/RoleAssignmentModule';
 
-const tours = new TournamentsModule(psimClient, discordClient);
+/*const tours = new TournamentsModule(psimClient, discordClient);
 
 const modules: Module[] = [
 	new RemindDiscordModule(55, 'Check out the LC Discord server: https://discord.gg/pjN29Dh'),
@@ -47,10 +56,6 @@ const modules: Module[] = [
 	tours,
 	new RoleAssignmentModule(discordClient)
 ];
-
-psimClient.onReady.subscribe((client: Client) => {
-	client.login(process.env['PSIM_USERNAME'], process.env['PSIM_PASSWORD'], true);
-});
 
 psimClient.onLogin.subscribe(async (client: Client) => {
 	const rooms: string[] = process.env['PSIM_AUTO_JOIN_ROOMS'].split(',').map((room) => room.trim());
@@ -96,17 +101,4 @@ psimClient.onPrivateMessage.subscribe(async (user: User, message: PrivateMessage
 	});
 });
 
-discordClient.on('ready', () => {
-	console.log(`Logged into Discord as ${discordClient.user?.tag}`);
-});
-
-discordClient.on('message', (message) => {
-	modules.forEach(async (module) => {
-		if (module.onDiscordMessage) {
-			await module.onDiscordMessage(message);
-		}
-	});
-});
-
-psimClient.connect();
-discordClient.login(process.env['DISCORD_TOKEN']);
+*/
