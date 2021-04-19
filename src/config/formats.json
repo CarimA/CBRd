@@ -106,13 +106,18 @@
 	"doubleslc": {
 		"name": "Little Cup Doubles",
 		"about": "Join the true format of Pokemon battling: doubles! Now in Little Cup form!",
-		"format": "gen8doublesou",
+		"format": "gen8doubleslc",
 		"rules": {
-			"customRules": [ "littlecup", "sleepclausemod" ],
-			"unbannedAbilities": [ "shadow tag", "moody", "drought" ],
-			"unbannedPokemon": [ "drifloon", "gastly", "gothita", "rufflet" ],
-			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "corsola-galar" ],
-			"unbannedMoves": [ "baton pass" ]
+			"bannedPokemon": [
+				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat"
+			],
+			"bannedAbilities": [
+				"chlorophyll", "moody"
+			],
+			"bannedMoves": [
+				"baton pass"
+			],
+			"useAsRule": false
 		},
 		"sampleTeams": [
 			"https://pokepast.es/942f07a5d3382e12/json",
