@@ -1,8 +1,8 @@
 {
-	"pokebilitieslc": { 
-		"name": "Little Cup Flavored OM of the Month: Pokebilities",
-		"about": "This month's OM of the month: Pokebilities -- now with Little Cup rules!",
-		"format": "pokebilities",
+	"sketchmonslc": { 
+		"name": "Little Cup Flavored OM of the Month: Sketchmons",
+		"about": "This month's OM of the month: Sketchmons -- now with Little Cup rules! Pokémon can learn one of any move they don't normally learn, barring the few that are banned.",
+		"format": "sketchmons",
 		"rules": {
 			"customRules": [ "littlecup" ],
 			"useAsRule": true
@@ -10,25 +10,24 @@
 		"sampleTeams": [],
 		"resources": [
 			{
-				"name": "About Pokebilities",
-				"url": "https://www.smogon.com/forums/threads/pok%C3%A9bilities.3679692/"
+				"name": "About Sketchmons",
+				"url": "https://www.smogon.com/forums/threads/sketchmons-om-of-the-month.3680298/"
 			}
 		]
 	},
-	"godlygiftlc": { 
-		"name": "Little Cup Flavored OM of the Month: Godly Gift",
-		"about": "This month's OM of the month: Godly Gift -- now with Little Cup rules!",
-		"format": "godlygift",
+	"inverselc": { 
+		"name": "Inverse Little Cup",
+		"about": "The type chart is inverted. Normal is super effective against Ghost, and vice versa, etc.",
+		"format": "inverse",
 		"rules": {
-			"inheritBansAsUnbans": [ "lc" ],
 			"customRules": [ "littlecup" ],
 			"useAsRule": true
 		},
 		"sampleTeams": [],
 		"resources": [
 			{
-				"name": "About Godly Gift",
-				"url": "https://www.smogon.com/forums/threads/godly-gift.3660461/"
+				"name": "About Inverse Battles",
+				"url": "https://www.smogon.com/forums/threads/inverse-leaders-choice-vr-updated.3666858/"
 			}
 		]
 	},
