@@ -170,12 +170,11 @@
 				"eevium z"
 			],
 			"bannedMoves": [
-				"baton pass", "dragon rage", "sonic boom"
+				"baton pass", "dragon rage", "sonic boom", "sticky web"
 			],
 			"useAsRule": false
 		},
 		"sampleTeams": [
-			"https://pokepast.es/8f224d14bf08ea25/json",
 			"https://pokepast.es/2f52c88110195146/json",
 			"https://pokepast.es/2e808baa0dbcbef3/json",
 			"https://pokepast.es/78092b10a29de52a/json",
