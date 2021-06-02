@@ -1,8 +1,8 @@
 {
-	"sketchmonslc": { 
-		"name": "Little Cup Flavored OM of the Month: Sketchmons",
-		"about": "This month's OM of the month: Sketchmons -- now with Little Cup rules! Pokémon can learn one of any move they don't normally learn, barring the few that are banned.",
-		"format": "sketchmons",
+	"bonustypelc": { 
+		"name": "OM of the Month: Bonus Type",
+		"about": "This month's OM of the month: Bonus Type -- now with Little Cup rules! Pokémon can be nicknamed the name of a type to have that type added onto their current ones.",
+		"format": "bonustype",
 		"rules": {
 			"customRules": [ "littlecup" ],
 			"useAsRule": true
@@ -10,17 +10,33 @@
 		"sampleTeams": [],
 		"resources": [
 			{
-				"name": "About Sketchmons",
-				"url": "https://www.smogon.com/forums/threads/sketchmons-om-of-the-month.3680298/"
+				"name": "About Bonus Type",
+				"url": "https://www.smogon.com/forums/threads/3683173/"
+			}
+		]
+	},
+	"chimera1v1lc": { 
+		"name": "OM of the Month: Chimera 1v1",
+		"about": "This month's OM of the month: Sketchmons -- now with Little Cup rules! Bring 6 Pokémon and choose their order at Team Preview. The lead Pokémon then receives the item, ability, stats, and moves of the other five Pokémon, which play no further part in the battle.",
+		"format": "chimera1v1",
+		"rules": {
+			"customRules": [ "littlecup" ],
+			"useAsRule": true
+		},
+		"sampleTeams": [],
+		"resources": [
+			{
+				"name": "About Chimera 1v1",
+				"url": "https://www.smogon.com/forums/threads/chimera-1v1-leaders-choice.3661215/"
 			}
 		]
 	},
 	"inverselc": { 
 		"name": "Inverse Little Cup",
 		"about": "The type chart is inverted. Normal is super effective against Ghost, and vice versa, etc.",
-		"format": "inverse",
+		"format": "gen8lc",
 		"rules": {
-			"customRules": [ "littlecup" ],
+			"customRules": [ "littlecup", "inversemod" ],
 			"useAsRule": true
 		},
 		"sampleTeams": [],
