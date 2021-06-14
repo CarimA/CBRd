@@ -21,7 +21,10 @@
 		"format": "chimera1v1",
 		"rules": {
 			"customRules": [ "littlecup" ],
-			"useAsRule": true
+			"useAsRule": true,
+			"unbannedItems": [
+				"eviolite"
+			]
 		},
 		"sampleTeams": [],
 		"resources": [
