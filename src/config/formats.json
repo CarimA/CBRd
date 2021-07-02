@@ -50,6 +50,29 @@
 			}
 		]
 	},
+	"lcnovullaby": {
+		"name": "Little Cup (No Vullaby)",
+		"format": "gen8lc",
+		"type": "2 elimination",
+		"rules": {
+			"bannedPokemon": [
+				"vullaby", "corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat"
+			],
+			"bannedAbilities": [
+				"chlorophyll", "moody"
+			],
+			"bannedMoves": [
+				"baton pass"
+			],
+			"useAsRule": true
+		},
+		"sampleTeams": [
+			"https://pokepast.es/7addbd2d6561735e/json",
+			"https://pokepast.es/ed3e8de62a9a095e/json",
+			"https://pokepast.es/b23382a22b17cd2f/json"
+		],
+		"resources": []
+	},
 	"lc": {
 		"name": "Little Cup",
 		"format": "gen8lc",
