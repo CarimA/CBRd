@@ -102,7 +102,6 @@ export default class TournamentsModule implements Module {
 
 			// make sure that LC is always an option
 			metagames.unshift('lc');
-			metagames.unshift('lcnovullaby');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
