@@ -49,37 +49,14 @@
 				"url": "https://www.smogon.com/forums/threads/inverse-leaders-choice-vr-updated.3666858/"
 			}
 		]
-	},
-	"lcnovullaby": {
-		"name": "Little Cup (No Vullaby)",
-		"format": "gen8lc",
-		"type": "2 elimination",
-		"rules": {
-			"bannedPokemon": [
-				"vullaby", "corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat"
-			],
-			"bannedAbilities": [
-				"chlorophyll", "moody"
-			],
-			"bannedMoves": [
-				"baton pass"
-			],
-			"useAsRule": true
-		},
-		"sampleTeams": [
-			"https://pokepast.es/7addbd2d6561735e/json",
-			"https://pokepast.es/ed3e8de62a9a095e/json",
-			"https://pokepast.es/b23382a22b17cd2f/json"
-		],
-		"resources": []
-	},
+	}
 	"lc": {
 		"name": "Little Cup",
 		"format": "gen8lc",
 		"type": "2 elimination",
 		"rules": {
 			"bannedPokemon": [
-				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat"
+				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat", "vullaby"
 			],
 			"bannedAbilities": [
 				"chlorophyll", "moody"
@@ -90,22 +67,9 @@
 			"useAsRule": false
 		},
 		"sampleTeams": [
-			"https://pokepast.es/77b3923c73c320b6/json",
 			"https://pokepast.es/7addbd2d6561735e/json",
-			"https://pokepast.es/929aa99ae70a25b9/json",
-			"https://pokepast.es/6a00cc4daf269138/json",
 			"https://pokepast.es/ed3e8de62a9a095e/json",
-			"https://pokepast.es/295a88badd10d41f/json",
-			"https://pokepast.es/dc70014135bbe423/json",
-			"https://pokepast.es/b23382a22b17cd2f/json",
-			"https://pokepast.es/90c08a661574c8a7/json",
-			"https://pokepast.es/f575996f8ba909e8/json",
-			"https://pokepast.es/c28c65c1539b8178/json",
-			"https://pokepast.es/3d475983c9138bd8/json",
-			"https://pokepast.es/6d2ebc8f178dd7bf/json",
-			"https://pokepast.es/4f4634658a15ab1c/json",
-			"https://pokepast.es/4654c17bd0a687c7/json",
-			"https://pokepast.es/78826c184c786183/json"
+			"https://pokepast.es/b23382a22b17cd2f/json"
 		],
 		"resources": []
 	},
