@@ -1,39 +1,4 @@
 {
-	"bonustypelc": { 
-		"name": "OM of the Month: Bonus Type",
-		"about": "This month's OM of the month: Bonus Type -- now with Little Cup rules! Pokémon can be nicknamed the name of a type to have that type added onto their current ones.",
-		"format": "bonustype",
-		"rules": {
-			"customRules": [ "littlecup" ],
-			"useAsRule": true
-		},
-		"sampleTeams": [],
-		"resources": [
-			{
-				"name": "About Bonus Type",
-				"url": "https://www.smogon.com/forums/threads/3683173/"
-			}
-		]
-	},
-	"chimera1v1lc": { 
-		"name": "OM of the Month: Chimera 1v1",
-		"about": "This month's OM of the month: Sketchmons -- now with Little Cup rules! Bring 6 Pokémon and choose their order at Team Preview. The lead Pokémon then receives the item, ability, stats, and moves of the other five Pokémon, which play no further part in the battle.",
-		"format": "chimera1v1",
-		"rules": {
-			"customRules": [ "littlecup" ],
-			"useAsRule": true,
-			"unbannedItems": [
-				"eviolite"
-			]
-		},
-		"sampleTeams": [],
-		"resources": [
-			{
-				"name": "About Chimera 1v1",
-				"url": "https://www.smogon.com/forums/threads/chimera-1v1-leaders-choice.3661215/"
-			}
-		]
-	},
 	"inverselc": { 
 		"name": "Inverse Little Cup",
 		"about": "The type chart is inverted. Normal is super effective against Ghost, and vice versa, etc.",
@@ -49,7 +14,7 @@
 				"url": "https://www.smogon.com/forums/threads/inverse-leaders-choice-vr-updated.3666858/"
 			}
 		]
-	}
+	},
 	"lc": {
 		"name": "Little Cup",
 		"format": "gen8lc",
