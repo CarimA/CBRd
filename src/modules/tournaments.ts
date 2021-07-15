@@ -72,13 +72,7 @@ export default class TournamentsModule implements Module {
 			// 20 minutes before it, stop the vote and make that the next format
 			new CronJob(`0 45 ${mod(hour - 1, 24)} * * *`, this.stopVote(), null, true, 'Etc/UTC').start();
 		} else {
-			new CronJob(
-				`0 45 ${mod(hour - 1, 24)} * * *`,
-				this.announceTournament(format),
-				null,
-				true,
-				'Etc/UTC'
-			).start();
+			new CronJob(`0 45 ${mod(hour - 1, 24)} * * *`, this.announceTournament(format), null, true, 'Etc/UTC').start();
 		}
 
 		new CronJob(`0 0 ${hour} * * *`, this.runTournament(format), null, true, 'Etc/UTC').start();

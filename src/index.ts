@@ -3,6 +3,8 @@ import { Client, Room, User, RoomMessage, PrivateMessage } from 'ts-psim-client'
 import Express from 'express';
 import * as Discord from 'discord.js';
 
+import { populate, onPopulate, AutoNotificationModel } from './database/autoNotifications';
+
 // assign types to expected env vars
 declare let process: {
 	env: {
@@ -16,6 +18,8 @@ declare let process: {
 		DISCORD_SERVER_ID: string;
 		DISCORD_ANNOUNCE_CHANNEL: string;
 		DISCORD_TOURS_CHANNEL: string;
+		SHEET_ID: string;
+		GOOGLE_SECRETS: string;
 	};
 };
 dotenv.config();
@@ -30,23 +34,55 @@ const discordClient = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REA
 
 // load modules
 import Module from './module';
-import RemindDiscordModule from './modules/remindDiscord';
 import DebugModule from './modules/debug';
 import TournamentsModule from './modules/tournaments';
 import AnnouncementInteropModule from './modules/announcementInterop';
 import GitModule from './modules/git';
 import RoleAssignmentModule from './modules/RoleAssignmentModule';
+import AutoNotificationModule from './modules/autoNotificationModule';
 
 const tours = new TournamentsModule(psimClient, discordClient);
 
-const modules: Module[] = [
-	new RemindDiscordModule(55, 'Check out the LC Discord server: https://discord.gg/pjN29Dh'),
+let modules: Module[] = [
 	new DebugModule(),
 	new AnnouncementInteropModule(psimClient, discordClient),
 	new GitModule(),
 	tours,
 	new RoleAssignmentModule(discordClient)
 ];
+
+function removeModules<T extends Module>(typeT: new (...params: any[]) => T) {
+	const beforeCount = modules.length;
+	modules = modules.filter((module) => !(module instanceof typeT));
+	const afterCount = modules.length;
+
+	return [
+		null,
+		{
+			count: beforeCount - afterCount
+		}
+	];
+}
+
+onPopulate.subscribe(([err, data]) => {
+	if (err) {
+		console.error(err);
+	} else {
+		console.log(data);
+
+		const [err, results] = removeModules(AutoNotificationModule);
+		if (!results) {
+			console.error('Could not deregister modules');
+			console.error(err);
+		} else {
+			console.log(`Removed ${results.count} module(s)`);
+			(<AutoNotificationModel[]>data).forEach((autoNotification) => {
+				modules.push(new AutoNotificationModule(autoNotification));
+			});
+		}
+	}
+});
+populate();
 
 psimClient.onReady.subscribe((client: Client) => {
 	client.login(process.env['PSIM_USERNAME'], process.env['PSIM_PASSWORD'], true);
