@@ -1,11 +1,11 @@
 import { google } from 'googleapis';
-import { writeFile, unlink } from 'fs';
+import { writeFile } from 'fs';
 import { promisify } from 'util';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 async function connect() {
 	const decode = (str: string): string => Buffer.from(str, 'base64').toString('binary');
 	const writeFileAsync = promisify(writeFile);
-	const unlinkAsync = promisify(unlink);
 
 	const secrets = decode(process.env['GOOGLE_SECRETS'] || '').replace(/\\n/g, '\\n');
 	await writeFileAsync('./temp-secrets.json', secrets);
@@ -14,8 +14,6 @@ async function connect() {
 	const auth = await google.auth.getClient({
 		scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly']
 	});
-
-	await unlinkAsync('./temp-secrets.json');
 
 	const sheets = google.sheets({
 		version: 'v4',

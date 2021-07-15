@@ -3,7 +3,7 @@ import { Client, Room, RoomMessage } from 'ts-psim-client';
 import { AutoNotificationModel } from '../database/autoNotifications';
 import Module from '../module';
 
-export default class AutoNotificationModule implements Module {
+class AutoNotificationModule implements Module {
 	private _messageCounter: number;
 	private _lastPosted: number;
 	private _notification: AutoNotificationModel;
@@ -46,3 +46,5 @@ export default class AutoNotificationModule implements Module {
 		}
 	}
 }
+
+export default AutoNotificationModule;

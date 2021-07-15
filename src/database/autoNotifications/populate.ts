@@ -1,6 +1,5 @@
 import { retrieve } from '..';
-import { data, AutoNotificationModel, clearData } from '.';
-import onPopulate from './onPopulate';
+import { data, AutoNotificationModel, clearData, onPopulate } from '.';
 
 async function populate(): Promise<void> {
 	const results = await retrieve('Auto Notificaitons', 4);

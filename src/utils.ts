@@ -1,8 +1,25 @@
-import { Room } from 'ts-psim-client';
+import { Room, Utils } from 'ts-psim-client';
 import * as ts from 'typescript';
 
 export function isLittleCup(room: Room): boolean {
 	return room.name === 'littlecup';
+}
+
+export function checkRank(input: string, rank: string): boolean {
+	if (rank === '+') {
+		return Utils.isVoice(input);
+	} else if (rank === '%') {
+		return Utils.isDriver(input);
+	} else if (rank === '@') {
+		return Utils.isModerator(input);
+	} else if (rank === '#') {
+		return Utils.isRoomOwner(input);
+	} else if (rank === '&') {
+		return Utils.isAdministrator(input);
+	}
+
+	// for security, assume it won't work if the programmer mis-input a rnak.
+	return false;
 }
 
 export async function evalTs(code: string): Promise<string> {

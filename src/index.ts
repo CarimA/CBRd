@@ -1,9 +1,7 @@
 import dotenv from 'dotenv';
-import { Client, Room, User, RoomMessage, PrivateMessage } from 'ts-psim-client';
+import { Client, Room, User, RoomMessage, PrivateMessage, Utils } from 'ts-psim-client';
 import Express from 'express';
 import * as Discord from 'discord.js';
-
-import { populate, onPopulate, AutoNotificationModel } from './database/autoNotifications';
 
 // assign types to expected env vars
 declare let process: {
@@ -33,56 +31,20 @@ const psimClient = new Client({ debug: true });
 const discordClient = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] });
 
 // load modules
-import Module from './module';
-import DebugModule from './modules/debug';
 import TournamentsModule from './modules/tournaments';
 import AnnouncementInteropModule from './modules/announcementInterop';
-import GitModule from './modules/git';
 import RoleAssignmentModule from './modules/RoleAssignmentModule';
-import AutoNotificationModule from './modules/autoNotificationModule';
+import modules from './state/modules';
+import subscribe from './state/subscribe';
+import populateData from './state/populateData';
 
 const tours = new TournamentsModule(psimClient, discordClient);
+modules.push(new AnnouncementInteropModule(psimClient, discordClient));
+modules.push(tours);
+modules.push(new RoleAssignmentModule(discordClient));
 
-let modules: Module[] = [
-	new DebugModule(),
-	new AnnouncementInteropModule(psimClient, discordClient),
-	new GitModule(),
-	tours,
-	new RoleAssignmentModule(discordClient)
-];
-
-function removeModules<T extends Module>(typeT: new (...params: any[]) => T) {
-	const beforeCount = modules.length;
-	modules = modules.filter((module) => !(module instanceof typeT));
-	const afterCount = modules.length;
-
-	return [
-		null,
-		{
-			count: beforeCount - afterCount
-		}
-	];
-}
-
-onPopulate.subscribe(([err, data]) => {
-	if (err) {
-		console.error(err);
-	} else {
-		console.log(data);
-
-		const [err, results] = removeModules(AutoNotificationModule);
-		if (!results) {
-			console.error('Could not deregister modules');
-			console.error(err);
-		} else {
-			console.log(`Removed ${results.count} module(s)`);
-			(<AutoNotificationModel[]>data).forEach((autoNotification) => {
-				modules.push(new AutoNotificationModule(autoNotification));
-			});
-		}
-	}
-});
-populate();
+subscribe();
+populateData();
 
 psimClient.onReady.subscribe((client: Client) => {
 	client.login(process.env['PSIM_USERNAME'], process.env['PSIM_PASSWORD'], true);
@@ -108,8 +70,13 @@ psimClient.onRoomJoin.subscribe(async (client: Client, room: Room) => {
 			}
 		});
 
-		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().startsWith('-join')) {
-			psimClient.join(message.text.trim().split(' ')[1].trim());
+		if (
+			!message.isIntro &&
+			(message.user.username === 'cheir' || Utils.isRoomOwner(message.user.username)) &&
+			message.text.trim().startsWith('-refresh')
+		) {
+			await populateData();
+			message.reply('Data refreshed.');
 		}
 
 		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate start vote')) {
