@@ -107,3 +107,5 @@ build
 
 .env
 .DS_Store
+secrets.json
+temp-secrets.json
