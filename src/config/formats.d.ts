@@ -12,11 +12,8 @@ export interface Rules {
 	unbannedMoves: string[] | undefined;
 	customRules: string[] | undefined;
 
-	useAsRule: boolean | undefined;
-
 	minPick: number | undefined;
 	maxPick: number | undefined;
-	mixup: Rules | undefined;
 }
 
 export interface Format {

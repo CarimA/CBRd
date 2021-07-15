@@ -4,8 +4,7 @@
 		"about": "The type chart is inverted. Normal is super effective against Ghost, and vice versa, etc.",
 		"format": "gen8lc",
 		"rules": {
-			"customRules": [ "littlecup", "inversemod" ],
-			"useAsRule": true
+			"customRules": [ "littlecup", "inversemod" ]
 		},
 		"sampleTeams": [],
 		"resources": [
@@ -28,8 +27,7 @@
 			],
 			"bannedMoves": [
 				"baton pass"
-			],
-			"useAsRule": false
+			]
 		},
 		"sampleTeams": [
 			"https://pokepast.es/7addbd2d6561735e/json",
@@ -52,8 +50,7 @@
 			],
 			"bannedPokemon": [
 				"staryu", "scraggy", "shellder", "grookey", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "vulpix", "tyrunt", "carvanha", "natu", "woobat"
-			],
-			"useAsRule": false
+			]
 		},
 		"sampleTeams": [
 			"https://pokepast.es/efc3da394357c377/json",
@@ -145,8 +142,7 @@
 			],
 			"bannedMoves": [
 				"baton pass", "dragon rage", "sonic boom", "sticky web"
-			],
-			"useAsRule": false
+			]
 		},
 		"sampleTeams": [
 			"https://pokepast.es/2f52c88110195146/json",
@@ -172,8 +168,7 @@
 			],
 			"bannedMoves": [
 				"baton pass", "dragon rage", "sonic boom", "swagger"
-			],
-			"useAsRule": false
+			]
 		},
 		"sampleTeams": [
 			"https://pokepast.es/ab3d0d6b70fa13e1/json",
@@ -198,8 +193,7 @@
 			],
 			"bannedMoves": [
 				"baton pass", "dragon rage", "sonic boom", "swagger"
-			],
-			"useAsRule": false
+			]
 		},
 		"sampleTeams": [
 			"https://pokepast.es/7ed6879c22d60f9c/json",
@@ -226,8 +220,7 @@
 			],
 			"bannedMoves": [
 				"dragon rage", "sonic boom"
-			],
-			"useAsRule": false
+			]
 		},
 		"sampleTeams": [
 			"https://pokepast.es/587bb5ee150c11c0/json",
