@@ -50,13 +50,13 @@ class SimpleCommandModule implements Module {
 
 		// check if it's in the right place
 		if (message instanceof PrivateMessage) {
-			if (!this._command.psimRooms.includes('pm') || !this._command.psimRooms.includes('global')) {
+			if (!(this._command.psimRooms.includes('pm') || this._command.psimRooms.includes('global'))) {
 				return await user.send('This command cannot be used in PMs');
 			}
 
 			output = output.replace('${room}', 'pm');
 		} else {
-			if (!this._command.psimRooms.includes(message.room.name) || !this._command.psimRooms.includes('global')) {
+			if (!(this._command.psimRooms.includes(message.room.name) || this._command.psimRooms.includes('global'))) {
 				return await user.send('This command cannot be used in this room');
 			}
 
