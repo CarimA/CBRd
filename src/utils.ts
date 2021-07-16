@@ -5,6 +5,29 @@ export function isLittleCup(room: Room): boolean {
 	return room.name === 'littlecup';
 }
 
+export function isAuthorized(authUsers: string[], user: string): boolean {
+	let input = sanitize(user);
+	if (
+		input.startsWith('+') ||
+		input.startsWith('%') ||
+		input.startsWith('@') ||
+		input.startsWith('#') ||
+		input.startsWith('&')
+	) {
+		input = input.substring(1);
+	}
+
+	return authUsers.includes(input);
+}
+
+export function sanitize(input: string): string {
+	input = input.trim();
+	input = input.replace(/\s/g, '');
+	input = input.toLowerCase();
+
+	return input;
+}
+
 export function checkRank(input: string, rank: string): boolean {
 	if (rank === '+') {
 		return Utils.isVoice(input);
@@ -22,9 +45,9 @@ export function checkRank(input: string, rank: string): boolean {
 	return false;
 }
 
-export async function evalTs(code: string): Promise<string> {
-	const transpiled = await ts.transpile(code);
-	const result = await eval(transpiled);
+export function evalTs(code: string): string {
+	const transpiled = ts.transpile(code);
+	const result = eval(transpiled);
 	return JSON.stringify(result);
 }
 

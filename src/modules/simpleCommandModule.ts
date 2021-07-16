@@ -1,7 +1,7 @@
 import { Client, User, Room, RoomMessage, PrivateMessage } from 'ts-psim-client';
 import { SimpleCommandsModel } from '../database/simpleCommands';
 import Module from '../module';
-import { checkRank } from '../utils';
+import { checkRank, evalTs, isAuthorized } from '../utils';
 
 class SimpleCommandModule implements Module {
 	private _command: SimpleCommandsModel;
@@ -38,9 +38,11 @@ class SimpleCommandModule implements Module {
 		// check that the user is above the minimum rank required to run it
 		if (this._command.minimumRank) {
 			if (
-				!(this._command.userOverrides.includes(user.username) || checkRank(message.rank, this._command.minimumRank))
+				!(
+					isAuthorized(this._command.userOverrides, user.username) || checkRank(message.rank, this._command.minimumRank)
+				)
 			) {
-				return;
+				return await user.send('You are not authorized to run this command');
 			}
 		}
 
@@ -48,14 +50,14 @@ class SimpleCommandModule implements Module {
 
 		// check if it's in the right place
 		if (message instanceof PrivateMessage) {
-			if (!this._command.psimRooms.includes('pm')) {
-				return;
+			if (!this._command.psimRooms.includes('pm') || !this._command.psimRooms.includes('global')) {
+				return await user.send('This command cannot be used in PMs');
 			}
 
 			output = output.replace('${room}', 'pm');
 		} else {
-			if (!this._command.psimRooms.includes(message.room.name)) {
-				return;
+			if (!this._command.psimRooms.includes(message.room.name) || !this._command.psimRooms.includes('global')) {
+				return await user.send('This command cannot be used in this room');
 			}
 
 			output = output.replace('${room}', message.room.name);
@@ -68,6 +70,29 @@ class SimpleCommandModule implements Module {
 
 		for (let i = 0; i < args.length; i++) {
 			output = output.replace(`\${${i}}`, args[i]);
+		}
+
+		// handle any code execution
+		const evalBlock = /\${{(.+?)}}/g;
+		const matches = output.match(evalBlock);
+
+		if (matches) {
+			for (const match of matches) {
+				const code = match.substring(3, match.length - 2);
+				console.log(code);
+
+				try {
+					let result = evalTs(code);
+					if (result === '{}' || result === '[]') {
+						result = '';
+					}
+
+					output = output.replace(match, result);
+				} catch (e) {
+					console.error(e);
+					output = output.replace(match, '(error)');
+				}
+			}
 		}
 
 		if (message instanceof RoomMessage) {

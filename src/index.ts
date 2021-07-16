@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
-import { Client, Room, User, RoomMessage, PrivateMessage, Utils } from 'ts-psim-client';
+import { Client, Room, User, RoomMessage, PrivateMessage } from 'ts-psim-client';
 import Express from 'express';
-import * as Discord from 'discord.js';
 
 // assign types to expected env vars
 declare let process: {
@@ -27,36 +26,39 @@ const express = Express();
 express.use('/', (req, res) => res.send('go away'));
 express.listen(process.env['PORT'] || 3000);
 
-const psimClient = new Client({ debug: true });
-const discordClient = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] });
+import psimClient from './state/psimClient';
+import discordClient from './state/discordClient';
+
+const psim = psimClient();
+const discord = discordClient();
 
 // load modules
 import TournamentsModule from './modules/tournaments';
-import AnnouncementInteropModule from './modules/announcementInterop';
+import AnnouncementInteropModule from './modules/announcementInteropModule';
 import RoleAssignmentModule from './modules/RoleAssignmentModule';
 import modules from './state/modules';
 import subscribe from './state/subscribe';
 import populateData from './state/populateData';
 
-const tours = new TournamentsModule(psimClient, discordClient);
-modules.push(new AnnouncementInteropModule(psimClient, discordClient));
+const tours = new TournamentsModule(psim, discord);
+modules.push(new AnnouncementInteropModule(psim, discord));
 modules.push(tours);
-modules.push(new RoleAssignmentModule(discordClient));
+modules.push(new RoleAssignmentModule(discord));
 
 subscribe();
 populateData();
 
-psimClient.onReady.subscribe((client: Client) => {
+psim.onReady.subscribe((client: Client) => {
 	client.login(process.env['PSIM_USERNAME'], process.env['PSIM_PASSWORD'], true);
 });
 
-psimClient.onLogin.subscribe(async (client: Client) => {
+psim.onLogin.subscribe(async (client: Client) => {
 	const rooms: string[] = process.env['PSIM_AUTO_JOIN_ROOMS'].split(',').map((room) => room.trim());
 	await client.join(...rooms);
 	await client.setAvatar(process.env['PSIM_AVATAR']);
 });
 
-psimClient.onRoomJoin.subscribe(async (client: Client, room: Room) => {
+psim.onRoomJoin.subscribe(async (client: Client, room: Room) => {
 	modules.forEach(async (module) => {
 		if (module.onRoomJoin) {
 			await module.onRoomJoin(client, room);
@@ -70,15 +72,6 @@ psimClient.onRoomJoin.subscribe(async (client: Client, room: Room) => {
 			}
 		});
 
-		if (
-			!message.isIntro &&
-			(message.user.username === 'cheir' || Utils.isRoomOwner(message.user.username)) &&
-			message.text.trim().startsWith('-refresh')
-		) {
-			await populateData();
-			message.reply('Data refreshed.');
-		}
-
 		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate start vote')) {
 			tours.startVote(15)();
 		}
@@ -91,7 +84,7 @@ psimClient.onRoomJoin.subscribe(async (client: Client, room: Room) => {
 	});
 });
 
-psimClient.onPrivateMessage.subscribe(async (user: User, message: PrivateMessage) => {
+psim.onPrivateMessage.subscribe(async (user: User, message: PrivateMessage) => {
 	modules.forEach(async (module) => {
 		if (module.onPrivateMessage) {
 			await module.onPrivateMessage(user, message);
@@ -99,17 +92,14 @@ psimClient.onPrivateMessage.subscribe(async (user: User, message: PrivateMessage
 	});
 });
 
-discordClient.on('ready', () => {
-	console.log(`Logged into Discord as ${discordClient.user?.tag}`);
+discord.on('ready', () => {
+	console.log(`Logged into Discord as ${discord.user?.tag}`);
 });
 
-discordClient.on('message', (message) => {
+discord.on('message', (message) => {
 	modules.forEach(async (module) => {
 		if (module.onDiscordMessage) {
 			await module.onDiscordMessage(message);
 		}
 	});
 });
-
-psimClient.connect();
-discordClient.login(process.env['DISCORD_TOKEN']);
