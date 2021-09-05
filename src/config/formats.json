@@ -20,25 +20,20 @@
 		"type": "2 elimination",
 		"rules": {
 			"bannedPokemon": [
-				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat", "vullaby"
+				"corsola-galar", "cutiefly", "drifloon", "gastly", "gothita", "rufflet", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "woobat", "vullaby", "scraggy"
 			],
 			"bannedAbilities": [
 				"chlorophyll", "moody"
 			],
 			"bannedMoves": [
-				"baton pass"
+				"baton pass", "sticky web"
 			]
 		},
 		"sampleTeams": [
-			"https://pokepast.es/7addbd2d6561735e/json",
-			"https://pokepast.es/ed3e8de62a9a095e/json",
-			"https://pokepast.es/b23382a22b17cd2f/json",
 			"https://pokepast.es/9b53fda44b994262/json",
 			"https://pokepast.es/1bd999ca3dd47704/json",
 			"https://pokepast.es/68af03e816bb8c2b/json",
-			"https://pokepast.es/58b2f9d002b5c51a/json",
 			"https://pokepast.es/162dc64720a1839f/json",
-			"https://pokepast.es/7d7c55c1efbd417e/json",
 			"https://pokepast.es/1f52510e65c5ec4f/json"
 		],
 		"resources": []
@@ -53,7 +48,7 @@
 				"lc"
 			],
 			"bannedPokemon": [
-				"staryu", "scraggy", "shellder", "grookey", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "vulpix", "tyrunt", "carvanha", "natu", "woobat"
+				"staryu", "scraggy", "shellder", "grookey", "foongus", "magnemite", "mienfoo", "porygon", "abra", "chinchou", "dewpider", "diglett-base", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "vulpix", "tyrunt", "carvanha", "natu"
 			]
 		},
 		"sampleTeams": [
