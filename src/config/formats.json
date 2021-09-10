@@ -83,14 +83,16 @@
 			"unbannedMoves": [ "baton pass" ]
 		},
 		"sampleTeams": [
-			"https://pokepast.es/558cd900baf7bace/json",
 			"https://pokepast.es/5aa65148e57d0a60/json",
-			"https://pokepast.es/1c52689cdc06cec3/json",
-			"https://pokepast.es/d543b650f3c8f96a/json",
+			"https://pokepast.es/f94eeddd580dcec9/json",
+			"https://pokepast.es/11f2eeb01335fbff/json",
+			"https://pokepast.es/de93a83aea0d8925/json",
 			"https://pokepast.es/9b631e20aaae30ab/json",
-			"https://pokepast.es/1cd24564075a2f6d/json",
-			"https://pokepast.es/2acb1d7a72476dbe/json",
-			"https://pokepast.es/1d5fe5052ee3717c/json"
+			"https://pokepast.es/9efca70ebea17472/json",
+			"https://pokepast.es/fc4136fff24fae6e/json",
+			"https://pokepast.es/265f11487723b87b/json",
+			"https://pokepast.es/496d8590f0961960/json",
+			"https://pokepast.es/536ba2cd32213b57/json"
 		],
 		"resources": [
 			{
