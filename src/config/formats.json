@@ -79,7 +79,7 @@
 			"customRules": [ "littlecup", "sleepclausemod" ],
 			"unbannedAbilities": [ "shadow tag", "moody" ],
 			"unbannedPokemon": [ "drifloon", "gastly", "gothita", "rufflet" ],
-			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "corsola-galar" ],
+			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "corsola-galar", "ponyta-base" ],
 			"unbannedMoves": [ "baton pass" ]
 		},
 		"sampleTeams": [
