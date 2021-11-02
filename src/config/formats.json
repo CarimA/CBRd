@@ -53,7 +53,7 @@
 				"lc"
 			],
 			"bannedPokemon": [
-				"staryu", "scraggy", "shellder", "grookey", "foongus", "magnemite", "mienfoo", "porygon", "abra", "dewpider", "diglett-base", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "vulpix", "tyrunt", "carvanha", "natu", "scorbunny"
+				"staryu", "scraggy", "shellder", "grookey", "foongus", "magnemite", "mienfoo", "porygon", "abra", "diglett-base", "farfetchd-galar", "ferroseed", "koffing", "mareanie", "mudbray", "onix", "pawniard", "ponyta-base", "ponyta-galar", "spritzee", "timburr", "trapinch", "vullaby", "wingull", "vulpix", "tyrunt", "carvanha", "natu", "scorbunny"
 			]
 		},
 		"sampleTeams": [
