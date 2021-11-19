@@ -90,6 +90,7 @@ export default class TournamentsModule implements Module {
 			const amount = random(2, 3);
 			let metagames = Object.keys(formats);
 			metagames.splice(metagames.indexOf('lc'), 1);
+			metagames.splice(metagames.indexOf('lc-zigless'), 1);
 			metagames.splice(metagames.indexOf('default'), 1);
 			metagames = shuffleArray(metagames);
 			metagames = metagames.slice(0, amount);
