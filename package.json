@@ -50,7 +50,7 @@
     "sanitize-html": "^2.1.2",
     "strongly-typed-events": "^1.7.3",
     "ts-node": "^9.0.0",
-    "ts-psim-client": "CarimA/TsPsimClient",
+    "ts-psim-client": "git://github.com/carima/tspsimclient.git",
     "typescript": "^4.0.3"
   }
 }
