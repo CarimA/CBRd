@@ -77,13 +77,13 @@
 	},
 	"doubleslc": {
 		"name": "Little Cup Doubles",
-		"about": "Join the true format of Pokemon battling: doubles! Now in Little Cup form!",
+		"about": "Join the true format of Pokemon battling: doubles! Now in Little Cup form! Notice: Vulpix-A is being retested!",
 		"format": "gen8doubleslc",
 		"rules": {
 			"customRules": [ "littlecup", "sleepclausemod" ],
 			"unbannedAbilities": [ "shadow tag", "moody" ],
 			"unbannedPokemon": [ "drifloon", "gastly", "gothita", "rufflet" ],
-			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "vulpix-alola", "corsola-galar", "ponyta-base" ],
+			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "corsola-galar", "ponyta-base" ],
 			"unbannedMoves": [ "baton pass" ]
 		},
 		"sampleTeams": [
