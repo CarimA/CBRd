@@ -85,7 +85,7 @@
 		"rules": {
 			"customRules": [ "littlecup", "sleepclausemod" ],
 			"unbannedAbilities": [ "shadow tag", "moody" ],
-			"unbannedPokemon": [ "drifloon", "gastly", "gothita", "rufflet" ],
+			"unbannedPokemon": [ "drifloon", "gastly", "gothita", "rufflet", "vulpix-alola" ],
 			"bannedPokemon": [ "cutiefly", "scyther", "sneasel", "swirlix", "tangela", "corsola-galar", "ponyta-base" ],
 			"unbannedMoves": [ "baton pass" ]
 		},
