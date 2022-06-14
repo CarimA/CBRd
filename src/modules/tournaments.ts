@@ -5,10 +5,12 @@ import { CronJob } from 'cron';
 import fetch from 'node-fetch';
 import { Teams } from '@pkmn/sets';
 import moment = require('moment');
+import { data as formatData } from '../database/formats';
+import { data as sampleTeamData } from '../database/sampleTeams';
+import { data as resourcesData } from '../database/resources';
 
 import { titleCase, mod, shuffleArray, random } from '../utils';
 
-import * as formats from '../config/formats.json';
 import { Format } from '../config/formats';
 
 interface Rules {
@@ -21,6 +23,37 @@ interface Rules {
 	bannedItems?: string[] | undefined;
 	unbannedItems?: string[] | undefined;
 	customRules: string[] | undefined;
+}
+
+function retrieveFormats() {
+	let obj: any = {};
+	formatData.forEach((current) => {
+		console.log(current);
+		obj[current.slug] = {
+			name: current.name,
+			about: current.about,
+			format: current.tournament,
+			type: current.type,
+			rules: {
+				customRules: (current.simRules || '').split(',').map((v) => v.trim()),
+				bannedPokemon: (current.bannedPokemon || '').split(',').map((v) => v.trim()),
+				unbannedPokemon: (current.unbannedPokemon || '').split(',').map((v) => v.trim()),
+				bannedAbilities: (current.bannedAbilities || '').split(',').map((v) => v.trim()),
+				unbannedAbilities: (current.unbannedAbilities || '').split(',').map((v) => v.trim()),
+				bannedMoves: (current.bannedMoves || '').split(',').map((v) => v.trim()),
+				unbannedMoves: (current.unbannedMoves || '').split(',').map((v) => v.trim()),
+				bannedItems: (current.bannedItems || '').split(',').map((v) => v.trim()),
+				unbannedItems: (current.unbannedItems || '').split(',').map((v) => v.trim()),
+				inheritBans: (current.inheritBans || '').split(',').map((v) => v.trim()),
+				inheritBansAsUnabs: (current.inheritBansAsUnbans || '').split(',').map((v) => v.trim())
+			},
+			sampleTeams: sampleTeamData.filter((t) => t.formats === current.slug).map((t) => t.url),
+			resources: resourcesData.filter((t) => t.formats === current.slug).map((t) => ({ name: t.name, url: t.url }))
+		};
+	});
+
+	console.log(obj);
+	return obj
 }
 
 // this class has become a disgusting monolith: REFACTOR IT.
@@ -38,19 +71,19 @@ export default class TournamentsModule implements Module {
 	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
 		this._discordClient = discordClient;
-		this._nextFormat = 'lc';
+		this._nextFormat = 'gen8lc';
 		this._activeVote = {};
 		this._lastAnnouncement = undefined;
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
 		this.scheduleTournament(2);
-		this.scheduleTournament(4, 'lc');
+		this.scheduleTournament(4, 'gen8lc');
 		this.scheduleTournament(11);
-		this.scheduleTournament(13, 'lc');
+		this.scheduleTournament(13, 'gen8lc');
 		this.scheduleTournament(15);
-		this.scheduleTournament(18, 'doubleslc');
-		this.scheduleTournament(20, 'lcuu');
+		this.scheduleTournament(18, 'gen8doubleslc');
+		this.scheduleTournament(20, 'gen8lcuu');
 		this.scheduleTournament(22);
 	}
 
@@ -88,15 +121,15 @@ export default class TournamentsModule implements Module {
 
 			// pick 3-5 formats from the list
 			const amount = random(2, 3);
+			const formats = retrieveFormats();
 			let metagames = Object.keys(formats);
-			metagames.splice(metagames.indexOf('lc'), 1);
-			metagames.splice(metagames.indexOf('lc-zigless'), 1);
+			metagames.splice(metagames.indexOf('gen8lclc'), 1);
 			metagames.splice(metagames.indexOf('default'), 1);
 			metagames = shuffleArray(metagames);
 			metagames = metagames.slice(0, amount);
 
 			// make sure that LC is always an option
-			metagames.unshift('lc');
+			metagames.unshift('gen8lclc');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
@@ -137,6 +170,7 @@ export default class TournamentsModule implements Module {
 			});
 
 			const room = this._psimClient.getRoom(this._room);
+			const formats = retrieveFormats();
 			const game = <Format>(<any>formats)[this._nextFormat];
 			const allBans = this.getBans(game);
 
@@ -166,6 +200,7 @@ export default class TournamentsModule implements Module {
 		return async () => {
 			const room = this._psimClient.getRoom(this._room);
 			const nextFormat = format || this._nextFormat;
+			const formats = retrieveFormats();
 			const game = <Format>(<any>formats)[nextFormat];
 			const allBans = this.getBans(game);
 
@@ -180,6 +215,7 @@ export default class TournamentsModule implements Module {
 			this._votingPhase = false;
 			const room = this._psimClient.getRoom(this._room);
 			const nextFormat = format || this._nextFormat;
+			const formats = retrieveFormats();
 
 			const game = <Format>(<any>formats)[nextFormat];
 			const name = game['name'];
@@ -229,6 +265,7 @@ export default class TournamentsModule implements Module {
 		let bannedItems = game.rules.bannedItems || [];
 		let unbannedItems = game.rules.unbannedItems || [];
 		const customRules = game.rules.customRules || [];
+		const formats = retrieveFormats();
 
 		if (game.rules.inheritBans) {
 			game.rules.inheritBans.forEach((inheritedFormat: any) => {
@@ -331,6 +368,9 @@ export default class TournamentsModule implements Module {
 	}
 
 	private async generateSampleTeamEmbed(url: string): Promise<string> {
+		if (!url.endsWith('/json'))
+			url = url + '/json';
+
 		const response = await fetch(url);
 		const json = await response.json();
 
@@ -355,6 +395,7 @@ export default class TournamentsModule implements Module {
 		const vote = message.text;
 
 		if (message.text.toLowerCase().startsWith('-samples')) {
+			const formats = retrieveFormats();
 			const format = message.text.split(' ')[1].toLowerCase();
 
 			if (!(<any>formats)[format]) {
@@ -426,6 +467,7 @@ export default class TournamentsModule implements Module {
 		}
 
 		if (message.text.toLowerCase().startsWith('-samples')) {
+			const formats = retrieveFormats();
 			const format = message.text.split(' ')[1].toLowerCase();
 
 			if (!(<any>formats)[format]) {
@@ -473,6 +515,7 @@ export default class TournamentsModule implements Module {
 
 		const voteEnds = moment().to(this._votingStopsAt);
 		const tourStarts = moment().to(this._tournamentStartsAt);
+		const formats = retrieveFormats();
 
 		const room = this._psimClient.getRoom(this._room);
 

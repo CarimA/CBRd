@@ -71,16 +71,6 @@ psim.onRoomJoin.subscribe(async (client: Client, room: Room) => {
 				await module.onRoomMessage(client, room, message);
 			}
 		});
-
-		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate start vote')) {
-			tours.startVote(15)();
-		}
-		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate stop vote')) {
-			tours.stopVote()();
-		}
-		if (!message.isIntro && message.user.username === 'cheir' && message.text.trim().includes('simulate tour start')) {
-			tours.runTournament()();
-		}
 	});
 });
 
