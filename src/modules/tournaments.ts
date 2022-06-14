@@ -123,7 +123,7 @@ export default class TournamentsModule implements Module {
 			const amount = random(2, 3);
 			const formats = retrieveFormats();
 			let metagames = Object.keys(formats);
-			metagames.splice(metagames.indexOf('gen8lclc'), 1);
+			metagames.splice(metagames.indexOf('gen8lc'), 1);
 			metagames.splice(metagames.indexOf('default'), 1);
 			metagames = shuffleArray(metagames);
 			metagames = metagames.slice(0, amount);
