@@ -48,7 +48,8 @@ function retrieveFormats() {
 				inheritBansAsUnabs: (current.inheritBansAsUnbans || '').split(',').map((v) => v.trim()).filter(v => v)
 			},
 			sampleTeams: sampleTeamData.filter((t) => t.formats === current.slug).map((t) => t.url),
-			resources: resourcesData.filter((t) => t.formats === current.slug).map((t) => ({ name: t.name, url: t.url }))
+			resources: resourcesData.filter((t) => t.formats === current.slug).map((t) => ({ name: t.name, url: t.url })),
+			discordRole: current.discordRole || ''
 		};
 	});
 	return obj
@@ -235,15 +236,18 @@ export default class TournamentsModule implements Module {
 				.map((unban) => `+${unban}`);
 
 			const rules = (bans || []).concat(unbans || []).concat(allBans.customRules || []);
+			const roleMention = game.discordRole 
+				? `<@&${game.discordRole}>`
+				: '';
 
 			await this.postResources(room, game, allBans);
 			await this.editDiscordAnnouncement(
-				`A **${game.name}** tournament is now starting. Signups will close in 5 minutes.`
+				`A **${game.name}** tournament is now starting. Signups will close in 5 minutes. ${roleMention}`
 			);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
-			await this.editDiscordAnnouncement(`A **${game.name}** tournament has started. Signups are closed.`);
+			await this.editDiscordAnnouncement(`A **${game.name}** tournament has started. Signups are closed. ${roleMention}`);
 
 			if (type === '2 elimination') {
 				await room?.send(

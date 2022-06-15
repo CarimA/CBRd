@@ -24,6 +24,7 @@ export interface Format {
 	rules: Rules;
 	sampleTeams: string[] | undefined;
 	resources: Resource[] | undefined;
+	discordRole: string | undefined;
 }
 
 export interface Resource {

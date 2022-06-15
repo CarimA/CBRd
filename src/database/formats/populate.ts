@@ -2,7 +2,7 @@ import { retrieve } from '..';
 import { data as d, FormatsModel, clearData, onPopulate } from '.';
 
 async function populate(): Promise<void> {
-	const results = await retrieve('Formats', 16);
+	const results = await retrieve('Formats', 17);
 	if (!results) {
 		return onPopulate.dispatch(['Data is empty', null]);
 	}
@@ -10,7 +10,7 @@ async function populate(): Promise<void> {
 	clearData();
 
 	results.forEach((result) => {
-		const [name, slug, about, tournament, type, sim_rules, banned_pokemon, unbanned_pokemon, banned_abilities, unbanned_abilities, banned_moves, unbanned_moves, banned_items, unbanned_items, inherit_bans, inherit_bans_as_unbans] = result;
+		const [name, slug, about, tournament, type, sim_rules, banned_pokemon, unbanned_pokemon, banned_abilities, unbanned_abilities, banned_moves, unbanned_moves, banned_items, unbanned_items, inherit_bans, inherit_bans_as_unbans, discord_role] = result;
 		const model = new FormatsModel(
 			<string>name,
 			<string>slug,
@@ -27,7 +27,8 @@ async function populate(): Promise<void> {
 			<string>banned_items,
 			<string>unbanned_items,
 			<string>inherit_bans,
-			<string>inherit_bans_as_unbans
+			<string>inherit_bans_as_unbans,
+			<string>discord_role
 		);
 
 		d.push(model);

@@ -12,22 +12,27 @@ export default class RoleAssignmentModule implements Module {
 
 	async initialise(): Promise<void> {
 		const client = this._client;
-
+		
 		// todo: refactor out into a config
 		const roles = [
 			{ emoji: '448957747392806932', roleId: '400043115689541632' }, // matches
 			{ emoji: '747852764188770384', roleId: '796760547458154527' }, // lc
 			{ emoji: '747943751040893058', roleId: '796760708330815520' }, // lc uu
 			{ emoji: '338908474027016194', roleId: '796760836529455115' }, // lc uber
+			{ emoji: '691058698109583361', roleId: '986764803412484167' }, // lc doubles
 			{ emoji: '688948873523494921', roleId: '796760875292950560' }, // usum
 			{ emoji: '345048569163808769', roleId: '796760913167908905' }, // oras
 			{ emoji: '321781106330435584', roleId: '796760934747471903' }, // b2w2
-			{ emoji: '430963035696529409', roleId: '796760965852168232' } // dpp
+			{ emoji: '430963035696529409', roleId: '796760965852168232' }, // dpp
+			{ emoji: '986762482553090158', roleId: '986760486215360512' }, // he/him
+			{ emoji: '986762528761708575', roleId: '986760566628581376' }, // she/her
+			{ emoji: '986762547388624966', roleId: '986760594843652096' }, // they/them
+			{ emoji: '818636125060071425', roleId: '986760638032396349' }, // other
 		];
 
 		const guildId = '231275118700003328';
 		const channelId = '796760271191277588';
-		const roleMessageId = '807706757278597150';
+		const roleMessageId = '986760367537553458';
 
 		const guild = await client.guilds.fetch(guildId);
 		const channel = await guild.channels.resolve(channelId);
