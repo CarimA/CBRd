@@ -35,24 +35,22 @@ function retrieveFormats() {
 			format: current.tournament,
 			type: current.type,
 			rules: {
-				customRules: (current.simRules || '').split(',').map((v) => v.trim()),
-				bannedPokemon: (current.bannedPokemon || '').split(',').map((v) => v.trim()),
-				unbannedPokemon: (current.unbannedPokemon || '').split(',').map((v) => v.trim()),
-				bannedAbilities: (current.bannedAbilities || '').split(',').map((v) => v.trim()),
-				unbannedAbilities: (current.unbannedAbilities || '').split(',').map((v) => v.trim()),
-				bannedMoves: (current.bannedMoves || '').split(',').map((v) => v.trim()),
-				unbannedMoves: (current.unbannedMoves || '').split(',').map((v) => v.trim()),
-				bannedItems: (current.bannedItems || '').split(',').map((v) => v.trim()),
-				unbannedItems: (current.unbannedItems || '').split(',').map((v) => v.trim()),
-				inheritBans: (current.inheritBans || '').split(',').map((v) => v.trim()),
-				inheritBansAsUnabs: (current.inheritBansAsUnbans || '').split(',').map((v) => v.trim())
+				customRules: (current.simRules || '').split(',').map((v) => v.trim()).filter(v => v),
+				bannedPokemon: (current.bannedPokemon || '').split(',').map((v) => v.trim()).filter(v => v),
+				unbannedPokemon: (current.unbannedPokemon || '').split(',').map((v) => v.trim()).filter(v => v),
+				bannedAbilities: (current.bannedAbilities || '').split(',').map((v) => v.trim()).filter(v => v),
+				unbannedAbilities: (current.unbannedAbilities || '').split(',').map((v) => v.trim()).filter(v => v),
+				bannedMoves: (current.bannedMoves || '').split(',').map((v) => v.trim()).filter(v => v),
+				unbannedMoves: (current.unbannedMoves || '').split(',').map((v) => v.trim()).filter(v => v),
+				bannedItems: (current.bannedItems || '').split(',').map((v) => v.trim()).filter(v => v),
+				unbannedItems: (current.unbannedItems || '').split(',').map((v) => v.trim()).filter(v => v),
+				inheritBans: (current.inheritBans || '').split(',').map((v) => v.trim()).filter(v => v),
+				inheritBansAsUnabs: (current.inheritBansAsUnbans || '').split(',').map((v) => v.trim()).filter(v => v)
 			},
 			sampleTeams: sampleTeamData.filter((t) => t.formats === current.slug).map((t) => t.url),
 			resources: resourcesData.filter((t) => t.formats === current.slug).map((t) => ({ name: t.name, url: t.url }))
 		};
 	});
-
-	console.log(obj);
 	return obj
 }
 
@@ -129,7 +127,7 @@ export default class TournamentsModule implements Module {
 			metagames = metagames.slice(0, amount);
 
 			// make sure that LC is always an option
-			metagames.unshift('gen8lclc');
+			metagames.unshift('gen8lc');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
@@ -265,9 +263,9 @@ export default class TournamentsModule implements Module {
 		let bannedItems = game.rules.bannedItems || [];
 		let unbannedItems = game.rules.unbannedItems || [];
 		const customRules = game.rules.customRules || [];
-		const formats = retrieveFormats();
 
 		if (game.rules.inheritBans) {
+			const formats = retrieveFormats();
 			game.rules.inheritBans.forEach((inheritedFormat: any) => {
 				const inheritedGame = <Format>(<any>formats)[inheritedFormat];
 				bannedPokemon = bannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
@@ -282,6 +280,7 @@ export default class TournamentsModule implements Module {
 		}
 
 		if (game.rules.inheritBansAsUnbans) {
+			const formats = retrieveFormats();
 			game.rules.inheritBansAsUnbans.forEach((inheritedFormat: any) => {
 				const inheritedGame = <Format>(<any>formats)[inheritedFormat];
 				unbannedPokemon = unbannedPokemon.concat(inheritedGame.rules.bannedPokemon || []);
