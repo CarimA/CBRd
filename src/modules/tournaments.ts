@@ -45,7 +45,7 @@ function retrieveFormats() {
 				bannedItems: (current.bannedItems || '').split(',').map((v) => v.trim()).filter(v => v),
 				unbannedItems: (current.unbannedItems || '').split(',').map((v) => v.trim()).filter(v => v),
 				inheritBans: (current.inheritBans || '').split(',').map((v) => v.trim()).filter(v => v),
-				inheritBansAsUnabs: (current.inheritBansAsUnbans || '').split(',').map((v) => v.trim()).filter(v => v)
+				inheritBansAsUnbans: (current.inheritBansAsUnbans || '').split(',').map((v) => v.trim()).filter(v => v)
 			},
 			sampleTeams: sampleTeamData.filter((t) => t.formats === current.slug).map((t) => t.url),
 			resources: resourcesData.filter((t) => t.formats === current.slug).map((t) => ({ name: t.name, url: t.url })),
