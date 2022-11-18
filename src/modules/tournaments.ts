@@ -77,13 +77,13 @@ export default class TournamentsModule implements Module {
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
 		this.scheduleTournament(2);
-		this.scheduleTournament(4, 'gen8lc');
+		this.scheduleTournament(4, 'gen9lc');
 		this.scheduleTournament(11);
-		this.scheduleTournament(13, 'gen8lc');
+		this.scheduleTournament(13, 'gen9lc');
 		this.scheduleTournament(15);
-		this.scheduleTournament(18, 'gen8doubleslc');
-		this.scheduleTournament(20, 'gen8lcuu');
-		this.scheduleTournament(22);
+		this.scheduleTournament(18, 'gen9lc');
+		this.scheduleTournament(20);
+		this.scheduleTournament(22, 'gen8lc');
 	}
 
 	private async postInDiscord(message: string): Promise<void> {
@@ -122,13 +122,13 @@ export default class TournamentsModule implements Module {
 			const amount = random(2, 3);
 			const formats = retrieveFormats();
 			let metagames = Object.keys(formats);
-			metagames.splice(metagames.indexOf('gen8lc'), 1);
+			metagames.splice(metagames.indexOf('gen9lc'), 1);
 			metagames.splice(metagames.indexOf('default'), 1);
 			metagames = shuffleArray(metagames);
 			metagames = metagames.slice(0, amount);
 
 			// make sure that LC is always an option
-			metagames.unshift('gen8lc');
+			metagames.unshift('gen9lc');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
