@@ -83,7 +83,7 @@ export default class TournamentsModule implements Module {
 		this.scheduleTournament(15);
 		this.scheduleTournament(18, 'gen9lc');
 		this.scheduleTournament(20);
-		this.scheduleTournament(22, 'gen8lc');
+		this.scheduleTournament(22, 'gen9lc');
 	}
 
 	private async postInDiscord(message: string): Promise<void> {
