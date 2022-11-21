@@ -119,16 +119,18 @@ export default class TournamentsModule implements Module {
 			this._tournamentStartsAt.setHours(hour, 0);
 
 			// pick 3-5 formats from the list
-			const amount = random(2, 3);
+			const amount = random(3, 4);
 			const formats = retrieveFormats();
 			let metagames = Object.keys(formats);
 			metagames.splice(metagames.indexOf('gen9lc'), 1);
+			metagames.splice(metagames.indexOf('gen9lcnt'), 1);
 			metagames.splice(metagames.indexOf('default'), 1);
 			metagames = shuffleArray(metagames);
 			metagames = metagames.slice(0, amount);
 
 			// make sure that LC is always an option
 			metagames.unshift('gen9lc');
+			metagames.unshift('gen9lcnt');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
