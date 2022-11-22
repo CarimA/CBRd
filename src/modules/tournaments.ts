@@ -82,7 +82,7 @@ export default class TournamentsModule implements Module {
 		this.scheduleTournament(13, 'gen9lc');
 		this.scheduleTournament(15);
 		this.scheduleTournament(18, 'gen9lc');
-		this.scheduleTournament(20);
+		this.scheduleTournament(20, 'gen9doubleslc');
 		this.scheduleTournament(22, 'gen9lc');
 	}
 
