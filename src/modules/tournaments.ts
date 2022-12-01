@@ -344,7 +344,7 @@ export default class TournamentsModule implements Module {
 		if (format.sampleTeams) {
 			samples = shuffleArray(format.sampleTeams);
 			samples = samples.slice(0, 6);
-			samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team)));
+			samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team, format.format)));
 		}
 
 		const html = `<h1>Tournament Resources - ${format.name}</h1>${format.about ? `<p>${format.about}</p>` : ''}${
@@ -372,7 +372,7 @@ export default class TournamentsModule implements Module {
 		return html;
 	}
 
-	private async generateSampleTeamEmbed(url: string): Promise<string> {
+	private async generateSampleTeamEmbed(url: string, format: string): Promise<string> {
 		if (!url.endsWith('/json'))
 			url = url + '/json';
 
@@ -384,7 +384,11 @@ export default class TournamentsModule implements Module {
 
 		const paste: string = await json.paste;
 		const parsed = Teams.importTeam(paste);
-		const embed: string = paste.replace(/\r\n/g, '<br>').replace(/\n/g, '');
+		let embed: string = paste.replace(/\r\n/g, '<br>').replace(/\n/g, '');
+
+        if (format === 'gen9lc') {
+            embed = embed.replace(/([Bb][Ee][Rr][Rr][Yy] [Jj][Uu][Ii][Cc][Ee])/g, 'Oran Berry');
+        }
 
 		const icons = parsed?.team
 			.map((pokemon) => pokemon.species)
@@ -412,7 +416,7 @@ export default class TournamentsModule implements Module {
 			let samples: string[] = [];
 			if (game.sampleTeams) {
 				samples = game.sampleTeams;
-				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team)));
+				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team, format)));
 			}
 
 			const output =
@@ -484,7 +488,7 @@ export default class TournamentsModule implements Module {
 			let samples: string[] = [];
 			if (game.sampleTeams) {
 				samples = game.sampleTeams;
-				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team)));
+				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team, format)));
 			}
 
 			const output =
