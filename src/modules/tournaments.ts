@@ -386,9 +386,10 @@ export default class TournamentsModule implements Module {
 		const parsed = Teams.importTeam(paste);
 		let embed: string = paste.replace(/\r\n/g, '<br>').replace(/\n/g, '');
 
-        if (format === 'gen9lc') {
-            embed = embed.replace(/([Bb][Ee][Rr][Rr][Yy] [Jj][Uu][Ii][Cc][Ee])/g, 'Oran Berry');
-        }
+		console.log(format);
+		if (format === 'gen9lc') {
+		    embed = embed.replace(/([Bb][Ee][Rr][Rr][Yy] [Jj][Uu][Ii][Cc][Ee])/g, 'Oran Berry');
+		}
 
 		const icons = parsed?.team
 			.map((pokemon) => pokemon.species)
