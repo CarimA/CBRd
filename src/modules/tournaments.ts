@@ -372,7 +372,7 @@ export default class TournamentsModule implements Module {
 		return html;
 	}
 
-	private async generateSampleTeamEmbed(url: string, format: string): Promise<string> {
+	private async generateSampleTeamEmbed(url: string, format: string | undefined): Promise<string> {
 		if (!url.endsWith('/json'))
 			url = url + '/json';
 
@@ -387,7 +387,7 @@ export default class TournamentsModule implements Module {
 		let embed: string = paste.replace(/\r\n/g, '<br>').replace(/\n/g, '');
 
 		console.log(format);
-		if (format === 'gen9lc') {
+		if (format && format === 'gen9lc') {
 		    embed = embed.replace(/([Bb][Ee][Rr][Rr][Yy] [Jj][Uu][Ii][Cc][Ee])/g, 'Oran Berry');
 		}
 
