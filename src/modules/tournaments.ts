@@ -406,7 +406,14 @@ export default class TournamentsModule implements Module {
 
 		if (message.text.toLowerCase().startsWith('-samples')) {
 			const formats = retrieveFormats();
-			const format = message.text.split(' ')[1].toLowerCase();
+			const split = message.text.split(' ');
+			
+			if (split.length <= 1) {
+				await message.reply(`Please specify a format.`);
+				return;
+			}
+			
+			const format = split[1].toLowerCase();
 
 			if (!(<any>formats)[format]) {
 				return;
@@ -478,8 +485,14 @@ export default class TournamentsModule implements Module {
 
 		if (message.text.toLowerCase().startsWith('-samples')) {
 			const formats = retrieveFormats();
-			const format = message.text.split(' ')[1].toLowerCase();
-
+			const split = message.text.split(' ');
+			
+			if (split.length <= 1) {
+				await message.reply(`Please specify a format.`);
+				return;
+			}
+			
+			const format = split[1].toLowerCase();
 			if (!(<any>formats)[format]) {
 				return;
 			}
