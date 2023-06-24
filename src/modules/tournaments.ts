@@ -70,7 +70,7 @@ export default class TournamentsModule implements Module {
 	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
 		this._discordClient = discordClient;
-		this._nextFormat = 'gen8lc';
+		this._nextFormat = 'gen9lc';
 		this._activeVote = {};
 		this._lastAnnouncement = undefined;
 		this._votingPhase = false;
