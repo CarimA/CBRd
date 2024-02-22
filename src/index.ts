@@ -34,7 +34,7 @@ express.use('/roomintro.gif', (req, res) => res.sendFile('../roomintro.gif', fil
         } else {
             console.log('Sent:', fileName);
         }
-    });
+    }));
 express.listen(process.env['PORT'] || 3000);
 
 import psimClient from './state/psimClient';
