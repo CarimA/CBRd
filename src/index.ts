@@ -23,7 +23,18 @@ dotenv.config();
 
 // heroku requires that apps serve a web page to stay up
 const express = Express();
+const fileOptions = {
+	root: path.join(__dirname)
+};
+
 express.use('/', (req, res) => res.send('go away'));
+express.use('/roomintro.gif', (req, res) => res.sendFile('../roomintro.gif', fileOptions, function (err) {
+        if (err) {
+            console.error('Error sending file:', err);
+        } else {
+            console.log('Sent:', fileName);
+        }
+    });
 express.listen(process.env['PORT'] || 3000);
 
 import psimClient from './state/psimClient';
