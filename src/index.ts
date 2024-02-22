@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { Client, Room, User, RoomMessage, PrivateMessage } from 'ts-psim-client';
 import Express from 'express';
+import * as path from 'path';
 
 // assign types to expected env vars
 declare let process: {
@@ -31,8 +32,6 @@ express.use('/', (req, res) => res.send('go away'));
 express.use('/roomintro.gif', (req, res) => res.sendFile('../roomintro.gif', fileOptions, function (err) {
         if (err) {
             console.error('Error sending file:', err);
-        } else {
-            console.log('Sent:', fileName);
         }
     }));
 express.listen(process.env['PORT'] || 3000);
