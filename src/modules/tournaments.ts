@@ -177,13 +177,11 @@ export default class TournamentsModule implements Module {
 				.map((format) => {
 					const results = this._activeVote[format].length;
 					const name = <Format>(<any>formats)[format].name;
-					return `${results} vote${results === 1 ? '' : 's'} for ${name}`;
+					return `${name}: ${results} vote${results === 1 ? '' : 's'}`;
 				})
 				.join(', ');
 
-			await room?.send('/announce Voting for the next tournament is now closed.');
-			await room?.send(`/announce Results: ${resultsMessage}`);
-			await room?.send(`/announce The next tournament will be ${game.name}.`);
+			await room?.send(`/announce Voting for the next tournament is now closed. The next tournament will be ${game.name}. ${resultsMessage}`);
 
 			await this.postResources(room, game, allBans);
 			await this.editDiscordAnnouncement(
@@ -248,12 +246,6 @@ export default class TournamentsModule implements Module {
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
 			await this.editDiscordAnnouncement(`A **${game.name}** tournament has started. Signups are closed. ${roleMention}`);
-
-			if (type === '2 elimination') {
-				await room?.send(
-					'/announce Good luck! A reminder, this is a **double elimination** tournament: if you lose once, stick around, you are still in!'
-				);
-			}
 		};
 	}
 
