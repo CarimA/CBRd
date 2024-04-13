@@ -49,11 +49,13 @@ import RoleAssignmentModule from './modules/RoleAssignmentModule';
 import modules from './state/modules';
 import subscribe from './state/subscribe';
 import populateData from './state/populateData';
+import BridgeModule from './modules/bridgeModule';
 
 const tours = new TournamentsModule(psim, discord);
 modules.push(new AnnouncementInteropModule(psim, discord));
 modules.push(tours);
 modules.push(new RoleAssignmentModule(discord));
+modules.push(new BridgeModule(psim, discord));
 
 subscribe();
 populateData();
