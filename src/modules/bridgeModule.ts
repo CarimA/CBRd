@@ -63,9 +63,14 @@ export default class BridgeModule implements Module {
         if (checkRank(message.rank, '%') && message.text.trim() === '-togglebridge')
         {
             this._enabled = !this._enabled;
-		    await channel.send(`LC Room <-> Discord Bridge ${this._enabled ? 'enabled' : 'disabled'}.`);
+
+            let notif = `**LC Room ⇔ Discord Bridge ${this._enabled ? 'enabled' : 'disabled'}.**`;
+			let room = this._psimClient.getRoom(this._psimRoom);
+
+			await room?.send(notif);
+		    await channel.send(notif);
         }
-        
+
         if (!this._enabled)
             return;
 
