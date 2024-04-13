@@ -27,7 +27,7 @@ export default class BridgeModule implements Module {
 
 			const md = message.content.replace(/\n/g, '. ');
 
-			await room?.send(`**${[nickname]}: ** ${md}`);
+			await room?.send(`**${[nickname]}:** ${md}`);
 		}
 	}
 
