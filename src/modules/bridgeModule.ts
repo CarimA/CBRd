@@ -76,16 +76,17 @@ export default class BridgeModule implements Module {
         if (!this._enabled)
             return;
 
-        const text = `**${message.rank}${message.user.displayName}:** ${message.text}`.trim();
+        const msg = message.text.trim();
+        const text = `**${message.rank}${message.user.displayName}:** ${msg}`.trim();
 
         if (!text)
             return;
 
         // don't pass through chat commands
-        if (text.startsWith('/'))
+        if (msg.startsWith('/'))
             return;
 
-        if (text.startsWith('!'))
+        if (msg.startsWith('!'))
             return;
 
 		await channel.send(text);
