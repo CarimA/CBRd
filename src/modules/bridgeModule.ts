@@ -1,13 +1,15 @@
 import * as Psim from 'ts-psim-client';
 import * as Discord from 'discord.js';
 import Module from '../module';
+import { checkRank } from '../utils';
 
 export default class BridgeModule implements Module {
 	private _psimClient: Psim.Client;
 	private _discordClient: Discord.Client;
 
     private _discordRoom = '1228729440893407312';
-    private _psimRoom = 'littlecup'
+    private _psimRoom = 'littlecup';
+    private _enabled = true;
 
 	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
@@ -15,6 +17,9 @@ export default class BridgeModule implements Module {
 	}
 
 	public async onDiscordMessage(message: Discord.Message): Promise<void> {
+        if (!this._enabled)
+            return;
+
 		if (message.channel.id === this._discordRoom) {
 			const room = this._psimClient.getRoom(this._psimRoom);
 
@@ -25,9 +30,20 @@ export default class BridgeModule implements Module {
             if (nickname.toLocaleLowerCase() === 'cheirbot redux')
                 return;
 
-			const md = message.content.replace(/\n/g, '. ');
+			const md = message.content.replace(/\n/g, '. ').trim();
 
-			await room?.send(`**${[nickname]}:** ${md}`);
+            // disallow chat commands
+            if (md.startsWith('/'))
+                return;
+
+            if (md.startsWith('!'))
+                return;
+
+            if (md.includes('discord.gg'))
+                return;
+
+            if (md && !md.trim())
+			    await room?.send(`**${[nickname]}:** ${md}`);
 		}
 	}
 
@@ -43,8 +59,26 @@ export default class BridgeModule implements Module {
 
 		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
 		const channel = <Discord.TextChannel>guild.channels.cache.get(this._discordRoom);
-        const text = `**${message.user.displayName}:** ${message.text}`;
 
-		await channel.send(text);
+        if (checkRank(message.rank, '%') && message.text.trim() === '-togglebridge')
+        {
+            this._enabled = !this._enabled;
+		    await channel.send(`LC Room <-> Discord Bridge ${this._enabled ? 'enabled' : 'disabled'}.`);
+        }
+        
+        if (!this._enabled)
+            return;
+
+        const text = `**${message.rank}${message.user.displayName}:** ${message.text}`.trim();
+
+        // don't pass through chat commands
+        if (text.startsWith('/'))
+            return;
+
+        if (text.startsWith('!'))
+            return;
+
+        if (text && !text.trim())
+		    await channel.send(text);
 	}
 }
