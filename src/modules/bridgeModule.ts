@@ -30,7 +30,7 @@ export default class BridgeModule implements Module {
             if (nickname.toLocaleLowerCase() === 'cheirbot redux')
                 return;
 
-			const md = message.content.replace(/\n/g, '. ').trim();
+			const md = message.cleanContent.replace(/\n/g, '. ').trim();
 
             if (!md)
                 return;
