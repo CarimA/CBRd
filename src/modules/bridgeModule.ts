@@ -7,7 +7,7 @@ export default class BridgeModule implements Module {
 	private _discordClient: Discord.Client;
 
     private _discordRoom = '1228729440893407312';
-    private _psimRoom = 'botdevelopment'
+    private _psimRoom = 'littlecup'
 
 	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
@@ -43,7 +43,7 @@ export default class BridgeModule implements Module {
 
 		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
 		const channel = <Discord.TextChannel>guild.channels.cache.get(this._discordRoom);
-        const text = `**${message.user.displayName}: ** ${message.text}`;
+        const text = `**${message.user.displayName}:** ${message.text}`;
 
 		await channel.send(text);
 	}
