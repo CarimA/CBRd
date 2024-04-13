@@ -32,6 +32,9 @@ export default class BridgeModule implements Module {
 
 			const md = message.content.replace(/\n/g, '. ').trim();
 
+            if (!md)
+                return;
+        
             // disallow chat commands
             if (md.startsWith('/'))
                 return;
@@ -42,8 +45,7 @@ export default class BridgeModule implements Module {
             if (md.includes('discord.gg'))
                 return;
 
-            if (md && !md.trim())
-			    await room?.send(`**${[nickname]}:** ${md}`);
+			await room?.send(`**${[nickname]}:** ${md}`);
 		}
 	}
 
@@ -76,6 +78,9 @@ export default class BridgeModule implements Module {
 
         const text = `**${message.rank}${message.user.displayName}:** ${message.text}`.trim();
 
+        if (!text)
+            return;
+
         // don't pass through chat commands
         if (text.startsWith('/'))
             return;
@@ -83,7 +88,6 @@ export default class BridgeModule implements Module {
         if (text.startsWith('!'))
             return;
 
-        if (text && !text.trim())
-		    await channel.send(text);
+		await channel.send(text);
 	}
 }
