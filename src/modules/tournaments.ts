@@ -65,14 +65,13 @@ export default class TournamentsModule implements Module {
 	private _votingPhase: boolean;
 	private _activeVote: { [key: string]: Psim.User[] };
 	private _room: string;
-	private _lastAnnouncement: Discord.Message | undefined;
+	private _discordRoom = '1228729440893407312';
 
 	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
 		this._discordClient = discordClient;
 		this._nextFormat = 'gen9lc';
 		this._activeVote = {};
-		this._lastAnnouncement = undefined;
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
@@ -91,14 +90,10 @@ export default class TournamentsModule implements Module {
 		this.scheduleTournament(22);
 	}
 
-	private async postInDiscord(message: string): Promise<void> {
+	private async postDiscord(message: string): Promise<void> {
 		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
-		const channel = <Discord.TextChannel>guild.channels.cache.get(<string>process.env['DISCORD_TOURS_CHANNEL']);
-		this._lastAnnouncement = await channel.send(`https://play.pokemonshowdown.com/littlecup\n${message}`);
-	}
-
-	private async editDiscordAnnouncement(message: string): Promise<void> {
-		await this._lastAnnouncement?.edit(`https://play.pokemonshowdown.com/littlecup\n${message}`);
+		const channel = <Discord.TextChannel>guild.channels.cache.get(this._discordRoom);
+		await channel.send(`https://play.pokemonshowdown.com/littlecup\n${message}`);
 	}
 
 	private scheduleTournament(hour: number, format?: string | undefined) {
@@ -144,7 +139,7 @@ export default class TournamentsModule implements Module {
 
 			const room = this._psimClient.getRoom(this._room);
 			await room?.send('/announce Voting for the next tournament is now open.');
-			await this.postInDiscord(
+			await this.postDiscord(
 				`**Voting for the next tournament is now open in the Little Cup room.** Voting will close in 15 minutes.\nAvailable options: ${metagames
 					.map((metagame) => `**${(<any>formats)[metagame].name}**`)
 					.join(', ')}`
@@ -189,7 +184,7 @@ export default class TournamentsModule implements Module {
 			await room?.send(`/announce Voting for the next tournament is now closed. The next tournament will be ${game.name}. ${resultsMessage}`);
 
 			await this.postResources(room, game, allBans);
-			await this.editDiscordAnnouncement(
+			await this.postDiscord(
 				`**Voting for the next tournament is now closed.** A **${game.name}** tournament will be starting in 15 minutes.`
 			);
 
@@ -207,7 +202,7 @@ export default class TournamentsModule implements Module {
 			const allBans = this.getBans(game);
 
 			await room?.send(`/announce A scheduled tournament (${game.name}) will be starting in 15 minutes.`);
-			await this.postInDiscord(`A **${game.name}** tournament will be starting in 15 minutes.`);
+			await this.postDiscord(`A **${game.name}** tournament will be starting in 15 minutes.`);
 			await this.postResources(room, game, allBans);
 		};
 	}
@@ -244,13 +239,13 @@ export default class TournamentsModule implements Module {
 				: '';
 
 			await this.postResources(room, game, allBans);
-			await this.editDiscordAnnouncement(
+			await this.postDiscord(
 				`A **${game.name}** tournament is now starting. Signups will close in 5 minutes. ${roleMention}`
 			);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
-			await this.editDiscordAnnouncement(`A **${game.name}** tournament has started. Signups are closed. ${roleMention}`);
+			await this.postDiscord(`A **${game.name}** tournament has started. Signups are closed. ${roleMention}`);
 		};
 	}
 
