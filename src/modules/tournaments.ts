@@ -245,7 +245,7 @@ export default class TournamentsModule implements Module {
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
-			await this.postDiscord(`A **${game.name}** tournament has started. Signups are closed. ${roleMention}`);
+			await this.postDiscord(`A **${game.name}** tournament has started. Signups are closed.`);
 		};
 	}
 
