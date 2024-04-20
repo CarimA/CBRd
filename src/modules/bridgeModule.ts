@@ -60,11 +60,9 @@ export default class BridgeModule implements Module {
 
             // it should not be possible to add any HTML at all, but for safety:
             const clean = DOMPurify.sanitize(msg);
-
-			const avatar = message.author.displayAvatarURL();
             
             // todo: later on, we can add `data-name="Cheir"` to the span element, to allow the name to be clickable (this can be done when name integration is a thing)
-			await room?.send(`/addhtmlbox <img src="${avatar}" width="16" height="16" style="margin:0 3px;vertical-align:bottom;border-radius:50%"> <strong><span class="username">${nickname}</span> <small>[<a href="https://discord.gg/pjN29Dh">via Bridge</a>]</small>:</strong> <em>${clean}</em>`);
+			await room?.send(`/addhtmlbox <strong><span class="username">${nickname}</span> <small>[<a href="https://discord.gg/pjN29Dh">via Bridge</a>]</small>:</strong> <em>${clean}</em>`);
 		}
 	}
 
