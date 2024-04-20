@@ -2,6 +2,8 @@ import * as Psim from 'ts-psim-client';
 import * as Discord from 'discord.js';
 import Module from '../module';
 import { checkRank } from '../utils';
+import { stripHtml } from "string-strip-html";
+import DOMPurify from 'isomorphic-dompurify';
 
 export default class BridgeModule implements Module {
 	private _psimClient: Psim.Client;
@@ -35,17 +37,29 @@ export default class BridgeModule implements Module {
             if (!md)
                 return;
         
-            // disallow chat commands
-            if (md.startsWith('/'))
-                return;
-
-            if (md.startsWith('!'))
-                return;
-
             if (md.includes('discord.gg'))
                 return;
 
-			await room?.send(`**${[nickname]}:** ${md}`);
+            const style = member 
+                ? member.displayHexColor 
+                    ? `style="color:${member.displayHexColor};"` 
+                    : ''
+                : '';
+
+            // sanitise html out
+            let msg = stripHtml(md).result;
+            
+            // parse only certain markdown
+            msg = msg.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+            msg = msg.replace(/__(.*?)__/g, "<u>$1</u>");
+            msg = msg.replace(/\*(.*?)\*/g, "<em>$1</em>");
+            msg = msg.replace(/~~(.*?)~~/g, "<s>$1</s>");
+
+            // it should not be possible to add any HTML at all, but for safety:
+            const clean = DOMPurify.sanitize(msg);
+            
+            // todo: later on, we can add `data-name="Cheir"` to the span element, to allow the name to be clickable (this can be done when name integration is a thing)
+			await room?.send(`/addhtmlbox <strong ${style}><span class="username">${nickname}</span> <small>[via Bridge]</small>:</strong> <em>${clean}</em>`);
 		}
 	}
 
