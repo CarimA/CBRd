@@ -2,7 +2,7 @@ import * as Psim from 'ts-psim-client';
 import * as Discord from 'discord.js';
 import Module from '../module';
 import { checkRank } from '../utils';
-import { stripHtml } from "string-strip-html";
+import sanitizeHtml from 'sanitize-html';
 import DOMPurify from 'isomorphic-dompurify';
 
 export default class BridgeModule implements Module {
@@ -47,7 +47,10 @@ export default class BridgeModule implements Module {
                 : '';
 
             // sanitise html out
-            let msg = stripHtml(md).result;
+            let msg = sanitizeHtml(md, {
+                allowedTags: [],
+                allowedAttributes: {}
+            });
             
             // parse only certain markdown
             msg = msg.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");

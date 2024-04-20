@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Public repository for the Little Cup Showdown Room/Discord interop bot",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
@@ -50,7 +49,6 @@
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "sanitize-html": "^2.1.2",
-    "string-strip-html": "^13.4.8",
     "strongly-typed-events": "^1.7.3",
     "ts-node": "^9.0.0",
     "ts-psim-client": "^1.1.5",
