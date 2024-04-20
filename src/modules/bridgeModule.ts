@@ -62,7 +62,7 @@ export default class BridgeModule implements Module {
             const clean = DOMPurify.sanitize(msg);
             
             // todo: later on, we can add `data-name="Cheir"` to the span element, to allow the name to be clickable (this can be done when name integration is a thing)
-			await room?.send(`/addhtmlbox <strong ${style}><span class="username">${nickname}</span> <small>[via Bridge]</small>:</strong> <em>${clean}</em>`);
+			await room?.send(`/addhtmlbox <strong><span class="username">${nickname}</span> <small>[via Bridge]</small>:</strong> <em>${clean}</em>`);
 		}
 	}
 
