@@ -40,11 +40,12 @@ export default class BridgeModule implements Module {
             if (md.includes('discord.gg'))
                 return;
 
-            const style = member 
-                ? member.displayHexColor 
-                    ? `style="color:${member.displayHexColor};"` 
-                    : ''
-                : '';
+            if (md.includes('test reason reply')) {
+                const r = await message.reply('Testing a temporary reply');
+                await Psim.Utils.delay(5 * 1000);
+                await r.delete();
+                return;
+            }
 
             // sanitise html out
             let msg = sanitizeHtml(md, {
@@ -62,7 +63,7 @@ export default class BridgeModule implements Module {
             const clean = DOMPurify.sanitize(msg);
             
             // todo: later on, we can add `data-name="Cheir"` to the span element, to allow the name to be clickable (this can be done when name integration is a thing)
-			await room?.send(`/addhtmlbox <strong><span class="username">${nickname}</span> <small>[<a href="https://discord.gg/pjN29Dh">via Bridge</a>]</small>:</strong> <em>${clean}</em>`);
+			await room?.send(`/addhtmlbox <strong><username>${nickname}</username> <small>[<a href="https://discord.gg/pjN29Dh">via Bridge</a>]</small>:</strong> <em>${clean}</em>`);
 		}
 	}
 
