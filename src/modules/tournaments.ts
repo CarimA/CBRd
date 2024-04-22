@@ -75,11 +75,11 @@ export default class TournamentsModule implements Module {
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
-		this.scheduleTournament(8, 'gen9lc');
-		this.scheduleTournament(14);
+		this.scheduleTournament(12, 'gen9lc');
+		this.scheduleTournament(15);
 		this.scheduleTournament(18, 'gen9lc');
-		this.scheduleTournament(20, 'gen9doubleslc');
-		this.scheduleTournament(22);
+		this.scheduleTournament(21);
+		this.scheduleTournament(1);
 	}
 
 	private async postDiscord(message: string): Promise<void> {
