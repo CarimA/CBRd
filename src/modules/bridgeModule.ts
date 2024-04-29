@@ -110,7 +110,8 @@ export default class BridgeModule implements Module {
             return;
 
         const msg = message.text.trim();
-        const text = `**${message.rank}${message.user.displayName}:** ${msg}`.trim();
+        const displayName = `${message.rank}${message.user.displayName}`.trim();
+        const text = `**${displayName}:** ${msg}`.trim();
 
         if (!text)
             return;

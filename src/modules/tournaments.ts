@@ -85,7 +85,7 @@ export default class TournamentsModule implements Module {
 	private async postDiscord(message: string): Promise<void> {
 		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
 		const channel = <Discord.TextChannel>guild.channels.cache.get(this._discordRoom);
-		await channel.send(`https://play.pokemonshowdown.com/littlecup\n${message}`);
+		await channel.send(message);
 	}
 
 	private scheduleTournament(hour: number, format?: string | undefined) {
@@ -132,7 +132,7 @@ export default class TournamentsModule implements Module {
 			const room = this._psimClient.getRoom(this._room);
 			await room?.send('/announce Voting for the next tournament is now open.');
 			await this.postDiscord(
-				`**Voting for the next tournament is now open in the Little Cup room.** Voting will close in 15 minutes.\nAvailable options: ${metagames
+				`Voting for the next tournament is now open for the next 15 minutes.\nMetagames: ${metagames
 					.map((metagame) => `**${(<any>formats)[metagame].name}**`)
 					.join(', ')}`
 			);
@@ -173,12 +173,8 @@ export default class TournamentsModule implements Module {
 				})
 				.join(', ');
 
-			await room?.send(`/announce Voting for the next tournament is now closed. The next tournament will be ${game.name}. ${resultsMessage}`);
-
+			await room?.send(`/announce The next tournament will be ${game.name}. ${resultsMessage}`);
 			await this.postResources(room, game, allBans);
-			await this.postDiscord(
-				`**Voting for the next tournament is now closed.** A **${game.name}** tournament will be starting in 15 minutes.`
-			);
 
 			this._activeVote = {};
 			this.updateInformation();
@@ -194,7 +190,6 @@ export default class TournamentsModule implements Module {
 			const allBans = this.getBans(game);
 
 			await room?.send(`/announce A scheduled tournament (${game.name}) will be starting in 15 minutes.`);
-			await this.postDiscord(`A **${game.name}** tournament will be starting in 15 minutes.`);
 			await this.postResources(room, game, allBans);
 		};
 	}
@@ -232,12 +227,11 @@ export default class TournamentsModule implements Module {
 
 			await this.postResources(room, game, allBans);
 			await this.postDiscord(
-				`A **${game.name}** tournament is now starting. Signups will close in 5 minutes. ${roleMention}`
+				`**${game.name}** room tournament signups are open. ${roleMention}`
 			);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
-			await this.postDiscord(`A **${game.name}** tournament has started. Signups are closed.`);
 		};
 	}
 
