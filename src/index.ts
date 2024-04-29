@@ -115,3 +115,11 @@ discord.on('message', (message) => {
 		}
 	});
 });
+
+discord.on('messageUpdate', (oldMessage, newMessage) => {
+	modules.forEach(async (module) => {
+		if (module.onDiscordEditMessage) {
+			await module.onDiscordEditMessage(oldMessage, newMessage);
+		}
+	})
+})

@@ -12,10 +12,12 @@ export default class BridgeModule implements Module {
     private _discordRoom = '1228729440893407312';
     private _psimRoom = 'littlecup';
     private _enabled = true;
+    private _idCache: Set<string>;
 
 	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
 		this._psimClient = psimClient;
 		this._discordClient = discordClient;
+        this._idCache = new Set<string>();
 	}
 
 	public async onDiscordMessage(message: Discord.Message): Promise<void> {
@@ -61,11 +63,24 @@ export default class BridgeModule implements Module {
 
             // it should not be possible to add any HTML at all, but for safety:
             const clean = DOMPurify.sanitize(msg);
-            
+            const id = `discord-${message.id}`;
+
+            this._idCache.add(id);
             // todo: later on, we can add `data-name="Cheir"` to the span element, to allow the name to be clickable (this can be done when name integration is a thing)
-			await room?.send(`/addhtmlbox <strong><username class="username">${nickname}</username> <small>[<a href="https://discord.gg/pjN29Dh">via Bridge</a>]</small>:</strong> <em>${clean}</em>`);
+			await room?.send(`/adduhtml ${id},<strong><span class="username"><username>${nickname}</username></span> <small>[<a href="https://discord.gg/pjN29Dh">via Bridge</a>]</small>:</strong> <em>${clean}</em>`);
 		}
 	}
+
+    /*public async onDiscordEditMessage(oldMessage: Discord.Message | Discord.PartialMessage, newMessage: Discord.Message | Discord.PartialMessage): Promise<void> {
+        const id = `discord-${oldMessage.id}`;
+        if (this._idCache.has(id)) {
+            await room?.send(`/changeuhtml ${id}, `)
+        }
+    }
+
+    private getPsimCommand(nickname: string): string {
+        return `<strong><span class="username"><username>${nickname}</username></span> <small>[<a href="https://discord.gg/pjN29Dh">via Bridge</a>]</small>:</strong> <em>${clean}</em>`;
+    }*/
 
 	public async onRoomMessage(client: Psim.Client, room: Psim.Room, message: Psim.RoomMessage): Promise<void> {
 		// ignore own messages

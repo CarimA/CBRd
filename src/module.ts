@@ -7,4 +7,5 @@ export default interface Module {
 	onRoomMessage?(client: Client, room: Room, message: RoomMessage): Promise<void>;
 	onPrivateMessage?(user: User, message: PrivateMessage): Promise<void>;
 	onDiscordMessage?(message: Discord.Message): Promise<void>;
+	onDiscordEditMessage?(oldMessage: Discord.Message | Discord.PartialMessage, newMessage: Discord.Message | Discord.PartialMessage): Promise<void>;
 }
