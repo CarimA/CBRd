@@ -380,39 +380,6 @@ export default class TournamentsModule implements Module {
 	public async onPrivateMessage(user: Psim.User, message: Psim.PrivateMessage): Promise<void> {
 		const vote = message.text;
 
-		if (message.text.toLowerCase().startsWith('-samples')) {
-			const formats = retrieveFormats();
-			const split = message.text.split(' ');
-			
-			if (split.length <= 1) {
-				await message.reply(`Please specify a format.`);
-				return;
-			}
-			
-			const format = split[1].toLowerCase();
-
-			if (!(<any>formats)[format]) {
-				return;
-			}
-
-			const game = <Format>(<any>formats)[format];
-
-			let samples: string[] = [];
-			if (game.sampleTeams) {
-				samples = game.sampleTeams;
-				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team, format)));
-			}
-
-			const output =
-				samples && samples.length > 0
-					? `<strong>Sample Teams <em>(Click to expand for an importable team)</em>:</strong><div class="infobox"><p>${samples.join(
-							''
-					  )}</p></div><br>`
-					: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>';
-
-			await message.reply(`/msgroom lc, /sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
-		}
-
 		if (!vote.startsWith('-vote')) {
 			return;
 		}
@@ -457,47 +424,6 @@ export default class TournamentsModule implements Module {
 
 		if (message.user.username === process.env['PSIM_USERNAME']?.toLowerCase()) {
 			return;
-		}
-
-		if (message.text.toLowerCase().startsWith('-samples')) {
-			const formats = retrieveFormats();
-			const split = message.text.split(' ');
-			
-			if (split.length <= 1) {
-				await message.reply(`Please specify a format.`);
-				return;
-			}
-			
-			const format = split[1].toLowerCase();
-			if (!(<any>formats)[format]) {
-				return;
-			}
-
-			const game = <Format>(<any>formats)[format];
-
-			let samples: string[] = [];
-			if (game.sampleTeams) {
-				samples = game.sampleTeams;
-				samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team, format)));
-			}
-
-			const output =
-				samples && samples.length > 0
-					? `<strong>Sample Teams <em>(Click to expand for an importable team)</em>:</strong><div class="infobox"><p>${samples.join(
-							''
-					  )}</p></div><br>`
-					: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>';
-
-			if (Psim.Utils.isVoice(message.rank)) {
-				const args = message.text.split(' ');
-				if (args[2] && args[2].toLowerCase() === 'to' && args[3]) {
-					await room?.send(`/msgroom lc, /sendhtmlpage ${args.slice(3).join(' ')}, expanded-samples, ${output}`);
-				} else {
-					await room?.send(`/adduhtml expanded-samples, ${output}`);
-				}
-			} else {
-				await room?.send(`/msgroom lc, /sendhtmlpage ${message.user.username}, expanded-samples, ${output}`);
-			}
 		}
 
 		if (room.name !== this._room) {
