@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Public repository for the Little Cup Showdown Room/Discord interop bot",
   "main": "index.js",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
