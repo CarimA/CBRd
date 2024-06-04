@@ -31,7 +31,7 @@ export default class BridgeModule implements Module {
 			const member = guild.member(message.author);
 			const nickname = member ? member.displayName : message.author.username;
         
-            if (nickname.toLocaleLowerCase() === 'cheirbot redux')
+            if (nickname.toLocaleLowerCase() === 'lc bridge')
                 return;
 
 			const md = message.cleanContent.replace(/\n/g, '. ').trim();
