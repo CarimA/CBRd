@@ -75,8 +75,8 @@ export default class TournamentsModule implements Module {
 		this._votingPhase = false;
 		this._room = process.env['PSIM_TOUR_ROOM'] ? process.env['PSIM_TOUR_ROOM'] : 'littlecup';
 
-		this.scheduleTournament(12, 'gen9lc');
-		this.scheduleTournament(15);
+		this.scheduleTournament(12);
+		this.scheduleTournament(15, 'gen9babyrandombattle');
 		this.scheduleTournament(18, 'gen9lc');
 		this.scheduleTournament(21);
 		this.scheduleTournament(1);
