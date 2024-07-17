@@ -37,25 +37,17 @@ express.use('/', (req, res) => res.send('go away'));
 express.listen(process.env['PORT'] || 3000);
 
 import psimClient from './state/psimClient';
-import discordClient from './state/discordClient';
 
 const psim = psimClient();
-const discord = discordClient();
 
 // load modules
 import TournamentsModule from './modules/tournaments';
-import AnnouncementInteropModule from './modules/announcementInteropModule';
-import RoleAssignmentModule from './modules/RoleAssignmentModule';
 import modules from './state/modules';
 import subscribe from './state/subscribe';
 import populateData from './state/populateData';
-import BridgeModule from './modules/bridgeModule';
 
-const tours = new TournamentsModule(psim, discord);
-modules.push(new AnnouncementInteropModule(psim, discord));
+const tours = new TournamentsModule(psim);
 modules.push(tours);
-modules.push(new RoleAssignmentModule(discord));
-modules.push(new BridgeModule(psim, discord));
 
 subscribe();
 populateData();
@@ -103,23 +95,3 @@ psim.onPrivateMessage.subscribe(async (user: User, message: PrivateMessage) => {
 		}
 	});
 });
-
-discord.on('ready', () => {
-	console.log(`Logged into Discord as ${discord.user?.tag}`);
-});
-
-discord.on('message', (message) => {
-	modules.forEach(async (module) => {
-		if (module.onDiscordMessage) {
-			await module.onDiscordMessage(message);
-		}
-	});
-});
-
-discord.on('messageUpdate', (oldMessage, newMessage) => {
-	modules.forEach(async (module) => {
-		if (module.onDiscordEditMessage) {
-			await module.onDiscordEditMessage(oldMessage, newMessage);
-		}
-	})
-})

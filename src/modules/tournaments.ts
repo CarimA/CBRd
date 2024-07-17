@@ -58,7 +58,6 @@ function retrieveFormats() {
 // this class has become a disgusting monolith: REFACTOR IT.
 export default class TournamentsModule implements Module {
 	private _psimClient: Psim.Client;
-	private _discordClient: Discord.Client;
 	private _nextFormat: string;
 	private _votingStopsAt: Date | undefined;
 	private _tournamentStartsAt: Date | undefined;
@@ -67,9 +66,8 @@ export default class TournamentsModule implements Module {
 	private _room: string;
 	private _discordRoom = '1228729440893407312';
 
-	constructor(psimClient: Psim.Client, discordClient: Discord.Client) {
+	constructor(psimClient: Psim.Client) {
 		this._psimClient = psimClient;
-		this._discordClient = discordClient;
 		this._nextFormat = 'gen9lc';
 		this._activeVote = {};
 		this._votingPhase = false;
@@ -80,12 +78,6 @@ export default class TournamentsModule implements Module {
 		this.scheduleTournament(18, 'gen9lc');
 		this.scheduleTournament(21);
 		this.scheduleTournament(1);
-	}
-
-	private async postDiscord(message: string): Promise<void> {
-		const guild = await this._discordClient.guilds.fetch(<string>process.env['DISCORD_SERVER_ID']);
-		const channel = <Discord.TextChannel>guild.channels.cache.get(this._discordRoom);
-		await channel.send(message);
 	}
 
 	private scheduleTournament(hour: number, format?: string | undefined) {
@@ -133,11 +125,6 @@ export default class TournamentsModule implements Module {
 
 			const room = this._psimClient.getRoom(this._room);
 			await room?.send('/announce Voting for the next tournament is now open.');
-			await this.postDiscord(
-				`Voting for the next tournament is now open for the next 15 minutes.\nMetagames: ${metagames
-					.map((metagame) => `**${(<any>formats)[metagame].name}**`)
-					.join(', ')}`
-			);
 			this.updateInformation();
 		};
 	}
@@ -228,9 +215,6 @@ export default class TournamentsModule implements Module {
 				: '';
 
 			await this.postResources(room, game, allBans);
-			await this.postDiscord(
-				`**${game.name}** room tournament signups are open. ${roleMention}`
-			);
 			await room?.createTournament(name, ruleset, type, 64, 5, 1, rules, true, true);
 			await Psim.Utils.delay(60 * 5 * 1000);
 			await room?.send('/tour start');
