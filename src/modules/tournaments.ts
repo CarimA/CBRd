@@ -107,14 +107,12 @@ export default class TournamentsModule implements Module {
 			const formats = retrieveFormats();
 			let metagames = Object.keys(formats);
 			metagames.splice(metagames.indexOf('gen9lc'), 1);
-			metagames.splice(metagames.indexOf('gen9lcspecial'), 1);
 			metagames.splice(metagames.indexOf('default'), 1);
 			metagames = shuffleArray(metagames);
 			metagames = metagames.slice(0, amount);
 
 			// make sure that LC is always an option
 			metagames.unshift('gen9lc');
-			metagames.unshift('gen9lcspecial');
 
 			this._activeVote = {};
 			metagames.forEach((metagame) => {
@@ -302,12 +300,12 @@ export default class TournamentsModule implements Module {
 			.sort((a, b) => a.localeCompare(b))
 			.join(', ');
 
-		let samples: string[] = [];
-		if (format.sampleTeams) {
-			samples = shuffleArray(format.sampleTeams);
-			samples = samples.slice(0, 6);
-			samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team, format.format)));
-		}
+		//let samples: string[] = [];
+		//if (format.sampleTeams) {
+		//	samples = shuffleArray(format.sampleTeams);
+		//	samples = samples.slice(0, 6);
+		//	samples = await Promise.all(samples.map(async (team) => await this.generateSampleTeamEmbed(team, format.format)));
+		//}
 
 		const html = `<h1>Tournament Resources - ${format.name}</h1>${format.about ? `<p>${format.about}</p>` : ''}${
 			bannedPokemonIcons || bannedOtherText ? '<strong>Banlist</strong><div class="infobox">' : ''
@@ -317,12 +315,12 @@ export default class TournamentsModule implements Module {
 			unbannedPokemonIcons ? `<p>${unbannedPokemonIcons}</p>` : ''
 		}${unbannedOtherText ? `<p>${unbannedOtherText}</p>` : ''}${
 			unbannedPokemonIcons || unbannedOtherText ? '</div><br>' : ''
-		}${
-			samples && samples.length > 0
-				? `<strong>Sample Teams <em>(Click to expand for an importable team)</em>:</strong><div class="infobox"><p>${samples.join(
-						''
-				  )}</p></div><br>`
-				: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>'
+		//}${
+		//	samples && samples.length > 0
+		//		? `<strong>Sample Teams <em>(Click to expand for an importable team)</em>:</strong><div class="infobox"><p>${samples.join(
+		//				''
+		//		  )}</p></div><br>`
+		//		: '<strong>This format has no sample teams :(</strong><p>Have some to donate? Send a message to Cheir!</p><br>'
 		}${
 			format.resources && format.resources.length > 0
 				? `<strong>Other Resources:</strong><div class="infobox"><p>${format.resources
